@@ -129,11 +129,15 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
+            console.log('Login attempt:', username, password);
+            
             // Simple authentication (in real app, this would be server-side)
             if (username === 'admin' && password === 'admin123') {
                 // Store login state
                 localStorage.setItem('adminLoggedIn', 'true');
                 localStorage.setItem('adminLoginTime', new Date().toISOString());
+                
+                console.log('Login successful, redirecting...');
                 
                 // Show success message
                 showNotification('Login successful! Redirecting...', 'success');
@@ -141,8 +145,9 @@
                 // Redirect to admin panel
                 setTimeout(() => {
                     window.location.href = 'admin.html';
-                }, 1500);
+                }, 1000);
             } else {
+                console.log('Login failed');
                 showNotification('Invalid username or password', 'error');
             }
         }

@@ -292,24 +292,42 @@
             color: var(--store-blue);
         }
         
-        /* Language switching styles */
+        /* Language switching styles - Force display control */
         .en-text {
-            display: inline;
+            display: inline !important;
         }
         .ar-text {
-            display: none;
-        }
-        .ar-text.hidden {
             display: none !important;
         }
-        .en-text.hidden {
+        
+        /* When Arabic is active */
+        body[dir="rtl"] .en-text {
             display: none !important;
         }
-        .ar-text:not(.hidden) {
+        body[dir="rtl"] .ar-text {
             display: inline !important;
         }
-        .en-text:not(.hidden) {
+        
+        /* When English is active */
+        body[dir="ltr"] .en-text {
             display: inline !important;
+        }
+        body[dir="ltr"] .ar-text {
+            display: none !important;
+        }
+        
+        /* Additional class-based language switching */
+        .arabic-mode .en-text {
+            display: none !important;
+        }
+        .arabic-mode .ar-text {
+            display: inline !important;
+        }
+        .english-mode .en-text {
+            display: inline !important;
+        }
+        .english-mode .ar-text {
+            display: none !important;
         }
         .category-btn {
             padding: 0.5rem 1rem;
@@ -529,14 +547,14 @@
                                             <span class="ar-text hidden">التقييم عالي-منخفض</span>
                                         </option>
                                     </select>
-                                </div>
-                                
-                                <!-- Clear Filters Button -->
+                            </div>
+                            
+                            <!-- Clear Filters Button -->
                                 <div class="w-full sm:w-auto">
                                     <button onclick="clearFilters()" class="w-full sm:w-auto text-blue-600 hover:text-blue-800 text-sm font-medium px-4 py-2 border border-blue-300 rounded-lg hover:bg-blue-50">
                                         <span class="en-text">Clear Filters</span>
                                         <span class="ar-text hidden">مسح المرشحات</span>
-                                    </button>
+                                </button>
                                 </div>
                             </div>
                         </div>
@@ -1150,13 +1168,14 @@
         // Load products from localStorage or use default
         function loadProductsFromStorage() {
             try {
-                const storedProducts = localStorage.getItem('stationeryProducts');
-                if (storedProducts) {
-                    const parsedProducts = JSON.parse(storedProducts);
-                    // Merge with default products, giving priority to stored products
-                    const defaultProductIds = new Set(products.map(p => p.id));
-                    const newProducts = parsedProducts.filter(p => !defaultProductIds.has(p.id));
-                    products = [...products, ...newProducts];
+            const storedProducts = localStorage.getItem('stationeryProducts');
+            if (storedProducts) {
+                const parsedProducts = JSON.parse(storedProducts);
+                    console.log('Loaded products from storage:', parsedProducts);
+                    // Replace products array with stored products
+                    products = parsedProducts;
+                } else {
+                    console.log('No stored products found, using default products');
                 }
             } catch (error) {
                 console.error('Error loading products from storage:', error);
@@ -1166,52 +1185,52 @@
         // Load products into the grid
         function loadProducts() {
             try {
-                const productsGrid = document.getElementById('products-grid');
+            const productsGrid = document.getElementById('products-grid');
                 if (!productsGrid) {
                     console.error('Products grid not found');
                     return;
                 }
                 
-                productsGrid.innerHTML = '';
+            productsGrid.innerHTML = '';
 
-                // Load products from storage first
-                loadProductsFromStorage();
+            // Load products from storage first
+            loadProductsFromStorage();
 
-                // Filter products based on current category and search query
-                let filteredProducts = currentCategory === 'all' 
-                    ? products 
-                    : products.filter(product => product.category === currentCategory);
+            // Filter products based on current category and search query
+            let filteredProducts = currentCategory === 'all' 
+                ? products 
+                : products.filter(product => product.category === currentCategory);
 
-                // Apply search filter
-                if (searchQuery.trim()) {
-                    filteredProducts = filteredProducts.filter(product => 
-                        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.category.toLowerCase().includes(searchQuery.toLowerCase())
-                    );
-                }
+            // Apply search filter
+            if (searchQuery.trim()) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    product.category.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+            }
 
                 // No additional filters - just search and sorting
 
-                // Apply sorting
+            // Apply sorting
                 const sortFilterElement = document.getElementById('sort-filter');
                 const sortFilter = sortFilterElement ? sortFilterElement.value : 'name-asc';
-                filteredProducts.sort((a, b) => {
-                    switch (sortFilter) {
-                        case 'name-asc':
-                            return (isArabic ? a.nameAr : a.name).localeCompare(isArabic ? b.nameAr : b.name);
-                        case 'name-desc':
-                            return (isArabic ? b.nameAr : b.name).localeCompare(isArabic ? a.nameAr : a.name);
-                        case 'price-asc':
-                            return a.price - b.price;
-                        case 'price-desc':
-                            return b.price - a.price;
+            filteredProducts.sort((a, b) => {
+                switch (sortFilter) {
+                    case 'name-asc':
+                        return (isArabic ? a.nameAr : a.name).localeCompare(isArabic ? b.nameAr : b.name);
+                    case 'name-desc':
+                        return (isArabic ? b.nameAr : b.name).localeCompare(isArabic ? a.nameAr : a.name);
+                    case 'price-asc':
+                        return a.price - b.price;
+                    case 'price-desc':
+                        return b.price - a.price;
                         case 'rating-desc':
                             return (b.rating || 0) - (a.rating || 0);
-                        default:
-                            return 0;
-                    }
-                });
+                    default:
+                        return 0;
+                }
+            });
 
             filteredProducts.forEach(product => {
                 const productCard = document.createElement('div');
@@ -1272,10 +1291,10 @@
         // Search products
         function searchProducts() {
             try {
-                const searchInput = document.getElementById('product-search');
+            const searchInput = document.getElementById('product-search');
                 if (searchInput) {
-                    searchQuery = searchInput.value;
-                    loadProducts();
+            searchQuery = searchInput.value;
+            loadProducts();
                 }
             } catch (error) {
                 console.error('Error in search products:', error);
@@ -1290,18 +1309,18 @@
                 
                 if (searchInput) searchInput.value = '';
                 if (sortFilter) sortFilter.value = 'name-asc';
-                
-                searchQuery = '';
-                currentCategory = 'all';
-                
-                // Reset category buttons
-                document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
+            
+            searchQuery = '';
+            currentCategory = 'all';
+            
+            // Reset category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
                 const allButton = document.querySelector('[data-category="all"]');
                 if (allButton) allButton.classList.add('active');
-                
-                loadProducts();
+            
+            loadProducts();
             } catch (error) {
                 console.error('Error clearing filters:', error);
             }
@@ -1310,17 +1329,17 @@
         // Filter products by category
         function filterProducts(category) {
             try {
-                currentCategory = category;
-                
-                // Update active button
-                document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
                 const activeButton = document.querySelector(`[data-category="${category}"]`);
                 if (activeButton) activeButton.classList.add('active');
-                
-                // Reload products
-                loadProducts();
+            
+            // Reload products
+            loadProducts();
             } catch (error) {
                 console.error('Error filtering products:', error);
             }
@@ -1592,10 +1611,10 @@
                 return;
             }
 
-            if (!cardNumber || !cardName || !expiryDate || !cvv) {
-                alert(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
-                return;
-            }
+                if (!cardNumber || !cardName || !expiryDate || !cvv) {
+                    alert(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
+                    return;
+                }
 
                 // Validate card number based on payment method
                 if (!validateCardNumber(cardNumber, selectedPaymentMethod)) {
@@ -1794,36 +1813,32 @@
         function toggleLanguage() {
             try {
                 console.log('Toggling language, current isArabic:', isArabic);
-                isArabic = !isArabic;
+            isArabic = !isArabic;
                 console.log('New isArabic:', isArabic);
+            
+                // Update HTML direction and language
+            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+            document.documentElement.lang = isArabic ? 'ar' : 'en';
+                document.body.dir = isArabic ? 'rtl' : 'ltr';
                 
-                // Update HTML direction
-                document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
-                document.documentElement.lang = isArabic ? 'ar' : 'en';
-                
-                // Toggle text visibility
-                const enTexts = document.querySelectorAll('.en-text');
-                const arTexts = document.querySelectorAll('.ar-text');
-                
-                console.log('Found enTexts:', enTexts.length, 'arTexts:', arTexts.length);
-                
-                enTexts.forEach(el => {
-                    el.classList.toggle('hidden', isArabic);
-                });
-                
-                arTexts.forEach(el => {
-                    el.classList.toggle('hidden', !isArabic);
-                });
-                
-                // Update dynamic content
-                updateLanguageContent();
-                
+                // Force CSS to apply by adding/removing class
+                if (isArabic) {
+                    document.body.classList.add('arabic-mode');
+                    document.body.classList.remove('english-mode');
+                } else {
+                    document.body.classList.add('english-mode');
+                    document.body.classList.remove('arabic-mode');
+                }
+            
+            // Update dynamic content
+            updateLanguageContent();
+            
                 // Reload categories and products to update language
                 loadCategoryButtons();
-                loadProducts();
-                
-                // Update cart display
-                updateCartDisplay();
+            loadProducts();
+            
+            // Update cart display
+            updateCartDisplay();
                 
                 console.log('Language toggle completed successfully');
             } catch (error) {
@@ -1833,57 +1848,57 @@
 
         function updateLanguageContent() {
             try {
-                const currentLang = isArabic ? translations.ar : translations.en;
+            const currentLang = isArabic ? translations.ar : translations.en;
                 console.log('Updating language content, currentLang:', currentLang);
-                
-                // Update store name
-                const storeName = document.getElementById('store-name');
-                if (storeName) {
-                    storeName.textContent = currentLang.storeName;
-                }
-                
-                // Update hero section
-                const heroTitle = document.getElementById('hero-title');
-                if (heroTitle) {
-                    heroTitle.textContent = currentLang.heroTitle;
-                }
-                
-                const heroDescription = document.getElementById('hero-description');
-                if (heroDescription) {
-                    heroDescription.textContent = currentLang.heroDescription;
-                }
-                
-                // Update products section
-                const productsTitle = document.getElementById('products-title');
-                if (productsTitle) {
-                    productsTitle.textContent = currentLang.productsTitle;
-                }
-                
-                const productsDescription = document.getElementById('products-description');
-                if (productsDescription) {
-                    productsDescription.textContent = currentLang.productsDescription;
-                }
-                
-                // Update search placeholder
-                const searchInput = document.getElementById('product-search');
-                if (searchInput) {
-                    searchInput.placeholder = isArabic ? 'البحث في المنتجات...' : 'Search products...';
-                }
-                
-                // Update footer
-                const footerTitle = document.getElementById('footer-title');
-                if (footerTitle) {
-                    footerTitle.textContent = currentLang.footerTitle;
-                }
-                
-                const footerDescription = document.getElementById('footer-description');
-                if (footerDescription) {
-                    footerDescription.textContent = currentLang.footerDescription;
-                }
-                
-                const copyright = document.getElementById('copyright');
-                if (copyright) {
-                    copyright.textContent = currentLang.copyright;
+            
+            // Update store name
+            const storeName = document.getElementById('store-name');
+            if (storeName) {
+                storeName.textContent = currentLang.storeName;
+            }
+            
+            // Update hero section
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                heroTitle.textContent = currentLang.heroTitle;
+            }
+            
+            const heroDescription = document.getElementById('hero-description');
+            if (heroDescription) {
+                heroDescription.textContent = currentLang.heroDescription;
+            }
+            
+            // Update products section
+            const productsTitle = document.getElementById('products-title');
+            if (productsTitle) {
+                productsTitle.textContent = currentLang.productsTitle;
+            }
+            
+            const productsDescription = document.getElementById('products-description');
+            if (productsDescription) {
+                productsDescription.textContent = currentLang.productsDescription;
+            }
+            
+            // Update search placeholder
+            const searchInput = document.getElementById('product-search');
+            if (searchInput) {
+                searchInput.placeholder = isArabic ? 'البحث في المنتجات...' : 'Search products...';
+            }
+            
+            // Update footer
+            const footerTitle = document.getElementById('footer-title');
+            if (footerTitle) {
+                footerTitle.textContent = currentLang.footerTitle;
+            }
+            
+            const footerDescription = document.getElementById('footer-description');
+            if (footerDescription) {
+                footerDescription.textContent = currentLang.footerDescription;
+            }
+            
+            const copyright = document.getElementById('copyright');
+            if (copyright) {
+                copyright.textContent = currentLang.copyright;
                 }
                 
                 console.log('Language content updated successfully');

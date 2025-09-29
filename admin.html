@@ -1875,12 +1875,9 @@
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            // Add a small delay to prevent flash
-            setTimeout(() => {
-                if (checkAuth()) {
-                    loadOrders();
-                }
-            }, 100);
+            if (checkAuth()) {
+                loadOrders();
+            }
         });
     </script>
 </body>
