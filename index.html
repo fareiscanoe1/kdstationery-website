@@ -1043,20 +1043,34 @@
 
         // Load categories from localStorage
         function loadCategoriesFromStorage() {
-            const storedCategories = localStorage.getItem('stationeryCategories');
-            if (storedCategories) {
-                const parsedCategories = JSON.parse(storedCategories);
-                // Add "All Products" at the beginning
-                categories = [
-                    { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
-                    ...parsedCategories.map(cat => ({
-                        id: cat.id,
-                        name: cat.name,
-                        nameAr: cat.nameAr
-                    }))
-                ];
-            } else {
-                // Default categories if none stored
+            try {
+                const storedCategories = localStorage.getItem('stationeryCategories');
+                if (storedCategories) {
+                    const parsedCategories = JSON.parse(storedCategories);
+                    // Add "All Products" at the beginning
+                    categories = [
+                        { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
+                        ...parsedCategories.map(cat => ({
+                            id: cat.id,
+                            name: cat.name,
+                            nameAr: cat.nameAr
+                        }))
+                    ];
+                } else {
+                    // Default categories if none stored
+                    categories = [
+                        { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
+                        { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة' },
+                        { id: 'notebooks', name: 'Notebooks', nameAr: 'دفاتر' },
+                        { id: 'office', name: 'Office', nameAr: 'مكتب' },
+                        { id: 'art', name: 'Art Supplies', nameAr: 'أدوات رسم' },
+                        { id: 'school', name: 'School', nameAr: 'مدرسة' },
+                        { id: 'printing', name: 'Printing', nameAr: 'طباعة' }
+                    ];
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                // Fallback to default categories
                 categories = [
                     { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
                     { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة' },
@@ -1071,15 +1085,27 @@
 
         // Load category buttons
         function loadCategoryButtons() {
-            const categoryButtonsContainer = document.getElementById('category-buttons');
-            if (!categoryButtonsContainer) return;
+            try {
+                const categoryButtonsContainer = document.getElementById('category-buttons');
+                if (!categoryButtonsContainer) {
+                    console.error('Category buttons container not found');
+                    return;
+                }
 
-            categoryButtonsContainer.innerHTML = categories.map(category => `
-                <button onclick="filterProducts('${category.id}')" class="category-btn ${category.id === 'all' ? 'active' : ''}" data-category="${category.id}">
-                    <span class="en-text">${category.name}</span>
-                    <span class="ar-text hidden">${category.nameAr}</span>
-                </button>
-            `).join('');
+                if (!categories || categories.length === 0) {
+                    console.error('No categories available');
+                    return;
+                }
+
+                categoryButtonsContainer.innerHTML = categories.map(category => `
+                    <button onclick="filterProducts('${category.id}')" class="category-btn ${category.id === 'all' ? 'active' : ''}" data-category="${category.id}">
+                        <span class="en-text">${category.name}</span>
+                        <span class="ar-text hidden">${category.nameAr}</span>
+                    </button>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading category buttons:', error);
+            }
         }
 
         // Initialize the page
@@ -1092,58 +1118,69 @@
 
         // Load products from localStorage or use default
         function loadProductsFromStorage() {
-            const storedProducts = localStorage.getItem('stationeryProducts');
-            if (storedProducts) {
-                const parsedProducts = JSON.parse(storedProducts);
-                // Merge with default products, giving priority to stored products
-                const defaultProductIds = new Set(products.map(p => p.id));
-                const newProducts = parsedProducts.filter(p => !defaultProductIds.has(p.id));
-                products = [...products, ...newProducts];
+            try {
+                const storedProducts = localStorage.getItem('stationeryProducts');
+                if (storedProducts) {
+                    const parsedProducts = JSON.parse(storedProducts);
+                    // Merge with default products, giving priority to stored products
+                    const defaultProductIds = new Set(products.map(p => p.id));
+                    const newProducts = parsedProducts.filter(p => !defaultProductIds.has(p.id));
+                    products = [...products, ...newProducts];
+                }
+            } catch (error) {
+                console.error('Error loading products from storage:', error);
             }
         }
 
         // Load products into the grid
         function loadProducts() {
-            const productsGrid = document.getElementById('products-grid');
-            productsGrid.innerHTML = '';
-
-            // Load products from storage first
-            loadProductsFromStorage();
-
-            // Filter products based on current category and search query
-            let filteredProducts = currentCategory === 'all' 
-                ? products 
-                : products.filter(product => product.category === currentCategory);
-
-            // Apply search filter
-            if (searchQuery.trim()) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.category.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-            }
-
-            // No additional filters - just search and sorting
-
-            // Apply sorting
-            const sortFilter = document.getElementById('sort-filter').value;
-            filteredProducts.sort((a, b) => {
-                switch (sortFilter) {
-                    case 'name-asc':
-                        return (isArabic ? a.nameAr : a.name).localeCompare(isArabic ? b.nameAr : b.name);
-                    case 'name-desc':
-                        return (isArabic ? b.nameAr : b.name).localeCompare(isArabic ? a.nameAr : a.name);
-                    case 'price-asc':
-                        return a.price - b.price;
-                    case 'price-desc':
-                        return b.price - a.price;
-                    case 'rating-desc':
-                        return (b.rating || 0) - (a.rating || 0);
-                    default:
-                        return 0;
+            try {
+                const productsGrid = document.getElementById('products-grid');
+                if (!productsGrid) {
+                    console.error('Products grid not found');
+                    return;
                 }
-            });
+                
+                productsGrid.innerHTML = '';
+
+                // Load products from storage first
+                loadProductsFromStorage();
+
+                // Filter products based on current category and search query
+                let filteredProducts = currentCategory === 'all' 
+                    ? products 
+                    : products.filter(product => product.category === currentCategory);
+
+                // Apply search filter
+                if (searchQuery.trim()) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.category.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
+
+                // No additional filters - just search and sorting
+
+                // Apply sorting
+                const sortFilterElement = document.getElementById('sort-filter');
+                const sortFilter = sortFilterElement ? sortFilterElement.value : 'name-asc';
+                filteredProducts.sort((a, b) => {
+                    switch (sortFilter) {
+                        case 'name-asc':
+                            return (isArabic ? a.nameAr : a.name).localeCompare(isArabic ? b.nameAr : b.name);
+                        case 'name-desc':
+                            return (isArabic ? b.nameAr : b.name).localeCompare(isArabic ? a.nameAr : a.name);
+                        case 'price-asc':
+                            return a.price - b.price;
+                        case 'price-desc':
+                            return b.price - a.price;
+                        case 'rating-desc':
+                            return (b.rating || 0) - (a.rating || 0);
+                        default:
+                            return 0;
+                    }
+                });
 
             filteredProducts.forEach(product => {
                 const productCard = document.createElement('div');
@@ -1192,44 +1229,70 @@
                 `;
                 productsGrid.appendChild(productCard);
             });
+            } catch (error) {
+                console.error('Error loading products:', error);
+                const productsGrid = document.getElementById('products-grid');
+                if (productsGrid) {
+                    productsGrid.innerHTML = '<p class="text-center text-gray-500 py-8">Error loading products. Please refresh the page.</p>';
+                }
+            }
         }
 
         // Search products
         function searchProducts() {
-            const searchInput = document.getElementById('product-search');
-            searchQuery = searchInput.value;
-            loadProducts();
+            try {
+                const searchInput = document.getElementById('product-search');
+                if (searchInput) {
+                    searchQuery = searchInput.value;
+                    loadProducts();
+                }
+            } catch (error) {
+                console.error('Error in search products:', error);
+            }
         }
 
         // Clear all filters
         function clearFilters() {
-            document.getElementById('product-search').value = '';
-            document.getElementById('sort-filter').value = 'name-asc';
-            
-            searchQuery = '';
-            currentCategory = 'all';
-            
-            // Reset category buttons
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector('[data-category="all"]').classList.add('active');
-            
-            loadProducts();
+            try {
+                const searchInput = document.getElementById('product-search');
+                const sortFilter = document.getElementById('sort-filter');
+                
+                if (searchInput) searchInput.value = '';
+                if (sortFilter) sortFilter.value = 'name-asc';
+                
+                searchQuery = '';
+                currentCategory = 'all';
+                
+                // Reset category buttons
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                const allButton = document.querySelector('[data-category="all"]');
+                if (allButton) allButton.classList.add('active');
+                
+                loadProducts();
+            } catch (error) {
+                console.error('Error clearing filters:', error);
+            }
         }
 
         // Filter products by category
         function filterProducts(category) {
-            currentCategory = category;
-            
-            // Update active button
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[data-category="${category}"]`).classList.add('active');
-            
-            // Reload products
-            loadProducts();
+            try {
+                currentCategory = category;
+                
+                // Update active button
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                const activeButton = document.querySelector(`[data-category="${category}"]`);
+                if (activeButton) activeButton.classList.add('active');
+                
+                // Reload products
+                loadProducts();
+            } catch (error) {
+                console.error('Error filtering products:', error);
+            }
         }
 
         // Add product to cart
