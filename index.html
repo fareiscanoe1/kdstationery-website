@@ -198,6 +198,8 @@
             --store-tan: #D2B48C;
             --store-blue: #4A90E2;
             --store-blue-glow: #6BB6FF;
+            --store-yellow: #FFE135;
+            --store-bright-yellow: #FFF700;
             --store-dark-brown: #6B5B47;
         }
         
@@ -327,6 +329,20 @@
             display: inline !important;
         }
         .english-mode .ar-text {
+            display: none !important;
+        }
+        
+        /* Force language switching on all elements */
+        body.arabic-mode * .en-text {
+            display: none !important;
+        }
+        body.arabic-mode * .ar-text {
+            display: inline !important;
+        }
+        body.english-mode * .en-text {
+            display: inline !important;
+        }
+        body.english-mode * .ar-text {
             display: none !important;
         }
         .category-btn {
@@ -1241,9 +1257,9 @@
                         </h3>
                         ${product.rating ? `
                         <div class="flex items-center mb-2">
-                            <div class="flex text-yellow-400">
-                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
-                            </div>
+                        <div class="flex" style="color: #FFE135;">
+                            ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                        </div>
                             <span class="text-sm text-gray-600 ml-2">${product.rating}/5</span>
                         </div>
                         ` : ''}

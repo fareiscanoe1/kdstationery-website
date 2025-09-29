@@ -57,7 +57,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Total Orders</p>
-                        <p class="text-2xl font-bold text-gray-900">24</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-orders-count">0</p>
                     </div>
                 </div>
             </div>
@@ -68,18 +68,18 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Revenue</p>
-                        <p class="text-2xl font-bold text-gray-900">2,450 <span class="riyal-symbol">﷼</span></p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-revenue-amount">0.00 <span class="riyal-symbol">﷼</span></p>
                     </div>
                 </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow">
                 <div class="flex items-center">
-                    <div class="p-2 bg-yellow-100 rounded-lg">
-                        <i class="fas fa-box text-yellow-600"></i>
+                    <div class="p-2 rounded-lg" style="background-color: #FFF700; opacity: 0.2;">
+                        <i class="fas fa-box" style="color: #FFE135;"></i>
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Products</p>
-                        <p class="text-2xl font-bold text-gray-900">36</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-products-count">0</p>
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm text-gray-600">Customers</p>
-                        <p class="text-2xl font-bold text-gray-900">18</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-customers-count">0</p>
                     </div>
                 </div>
             </div>
@@ -1133,7 +1133,10 @@
         function logout() {
             localStorage.removeItem('adminLoggedIn');
             localStorage.removeItem('adminLoginTime');
-            window.location.href = 'admin-login.html';
+            showNotification('Logged out successfully', 'success');
+            setTimeout(() => {
+                window.location.href = 'admin-login.html';
+            }, 1000);
         }
 
         function exportReport() {
@@ -1853,6 +1856,17 @@
             const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
             const totalProducts = products.length;
             
+            // Get unique customers from orders
+            const uniqueCustomers = new Set(orders.map(order => order.customerEmail));
+            const totalCustomers = uniqueCustomers.size;
+            
+            // Update main dashboard stats
+            document.getElementById('total-orders-count').textContent = totalOrders;
+            document.getElementById('total-revenue-amount').innerHTML = `${totalRevenue.toFixed(2)} <span class="riyal-symbol">﷼</span>`;
+            document.getElementById('total-products-count').textContent = totalProducts;
+            document.getElementById('total-customers-count').textContent = totalCustomers;
+            
+            // Update reports tab stats
             document.getElementById('total-orders').textContent = totalOrders;
             document.getElementById('total-revenue').innerHTML = `${totalRevenue.toFixed(2)} <span class="riyal-symbol">﷼</span>`;
             document.getElementById('total-products').textContent = totalProducts;
