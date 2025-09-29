@@ -384,18 +384,12 @@
                                 </div>
                             </div>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                                    <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                        <option value="">Select Category</option>
-                                        ${categories.map(cat => `<option value="${cat.name}">${cat.name}</option>`).join('')}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
-                                    <input type="number" name="rating" min="0" max="5" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="">Select Category</option>
+                                    ${categories.map(cat => `<option value="${cat.name}">${cat.name}</option>`).join('')}
+                                </select>
                             </div>
                             
                             <div class="mb-4">
@@ -427,7 +421,6 @@
                 price: parseFloat(formData.get('price')),
                 stock: parseInt(formData.get('stock')),
                 category: formData.get('category'),
-                rating: parseFloat(formData.get('rating')) || 0,
                 image: formData.get('image') || 'https://via.placeholder.com/300x300?text=No+Image'
             };
             
@@ -536,18 +529,12 @@
                                 </div>
                             </div>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                                    <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                        <option value="">Select Category</option>
-                                        ${categories.map(cat => `<option value="${cat.name}" ${cat.name === product.category ? 'selected' : ''}>${cat.name}</option>`).join('')}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
-                                    <input type="number" name="rating" min="0" max="5" step="0.1" value="${product.rating}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="">Select Category</option>
+                                    ${categories.map(cat => `<option value="${cat.name}" ${cat.name === product.category ? 'selected' : ''}>${cat.name}</option>`).join('')}
+                                </select>
                             </div>
                             
                             <div class="mb-4">
@@ -582,7 +569,6 @@
                 price: parseFloat(formData.get('price')),
                 stock: parseInt(formData.get('stock')),
                 category: formData.get('category'),
-                rating: parseFloat(formData.get('rating')) || 0,
                 image: formData.get('image') || 'https://via.placeholder.com/300x300?text=No+Image'
             };
             

@@ -1161,17 +1161,18 @@
         
         // Set up automatic product synchronization
         function setupProductSync() {
-            // Check for products every 1 second to ensure sync
+            // Check for products every 500ms to ensure fast sync
             setInterval(function() {
                 const storedProducts = localStorage.getItem('stationeryProducts');
                 if (storedProducts) {
                     const parsedProducts = JSON.parse(storedProducts);
-                    if (parsedProducts.length !== products.length) {
+                    if (parsedProducts.length !== products.length || 
+                        JSON.stringify(parsedProducts) !== JSON.stringify(products)) {
                         loadProductsFromStorage();
                         loadProducts();
                     }
                 }
-            }, 1000);
+            }, 500);
         }
         
 
@@ -1251,14 +1252,6 @@
                         <h3 class="text-lg font-medium text-gray-900 mb-2">
                             ${isArabic ? product.nameAr : product.name}
                         </h3>
-                        ${product.rating ? `
-                        <div class="flex items-center mb-2">
-                        <div class="flex" style="color: var(--store-yellow);">
-                            ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
-                        </div>
-                            <span class="text-sm text-gray-600 ml-2">${product.rating}/5</span>
-                        </div>
-                        ` : ''}
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-xl font-semibold text-gray-900 flex items-center">
                                 <span class="riyal-symbol">﷼</span>
@@ -1893,16 +1886,16 @@
             document.documentElement.lang = isArabic ? 'ar' : 'en';
             document.body.dir = isArabic ? 'rtl' : 'ltr';
             
-            // Update all text elements
+            // Force update all text elements
             const enTexts = document.querySelectorAll('.en-text');
             const arTexts = document.querySelectorAll('.ar-text');
             
             enTexts.forEach(el => {
-                el.style.display = isArabic ? 'none' : 'block';
+                el.style.display = isArabic ? 'none' : 'inline';
             });
             
             arTexts.forEach(el => {
-                el.style.display = isArabic ? 'block' : 'none';
+                el.style.display = isArabic ? 'inline' : 'none';
             });
         
             // Update dynamic content
