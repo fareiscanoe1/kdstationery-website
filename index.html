@@ -1183,10 +1183,13 @@
         // Load products from localStorage or use default
         function loadProductsFromStorage() {
             try {
-            const storedProducts = localStorage.getItem('stationeryProducts');
-            if (storedProducts) {
-                const parsedProducts = JSON.parse(storedProducts);
+                const storedProducts = localStorage.getItem('stationeryProducts');
+                console.log('Raw stored products:', storedProducts);
+                
+                if (storedProducts) {
+                    const parsedProducts = JSON.parse(storedProducts);
                     console.log('Loaded products from storage:', parsedProducts);
+                    console.log('Number of products loaded:', parsedProducts.length);
                     // Replace products array with stored products
                     products = parsedProducts;
                 } else {
@@ -1200,21 +1203,25 @@
         // Load products into the grid
         function loadProducts() {
             try {
-            const productsGrid = document.getElementById('products-grid');
+                const productsGrid = document.getElementById('products-grid');
                 if (!productsGrid) {
                     console.error('Products grid not found');
                     return;
                 }
                 
-            productsGrid.innerHTML = '';
+                console.log('Loading products, current products array:', products);
+                productsGrid.innerHTML = '';
 
-            // Load products from storage first
-            loadProductsFromStorage();
+                // Load products from storage first
+                loadProductsFromStorage();
+                console.log('After loading from storage, products array:', products);
 
             // Filter products based on current category and search query
             let filteredProducts = currentCategory === 'all' 
                 ? products 
                 : products.filter(product => product.category === currentCategory);
+
+            console.log('Filtered products after category filter:', filteredProducts);
 
             // Apply search filter
             if (searchQuery.trim()) {
@@ -1223,6 +1230,7 @@
                     product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     product.category.toLowerCase().includes(searchQuery.toLowerCase())
                 );
+                console.log('Filtered products after search filter:', filteredProducts);
             }
 
                 // No additional filters - just search and sorting
@@ -1247,7 +1255,10 @@
                 }
             });
 
+            console.log('About to render', filteredProducts.length, 'products');
+            
             filteredProducts.forEach(product => {
+                console.log('Rendering product:', product);
                 const productCard = document.createElement('div');
                 productCard.className = 'card-product group';
                 productCard.innerHTML = `
