@@ -250,7 +250,7 @@
             }, 3000);
         }
 
-        // Check if already logged in
+        // Check if already logged in - but don't auto-redirect
         document.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = localStorage.getItem('adminLoggedIn');
             const loginTime = localStorage.getItem('adminLoginTime');
@@ -261,11 +261,12 @@
                 const hoursSinceLogin = (now - loginDate) / (1000 * 60 * 60);
                 
                 // Auto-logout after 8 hours
-                if (hoursSinceLogin < 8) {
-                    window.location.href = 'admin.html';
-                } else {
+                if (hoursSinceLogin >= 8) {
                     localStorage.removeItem('adminLoggedIn');
                     localStorage.removeItem('adminLoginTime');
+                    showNotification('Session expired. Please login again.', 'error');
+                } else {
+                    showNotification('You are already logged in. Click login to continue.', 'info');
                 }
             }
         });

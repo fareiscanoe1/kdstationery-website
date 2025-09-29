@@ -198,8 +198,8 @@
             --store-tan: #D2B48C;
             --store-blue: #4A90E2;
             --store-blue-glow: #6BB6FF;
-            --store-yellow: #FFE135;
-            --store-bright-yellow: #FFF700;
+            --store-yellow: #F4D03F;
+            --store-bright-yellow: #F7DC6F;
             --store-dark-brown: #6B5B47;
         }
         
@@ -1098,8 +1098,11 @@
 
         function clearAdminSession() {
             // Clear admin session when accessing from main website
+            console.log('Clearing admin session');
             localStorage.removeItem('adminLoggedIn');
             localStorage.removeItem('adminLoginTime');
+            // Force redirect to login page
+            window.location.href = 'admin-login.html';
         }
 
         // Load categories from localStorage
