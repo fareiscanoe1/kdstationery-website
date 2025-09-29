@@ -171,9 +171,17 @@
             <div id="products-tab" class="tab-content p-6 hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-lg font-semibold text-gray-900">Product Management</h2>
-                    <button onclick="addNewProduct()" class="btn-primary">
-                        <i class="fas fa-plus mr-2"></i>Add Product
-                    </button>
+                    <div class="flex space-x-2">
+                        <button onclick="addNewProduct()" class="btn-primary">
+                            <i class="fas fa-plus mr-2"></i>Add Product
+                        </button>
+                        <button onclick="showBulkImport()" class="btn-secondary">
+                            <i class="fas fa-upload mr-2"></i>Bulk Import
+                        </button>
+                        <button onclick="exportProducts()" class="btn-success">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     <div class="border rounded-lg p-4">
@@ -991,6 +999,9 @@
                 price: parseFloat(formData.get('price')),
                 stock: parseInt(formData.get('stock')),
                 category: formData.get('category'),
+                rating: parseFloat(formData.get('rating')) || 0,
+                description: formData.get('description') || '',
+                descriptionAr: formData.get('descriptionAr') || '',
                 image: imageData
             };
             
@@ -1259,6 +1270,123 @@
                 loadInventory();
                 event.target.closest('.fixed').remove();
             }
+        }
+
+        function showBulkImport() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Bulk Import Products</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload CSV File</label>
+                            <input type="file" id="csv-file" accept=".csv" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-medium mb-2">CSV Format:</h3>
+                            <p class="text-sm text-gray-600 mb-2">Required columns: name, nameAr, price, stock, category, rating, description, descriptionAr</p>
+                            <p class="text-xs text-gray-500">Example: Premium Pen, قلم متميز, 15.50, 50, pens, 4.5, High quality pen, قلم عالي الجودة</p>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-3">
+                            <button onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                            <button onclick="importProducts()" class="btn-primary">Import Products</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function importProducts() {
+            const fileInput = document.getElementById('csv-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Please select a CSV file', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const csv = e.target.result;
+                const lines = csv.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                let imported = 0;
+                let errors = 0;
+                
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim()) {
+                        const values = lines[i].split(',').map(v => v.trim());
+                        
+                        try {
+                            const product = {
+                                id: Math.max(...products.map(p => p.id), 0) + 1 + i,
+                                name: values[0] || 'Unknown Product',
+                                nameAr: values[1] || 'منتج غير معروف',
+                                price: parseFloat(values[2]) || 0,
+                                stock: parseInt(values[3]) || 0,
+                                category: values[4] || 'pens',
+                                rating: parseFloat(values[5]) || 0,
+                                description: values[6] || '',
+                                descriptionAr: values[7] || '',
+                                image: 'https://via.placeholder.com/300x300?text=No+Image'
+                            };
+                            
+                            products.push(product);
+                            imported++;
+                        } catch (error) {
+                            errors++;
+                        }
+                    }
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('stationeryProducts', JSON.stringify(products));
+                
+                showNotification(`Imported ${imported} products successfully${errors > 0 ? `, ${errors} errors` : ''}`, 'success');
+                loadProducts();
+                loadInventory();
+                document.querySelector('.fixed').remove();
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function exportProducts() {
+            const csvContent = [
+                ['name', 'nameAr', 'price', 'stock', 'category', 'rating', 'description', 'descriptionAr'],
+                ...products.map(p => [
+                    p.name,
+                    p.nameAr,
+                    p.price,
+                    p.stock,
+                    p.category,
+                    p.rating || 0,
+                    p.description || '',
+                    p.descriptionAr || ''
+                ])
+            ].map(row => row.join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `products_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('Products exported successfully', 'success');
         }
 
         // Initialize the page
