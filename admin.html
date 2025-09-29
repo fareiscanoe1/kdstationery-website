@@ -1047,6 +1047,7 @@
             
             console.log('Product saved:', newProduct);
             console.log('All products:', products);
+            console.log('Products saved to localStorage:', localStorage.getItem('stationeryProducts'));
             
             showNotification(`Product "${newProduct.name}" added successfully`, 'success');
             loadProducts();
