@@ -312,9 +312,10 @@
         ];
 
         let products = [
-            { id: 1, name: 'Premium Ballpoint Pen', nameAr: 'قلم حبر جاف متميز', price: 15.50, stock: 50, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 2, name: 'Gel Pen Set (12 colors)', nameAr: 'مجموعة أقلام جيل (12 لون)', price: 25.00, stock: 30, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 3, name: 'Fountain Pen', nameAr: 'قلم حبر', price: 45.00, stock: 15, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop', category: 'pens' }
+            { id: 1, name: 'Premium Ballpoint Pen', nameAr: 'قلم حبر جاف متميز', price: 15.50, stock: 50, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', rating: 4.5 },
+            { id: 2, name: 'Gel Pen Set (12 colors)', nameAr: 'مجموعة أقلام جيل (12 لون)', price: 25.00, stock: 30, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens', rating: 4.8 },
+            { id: 3, name: 'Fountain Pen', nameAr: 'قلم حبر', price: 45.00, stock: 15, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop', category: 'pens', rating: 4.2 },
+            { id: 4, name: 'Professional Notebook A4', nameAr: 'دفتر مهني A4', price: 35.00, stock: 25, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', rating: 4.7 }
         ];
 
         function showTab(tabName) {
@@ -375,6 +376,9 @@
         }
 
         function loadProducts() {
+            // Load products from localStorage first
+            loadProductsFromStorage();
+            
             const container = document.querySelector('#products-tab .grid');
             container.innerHTML = products.map(product => `
                 <div class="border rounded-lg p-4">
@@ -386,6 +390,7 @@
                         <img src="${product.image}" alt="${product.name}" class="w-full h-32 object-cover rounded mb-2">
                         <p class="text-sm text-gray-600">Stock: ${product.stock}</p>
                         <p class="text-xs text-gray-500">Category: ${product.category}</p>
+                        ${product.rating ? `<p class="text-xs text-yellow-600">Rating: ${product.rating}/5</p>` : ''}
                     </div>
                     <div class="flex space-x-2">
                         <button onclick="editProduct(${product.id})" class="btn-secondary text-xs">Edit</button>
@@ -393,6 +398,17 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        function loadProductsFromStorage() {
+            const storedProducts = localStorage.getItem('stationeryProducts');
+            if (storedProducts) {
+                const parsedProducts = JSON.parse(storedProducts);
+                // Merge with existing products, avoiding duplicates
+                const existingIds = new Set(products.map(p => p.id));
+                const newProducts = parsedProducts.filter(p => !existingIds.has(p.id));
+                products = [...products, ...newProducts];
+            }
         }
 
         function loadInventory() {
