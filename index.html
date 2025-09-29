@@ -519,10 +519,6 @@
                     <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8" id="products-description">
                         Discover our wide range of high-quality stationery products
                     </p>
-                    <button onclick="refreshProducts()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
-                        <span class="en-text">Refresh Products</span>
-                        <span class="ar-text hidden">تحديث المنتجات</span>
-                    </button>
                     
                     <!-- Search and Filters -->
                     <div class="max-w-4xl mx-auto mb-8">
@@ -1181,33 +1177,51 @@
             console.log('Initializing page...');
             loadCategoriesFromStorage();
             loadCategoryButtons();
+            loadProductsFromStorage(); // Load products first
             loadProducts();
             updateCartDisplay();
+            
+            // Set up automatic product sync
+            setupProductSync();
+            
             console.log('Page initialization complete');
         }
         
-        // Manual refresh function for testing
-        function refreshProducts() {
-            console.log('Manual refresh triggered');
-            loadProductsFromStorage();
-            loadProducts();
+        // Set up automatic product synchronization
+        function setupProductSync() {
+            // Listen for storage changes (when admin adds products)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'stationeryProducts') {
+                    console.log('Products updated in localStorage, reloading...');
+                    loadProductsFromStorage();
+                    loadProducts();
+                }
+            });
+            
+            // Also check for products every 2 seconds as a fallback
+            setInterval(function() {
+                const storedProducts = localStorage.getItem('stationeryProducts');
+                if (storedProducts) {
+                    const parsedProducts = JSON.parse(storedProducts);
+                    if (parsedProducts.length !== products.length) {
+                        console.log('Product count changed, reloading...');
+                        loadProductsFromStorage();
+                        loadProducts();
+                    }
+                }
+            }, 2000);
         }
 
         // Load products from localStorage or use default
         function loadProductsFromStorage() {
             try {
                 const storedProducts = localStorage.getItem('stationeryProducts');
-                console.log('Raw stored products:', storedProducts);
                 
                 if (storedProducts) {
                     const parsedProducts = JSON.parse(storedProducts);
-                    console.log('Loaded products from storage:', parsedProducts);
-                    console.log('Number of products loaded:', parsedProducts.length);
                     // Replace products array with stored products
                     products = [...parsedProducts]; // Use spread operator to create new array
-                    console.log('Products array after loading:', products);
                 } else {
-                    console.log('No stored products found, using default products');
                     products = []; // Ensure products is empty array if no stored products
                 }
             } catch (error) {
@@ -1225,29 +1239,21 @@
                     return;
                 }
                 
-                console.log('Loading products, current products array:', products);
                 productsGrid.innerHTML = '';
 
-                // Load products from storage first
-                loadProductsFromStorage();
-                console.log('After loading from storage, products array:', products);
+                // Filter products based on current category and search query
+                let filteredProducts = currentCategory === 'all' 
+                    ? products 
+                    : products.filter(product => product.category === currentCategory);
 
-            // Filter products based on current category and search query
-            let filteredProducts = currentCategory === 'all' 
-                ? products 
-                : products.filter(product => product.category === currentCategory);
-
-            console.log('Filtered products after category filter:', filteredProducts);
-
-            // Apply search filter
-            if (searchQuery.trim()) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.category.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-                console.log('Filtered products after search filter:', filteredProducts);
-            }
+                // Apply search filter
+                if (searchQuery.trim()) {
+                    filteredProducts = filteredProducts.filter(product => 
+                        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        product.category.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
 
                 // No additional filters - just search and sorting
 
@@ -1271,10 +1277,7 @@
                 }
             });
 
-            console.log('About to render', filteredProducts.length, 'products');
-            
             filteredProducts.forEach(product => {
-                console.log('Rendering product:', product);
                 const productCard = document.createElement('div');
                 productCard.className = 'card-product group';
                 productCard.innerHTML = `
@@ -1921,26 +1924,14 @@
         // Language switching function
         function toggleLanguage() {
             try {
-                console.log('Language button clicked!');
-                console.log('Toggling language, current isArabic:', isArabic);
                 isArabic = !isArabic;
-                console.log('New isArabic:', isArabic);
             
                 // Update HTML direction and language
                 document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
                 document.documentElement.lang = isArabic ? 'ar' : 'en';
                 document.body.dir = isArabic ? 'rtl' : 'ltr';
                 
-                // Force CSS to apply by adding/removing class
-                if (isArabic) {
-                    document.body.classList.add('arabic-mode');
-                    document.body.classList.remove('english-mode');
-                } else {
-                    document.body.classList.add('english-mode');
-                    document.body.classList.remove('arabic-mode');
-                }
-            
-                // Force update all text elements
+                // Force update all text elements immediately
                 const enTexts = document.querySelectorAll('.en-text');
                 const arTexts = document.querySelectorAll('.ar-text');
                 
@@ -1961,8 +1952,6 @@
             
                 // Update cart display
                 updateCartDisplay();
-                
-                console.log('Language toggle completed successfully');
             } catch (error) {
                 console.error('Error in toggleLanguage:', error);
             }
@@ -1970,8 +1959,7 @@
 
         function updateLanguageContent() {
             try {
-            const currentLang = isArabic ? translations.ar : translations.en;
-                console.log('Updating language content, currentLang:', currentLang);
+                const currentLang = isArabic ? translations.ar : translations.en;
             
             // Update store name
             const storeName = document.getElementById('store-name');
