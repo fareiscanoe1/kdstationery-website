@@ -42,6 +42,46 @@
             padding: 0 1rem;
         }
         
+        /* Mobile improvements */
+        @media (max-width: 640px) {
+            .container-custom {
+                padding: 0 0.5rem;
+            }
+            
+            .grid-products {
+                grid-template-columns: repeat(1, minmax(0, 1fr));
+                gap: 1rem;
+            }
+            
+            .card-product {
+                margin-bottom: 1rem;
+            }
+            
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+                margin-top: 1rem;
+            }
+            
+            .category-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.875rem;
+            }
+        }
+        
         /* Store Brand Colors */
         :root {
             --store-brown: #8B7355;
@@ -337,15 +377,28 @@
                                         <span class="en-text">Price Range (SAR)</span>
                                         <span class="ar-text hidden">نطاق السعر (ريال)</span>
                                     </label>
-                                    <div class="flex items-center space-x-2">
-                                        <input type="number" id="min-price" placeholder="Min" min="0" step="0.01"
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                               onchange="searchProducts()">
-                                        <span class="text-gray-500">-</span>
-                                        <input type="number" id="max-price" placeholder="Max" min="0" step="0.01"
-                                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                               onchange="searchProducts()">
-                                    </div>
+                                    <select id="price-range" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="searchProducts()">
+                                        <option value="all">
+                                            <span class="en-text">All Prices</span>
+                                            <span class="ar-text hidden">جميع الأسعار</span>
+                                        </option>
+                                        <option value="0-20">
+                                            <span class="en-text">Under 20 SAR</span>
+                                            <span class="ar-text hidden">أقل من 20 ريال</span>
+                                        </option>
+                                        <option value="20-50">
+                                            <span class="en-text">20 - 50 SAR</span>
+                                            <span class="ar-text hidden">20 - 50 ريال</span>
+                                        </option>
+                                        <option value="50-100">
+                                            <span class="en-text">50 - 100 SAR</span>
+                                            <span class="ar-text hidden">50 - 100 ريال</span>
+                                        </option>
+                                        <option value="100+">
+                                            <span class="en-text">Over 100 SAR</span>
+                                            <span class="ar-text hidden">أكثر من 100 ريال</span>
+                                        </option>
+                                    </select>
                                 </div>
                                 
                                 <!-- Stock Status -->
@@ -947,55 +1000,35 @@
     </footer>
 
     <script>
-        // Products data - Complete stationery inventory
+        // Products data - Reduced to 18 essential products
         const products = [
             // Pens & Writing
-            { id: 1, name: 'Premium Ballpoint Pen', nameAr: 'قلم حبر جاف متميز', price: 15.50, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 2, name: 'Gel Pen Set (12 colors)', nameAr: 'مجموعة أقلام جيل (12 لون)', price: 25.00, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 3, name: 'Fountain Pen', nameAr: 'قلم حبر', price: 45.00, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 4, name: 'Highlighter Set (6 colors)', nameAr: 'مجموعة أقلام تمييز (6 ألوان)', price: 18.25, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 5, name: 'Mechanical Pencil Set', nameAr: 'مجموعة أقلام رصاص ميكانيكية', price: 22.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'pens' },
-            { id: 6, name: 'Whiteboard Markers Set', nameAr: 'مجموعة أقلام السبورة', price: 30.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'pens' },
+            { id: 1, name: 'Premium Ballpoint Pen', nameAr: 'قلم حبر جاف متميز', price: 15.50, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', stock: 50 },
+            { id: 2, name: 'Gel Pen Set (12 colors)', nameAr: 'مجموعة أقلام جيل (12 لون)', price: 25.00, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens', stock: 30 },
+            { id: 3, name: 'Fountain Pen', nameAr: 'قلم حبر', price: 45.00, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop', category: 'pens', stock: 15 },
+            { id: 4, name: 'Highlighter Set (6 colors)', nameAr: 'مجموعة أقلام تمييز (6 ألوان)', price: 18.25, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens', stock: 25 },
             
             // Notebooks & Paper
-            { id: 7, name: 'A4 Notebook (200 pages)', nameAr: 'دفتر A4 (200 صفحة)', price: 12.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks' },
-            { id: 8, name: 'Spiral Notebook Set', nameAr: 'مجموعة دفاتر حلزونية', price: 35.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks' },
-            { id: 9, name: 'A4 Copy Paper (500 sheets)', nameAr: 'ورق A4 للنسخ (500 ورقة)', price: 28.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks' },
-            { id: 10, name: 'Sticky Notes Set', nameAr: 'مجموعة ملاحظات لاصقة', price: 15.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks' },
-            { id: 11, name: 'Graph Paper Pad', nameAr: 'دفتر ورق مربعات', price: 8.50, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks' },
-            { id: 12, name: 'Sketchbook A3', nameAr: 'دفتر رسم A3', price: 25.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks' },
+            { id: 5, name: 'A4 Notebook (200 pages)', nameAr: 'دفتر A4 (200 صفحة)', price: 12.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 40 },
+            { id: 6, name: 'Spiral Notebook Set', nameAr: 'مجموعة دفاتر حلزونية', price: 35.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 20 },
+            { id: 7, name: 'A4 Copy Paper (500 sheets)', nameAr: 'ورق A4 للنسخ (500 ورقة)', price: 28.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 35 },
+            { id: 8, name: 'Sticky Notes Set', nameAr: 'مجموعة ملاحظات لاصقة', price: 15.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 60 },
             
             // Office Supplies
-            { id: 13, name: 'Stapler Heavy Duty', nameAr: 'دباسة قوية', price: 35.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office' },
-            { id: 14, name: 'Calculator Scientific', nameAr: 'آلة حاسبة علمية', price: 45.00, image: 'https://images.unsplash.com/photo-1587145820266-a5955ee7f620?w=300&h=300&fit=crop', category: 'office' },
-            { id: 15, name: 'Paper Clips Set', nameAr: 'مجموعة مشابك ورق', price: 8.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office' },
-            { id: 16, name: 'Binder Clips Set', nameAr: 'مجموعة مشابك ملفات', price: 12.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office' },
-            { id: 17, name: 'Hole Punch', nameAr: 'ثقاب ورق', price: 25.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office' },
-            { id: 18, name: 'Desk Organizer', nameAr: 'منظم مكتب', price: 40.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office' },
+            { id: 9, name: 'Stapler Heavy Duty', nameAr: 'دباسة قوية', price: 35.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office', stock: 12 },
+            { id: 10, name: 'Calculator Scientific', nameAr: 'آلة حاسبة علمية', price: 45.00, image: 'https://images.unsplash.com/photo-1587145820266-a5955ee7f620?w=300&h=300&fit=crop', category: 'office', stock: 8 },
+            { id: 11, name: 'Paper Clips Set', nameAr: 'مجموعة مشابك ورق', price: 8.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office', stock: 45 },
+            { id: 12, name: 'Desk Organizer', nameAr: 'منظم مكتب', price: 40.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office', stock: 6 },
             
             // Art Supplies
-            { id: 19, name: 'Colored Pencils Set (24)', nameAr: 'مجموعة أقلام ملونة (24)', price: 35.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art' },
-            { id: 20, name: 'Watercolor Paint Set', nameAr: 'مجموعة ألوان مائية', price: 55.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art' },
-            { id: 21, name: 'Paint Brushes Set', nameAr: 'مجموعة فرش رسم', price: 28.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art' },
-            { id: 22, name: 'Eraser Set', nameAr: 'مجموعة ممحاة', price: 12.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art' },
-            { id: 23, name: 'Ruler Set (30cm)', nameAr: 'مجموعة مساطر (30 سم)', price: 15.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art' },
-            { id: 24, name: 'Compass Set', nameAr: 'مجموعة بركار', price: 20.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art' },
+            { id: 13, name: 'Colored Pencils Set (24)', nameAr: 'مجموعة أقلام ملونة (24)', price: 35.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art', stock: 18 },
+            { id: 14, name: 'Watercolor Paint Set', nameAr: 'مجموعة ألوان مائية', price: 55.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art', stock: 10 },
+            { id: 15, name: 'Paint Brushes Set', nameAr: 'مجموعة فرش رسم', price: 28.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art', stock: 22 },
             
             // School Supplies
-            { id: 25, name: 'School Bag', nameAr: 'حقيبة مدرسية', price: 65.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school' },
-            { id: 26, name: 'Pencil Case', nameAr: 'حافظة أقلام', price: 18.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school' },
-            { id: 27, name: 'Geometry Set', nameAr: 'مجموعة هندسة', price: 25.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school' },
-            { id: 28, name: 'Lunch Box', nameAr: 'صندوق غداء', price: 35.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school' },
-            { id: 29, name: 'Water Bottle', nameAr: 'زجاجة ماء', price: 22.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school' },
-            { id: 30, name: 'Student ID Holder', nameAr: 'حافظة هوية طالب', price: 8.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school' },
-            
-            // Printing & Technology
-            { id: 31, name: 'USB Flash Drive 32GB', nameAr: 'ذاكرة USB 32 جيجا', price: 45.00, image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=300&h=300&fit=crop', category: 'printing' },
-            { id: 32, name: 'Printer Paper A4 (1000 sheets)', nameAr: 'ورق طابعة A4 (1000 ورقة)', price: 85.00, image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=300&h=300&fit=crop', category: 'printing' },
-            { id: 33, name: 'Ink Cartridge Black', nameAr: 'حبر طابعة أسود', price: 120.00, image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=300&h=300&fit=crop', category: 'printing' },
-            { id: 34, name: 'Ink Cartridge Color', nameAr: 'حبر طابعة ملون', price: 150.00, image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=300&h=300&fit=crop', category: 'printing' },
-            { id: 35, name: 'Laminating Sheets A4', nameAr: 'أوراق تغليف A4', price: 25.00, image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=300&h=300&fit=crop', category: 'printing' },
-            { id: 36, name: 'Binding Machine', nameAr: 'آلة تجليد', price: 200.00, image: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=300&h=300&fit=crop', category: 'printing' }
+            { id: 16, name: 'School Bag', nameAr: 'حقيبة مدرسية', price: 65.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school', stock: 15 },
+            { id: 17, name: 'Pencil Case', nameAr: 'حافظة أقلام', price: 18.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school', stock: 35 },
+            { id: 18, name: 'Geometry Set', nameAr: 'مجموعة هندسة', price: 25.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school', stock: 20 }
         ];
 
         let cart = [];
@@ -1076,11 +1109,23 @@
             }
 
             // Apply price range filter
-            const minPrice = parseFloat(document.getElementById('min-price').value) || 0;
-            const maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
-            filteredProducts = filteredProducts.filter(product => 
-                product.price >= minPrice && product.price <= maxPrice
-            );
+            const priceRange = document.getElementById('price-range').value;
+            if (priceRange !== 'all') {
+                filteredProducts = filteredProducts.filter(product => {
+                    switch (priceRange) {
+                        case '0-20':
+                            return product.price < 20;
+                        case '20-50':
+                            return product.price >= 20 && product.price <= 50;
+                        case '50-100':
+                            return product.price >= 50 && product.price <= 100;
+                        case '100+':
+                            return product.price > 100;
+                        default:
+                            return true;
+                    }
+                });
+            }
 
             // Apply stock status filter
             const stockFilter = document.getElementById('stock-filter').value;
@@ -1167,8 +1212,7 @@
         // Clear all filters
         function clearFilters() {
             document.getElementById('product-search').value = '';
-            document.getElementById('min-price').value = '';
-            document.getElementById('max-price').value = '';
+            document.getElementById('price-range').value = 'all';
             document.getElementById('stock-filter').value = 'all';
             document.getElementById('sort-filter').value = 'name-asc';
             
