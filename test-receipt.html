@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Receipt System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full space-y-8">
+        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+            <h1 class="text-2xl font-bold text-gray-900 mb-4">Test Receipt System</h1>
+            <p class="text-gray-600 mb-6">This will test the email receipt functionality</p>
+            
+            <button onclick="testReceipt()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                Test Receipt Email
+            </button>
+            
+            <div id="status" class="mt-4 text-sm text-gray-500"></div>
+            
+            <div class="mt-6 space-y-2">
+                <a href="index.html" class="block text-blue-600 hover:text-blue-800">Go to Main Store</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testReceipt() {
+            const status = document.getElementById('status');
+            status.textContent = 'Testing receipt system...';
+            
+            // Create a test order
+            const testOrder = {
+                id: 'TEST-' + Date.now(),
+                customerEmail: 'test@example.com',
+                total: 25.50,
+                subtotal: 25.50,
+                vat: 0,
+                paymentMethod: 'mada',
+                timestamp: new Date().toISOString(),
+                items: [
+                    {
+                        product: {
+                            name: 'Test Product',
+                            nameAr: 'منتج تجريبي',
+                            price: 12.75
+                        },
+                        quantity: 2
+                    }
+                ]
+            };
+            
+            // Test email generation
+            const emailSubject = `Order Receipt - ${testOrder.id} - Knowledge Development Stationery`;
+            const emailBody = generateTestReceipt(testOrder);
+            
+            // Create mailto link
+            const mailtoLink = `mailto:${testOrder.customerEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client
+            window.open(mailtoLink, '_blank');
+            
+            status.textContent = 'Email client opened with test receipt!';
+            status.className = 'mt-4 text-sm text-green-600';
+        }
+
+        function generateTestReceipt(order) {
+            const storeInfo = {
+                name: 'Knowledge Development Stationery',
+                nameAr: 'قرطاسية تنمية المعرفة',
+                address: '8480 Hamad Al Jaser, AR Rawdah District, Jeddah 23435, Saudi Arabia',
+                phone: '+966 12 236 7510',
+                email: 'info@kdstationery.com'
+            };
+
+            let emailContent = `
+ORDER RECEIPT / إيصال الطلب
+===============================
+
+Order ID: ${order.id}
+Date: ${new Date(order.timestamp).toLocaleString()}
+Payment Method: Mada
+
+Customer Information:
+Email: ${order.customerEmail}
+
+Order Items:
+`;
+
+            order.items.forEach(item => {
+                emailContent += `- ${item.product.name} (${item.product.nameAr})
+  Quantity: ${item.quantity}
+  Price: ${item.product.price.toFixed(2)} SAR
+  Subtotal: ${(item.product.price * item.quantity).toFixed(2)} SAR
+
+`;
+            });
+
+            emailContent += `
+Order Summary:
+Subtotal: ${order.subtotal.toFixed(2)} SAR
+VAT: ${order.vat.toFixed(2)} SAR
+Total: ${order.total.toFixed(2)} SAR
+
+Store Information:
+${storeInfo.name} / ${storeInfo.nameAr}
+${storeInfo.address}
+Phone: ${storeInfo.phone}
+Email: ${storeInfo.email}
+
+Please bring this receipt for order pickup.
+يرجى إحضار هذا الإيصال لاستلام الطلب.
+
+Thank you for your business!
+شكراً لاختياركم لنا!
+`;
+
+            return emailContent;
+        }
+    </script>
+</body>
+</html>

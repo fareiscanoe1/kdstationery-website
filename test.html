@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Setup - Knowledge Development Stationery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full space-y-8">
+        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+            <h1 class="text-2xl font-bold text-gray-900 mb-4">Setup Test</h1>
+            <p class="text-gray-600 mb-6">This page will set up sample data for testing</p>
+            
+            <button onclick="setupData()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                Setup Sample Data
+            </button>
+            
+            <div id="status" class="mt-4 text-sm text-gray-500"></div>
+            
+            <div class="mt-6 space-y-2">
+                <a href="index.html" class="block text-blue-600 hover:text-blue-800">Go to Main Store</a>
+                <a href="admin.html" class="block text-blue-600 hover:text-blue-800">Go to Admin Panel</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setupData() {
+            const status = document.getElementById('status');
+            status.textContent = 'Setting up data...';
+            
+            // Sample categories
+            const sampleCategories = [
+                { id: 1, name: 'Pens & Pencils', nameAr: 'أقلام وأقلام رصاص' },
+                { id: 2, name: 'Notebooks', nameAr: 'دفاتر' },
+                { id: 3, name: 'Office Supplies', nameAr: 'مستلزمات مكتبية' },
+                { id: 4, name: 'Art Supplies', nameAr: 'مستلزمات فنية' },
+                { id: 5, name: 'School Supplies', nameAr: 'مستلزمات مدرسية' }
+            ];
+
+            // Sample products
+            const sampleProducts = [
+                {
+                    id: 1,
+                    name: 'Blue Ballpoint Pen',
+                    nameAr: 'قلم حبر أزرق',
+                    price: 2.50,
+                    stock: 100,
+                    category: 'Pens & Pencils',
+                    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 2,
+                    name: 'A4 Notebook',
+                    nameAr: 'دفتر A4',
+                    price: 15.00,
+                    stock: 50,
+                    category: 'Notebooks',
+                    image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 3,
+                    name: 'Stapler',
+                    nameAr: 'دباسة',
+                    price: 25.00,
+                    stock: 30,
+                    category: 'Office Supplies',
+                    image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 4,
+                    name: 'Colored Pencils Set',
+                    nameAr: 'مجموعة أقلام ملونة',
+                    price: 35.00,
+                    stock: 25,
+                    category: 'Art Supplies',
+                    image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 5,
+                    name: 'Calculator',
+                    nameAr: 'آلة حاسبة',
+                    price: 45.00,
+                    stock: 20,
+                    category: 'School Supplies',
+                    image: 'https://images.unsplash.com/photo-1587145820266-a5955ee6f622?w=300&h=300&fit=crop'
+                }
+            ];
+
+            // Save to localStorage
+            localStorage.setItem('stationeryCategories', JSON.stringify(sampleCategories));
+            localStorage.setItem('stationeryProducts', JSON.stringify(sampleProducts));
+            localStorage.setItem('stationeryOrders', JSON.stringify([]));
+
+            status.textContent = 'Setup complete! You can now test the store.';
+            status.className = 'mt-4 text-sm text-green-600';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2856 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Admin Panel - Knowledge Development Stationery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .riyal-symbol {
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+        }
+        
+        :root {
+            --store-yellow: #F4D03F;
+            --store-bright-yellow: #F7DC6F;
+        }
+        .btn-primary {
+            @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors;
+        }
+        .btn-secondary {
+            @apply bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors;
+        }
+        .btn-danger {
+            @apply bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors;
+        }
+        .btn-success {
+            @apply bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-lg sm:text-2xl font-bold text-gray-900">Admin Panel</h1>
+                    <span class="ml-2 sm:ml-4 text-xs sm:text-sm text-gray-500 hidden sm:inline">Knowledge Development Stationery</span>
+                </div>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800 text-sm sm:text-base">
+                        <i class="fas fa-arrow-left mr-1 sm:mr-2"></i><span class="hidden sm:inline">Back to Store</span><span class="sm:hidden">Back</span>
+                    </a>
+                    <button onclick="logout()" class="btn-secondary text-sm sm:text-base">
+                        <i class="fas fa-sign-out-alt mr-1 sm:mr-2"></i><span class="hidden sm:inline">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <i class="fas fa-shopping-cart text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">Total Orders</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-orders-count">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <i class="fas fa-dollar-sign text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">Revenue</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-revenue-amount">0.00 <span class="riyal-symbol">﷼</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-2 rounded-lg" style="background-color: var(--store-bright-yellow); opacity: 0.2;">
+                        <i class="fas fa-box" style="color: var(--store-yellow);"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">Products</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-products-count">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <i class="fas fa-users text-purple-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">Customers</p>
+                        <p class="text-2xl font-bold text-gray-900" id="total-customers-count">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8 px-6">
+                    <button onclick="showTab('orders')" class="tab-button py-4 px-1 border-b-2 border-blue-500 text-blue-600 font-medium text-sm">
+                        <i class="fas fa-list mr-2"></i>Orders
+                    </button>
+                    <button onclick="showTab('products')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-box mr-2"></i>Products
+                    </button>
+                    <button onclick="showTab('categories')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-tags mr-2"></i>Categories
+                    </button>
+                    <button onclick="showTab('inventory')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-warehouse mr-2"></i>Inventory
+                    </button>
+                    <button onclick="showTab('analytics')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-chart-bar mr-2"></i>Analytics
+                    </button>
+                    <button onclick="showTab('customers')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-users mr-2"></i>Customers
+                    </button>
+                    <button onclick="showTab('notifications')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-bell mr-2"></i>Notifications
+                    </button>
+                    <button onclick="showTab('settings')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-cog mr-2"></i>Settings
+                    </button>
+                    <button onclick="showTab('reports')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-chart-bar mr-2"></i>Reports
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Recent Orders</h2>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus mr-2"></i>New Order
+                    </button>
+                </div>
+                <div class="overflow-x-auto -mx-4 sm:mx-0">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ORD-1759096838877</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">customer@gmail.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Printer Paper A4 (1000 sheets) x 1</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">85.00 <span class="riyal-symbol">﷼</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                    <button class="text-green-600 hover:text-green-900">Print</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ORD-1759096838876</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">john@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Gel Pen Set (12 colors) x 2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50.00 <span class="riyal-symbol">﷼</span></td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                                    <button class="text-green-600 hover:text-green-900">Print</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Product Management</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="addNewProduct()" class="btn-primary">
+                            <i class="fas fa-plus mr-2"></i>Add Product
+                        </button>
+                        <button onclick="showBulkImport()" class="btn-secondary">
+                            <i class="fas fa-upload mr-2"></i>Bulk Import
+                        </button>
+                        <button onclick="exportProducts()" class="btn-success">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <!-- Products will be loaded here dynamically -->
+                </div>
+            </div>
+
+            <!-- Categories Tab -->
+            <div id="categories-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Category Management</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="addNewCategory()" class="btn-primary">
+                            <i class="fas fa-plus mr-2"></i>Add Category
+                        </button>
+                        <button onclick="addNewSubcategory()" class="btn-secondary">
+                            <i class="fas fa-tag mr-2"></i>Add Subcategory
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Main Categories -->
+                    <div>
+                        <h3 class="text-md font-semibold text-gray-900 mb-4">Main Categories</h3>
+                        <div id="main-categories-list" class="space-y-3">
+                            <!-- Main categories will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Subcategories -->
+                    <div>
+                        <h3 class="text-md font-semibold text-gray-900 mb-4">Subcategories</h3>
+                        <div id="subcategories-list" class="space-y-3">
+                            <!-- Subcategories will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Tab -->
+            <div id="inventory-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Inventory Management</h2>
+                    <button onclick="showAddStockModal()" class="btn-primary">
+                        <i class="fas fa-plus mr-2"></i>Add Stock
+                    </button>
+                </div>
+                <div class="overflow-x-auto -mx-4 sm:mx-0">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Stock</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sold Today</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="inventory-tbody">
+                            <!-- Inventory items will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Sales Analytics</h2>
+                    <div class="flex space-x-2">
+                        <select id="analytics-period" onchange="updateAnalytics()" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                        <button onclick="refreshAnalytics()" class="btn-primary">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Analytics Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Sales Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Sales Trend</h3>
+                        <canvas id="salesChart" width="400" height="200"></canvas>
+                    </div>
+                    
+                    <!-- Revenue Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Revenue Trend</h3>
+                        <canvas id="revenueChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Analytics Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-lg">
+                                <i class="fas fa-shopping-cart text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Orders</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="analytics-total-orders">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-green-100 rounded-lg">
+                                <i class="fas fa-dollar-sign text-green-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Revenue</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="analytics-total-revenue">0.00 ﷼</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-yellow-100 rounded-lg">
+                                <i class="fas fa-chart-line text-yellow-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Average Order</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="analytics-avg-order">0.00 ﷼</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-purple-100 rounded-lg">
+                                <i class="fas fa-users text-purple-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Customers</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="analytics-customers">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Top Products -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Top Selling Products</h3>
+                    <div id="top-products-list" class="space-y-2">
+                        <!-- Top products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div id="customers-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Customer Management</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="exportCustomers()" class="btn-secondary">
+                            <i class="fas fa-download mr-2"></i>Export Customers
+                        </button>
+                        <button onclick="refreshCustomers()" class="btn-primary">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Customer Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-lg">
+                                <i class="fas fa-users text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Total Customers</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="total-customers">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-green-100 rounded-lg">
+                                <i class="fas fa-user-plus text-green-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">New This Month</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="new-customers">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-yellow-100 rounded-lg">
+                                <i class="fas fa-shopping-cart text-yellow-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Avg Orders/Customer</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="avg-orders-customer">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-purple-100 rounded-lg">
+                                <i class="fas fa-dollar-sign text-purple-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-600">Avg Spend/Customer</p>
+                                <p class="text-2xl font-semibold text-gray-900" id="avg-spend-customer">0.00 ﷼</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customer List -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Customer List</h3>
+                            <div class="flex space-x-2">
+                                <input type="text" id="customer-search" placeholder="Search customers..." class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <select id="customer-filter" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="all">All Customers</option>
+                                    <option value="new">New This Month</option>
+                                    <option value="frequent">Frequent Buyers</option>
+                                    <option value="high-value">High Value</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Orders</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Spent</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Order</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-table-body" class="bg-white divide-y divide-gray-200">
+                                <!-- Customer rows will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Tab -->
+            <div id="notifications-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Notifications & Alerts</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="markAllAsRead()" class="btn-secondary">
+                            <i class="fas fa-check-double mr-2"></i>Mark All Read
+                        </button>
+                        <button onclick="refreshNotifications()" class="btn-primary">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Notification Settings -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Notification Settings</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="new-order-notifications" class="mr-2" checked>
+                                <span>New Order Notifications</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="low-stock-notifications" class="mr-2" checked>
+                                <span>Low Stock Alerts</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="payment-notifications" class="mr-2" checked>
+                                <span>Payment Notifications</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="daily-reports" class="mr-2">
+                                <span>Daily Sales Reports</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Real-time Notifications -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Recent Notifications</h3>
+                    </div>
+                    <div id="notifications-list" class="divide-y divide-gray-200">
+                        <!-- Notifications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">System Settings</h2>
+                    <button onclick="saveSettings()" class="btn-primary">
+                        <i class="fas fa-save mr-2"></i>Save Settings
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Store Settings -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Store Settings</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Store Name</label>
+                                <input type="text" id="store-name" value="Knowledge Development Stationery" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Store Email</label>
+                                <input type="email" id="store-email" value="info@kdstationery.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" id="store-phone" value="+966 12 236 7510" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                <textarea id="store-address" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">8480 Hamad Al Jaser, AR Rawdah District, Jeddah 23435, Saudi Arabia</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Business Settings -->
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Business Settings</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">VAT Number</label>
+                                <input type="text" id="vat-number" value="300012345600003" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Commercial Registration</label>
+                                <input type="text" id="cr-number" value="1010123456" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+                                <select id="currency" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="SAR">Saudi Riyal (SAR)</option>
+                                    <option value="USD">US Dollar (USD)</option>
+                                    <option value="EUR">Euro (EUR)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                <select id="default-language" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="en">English</option>
+                                    <option value="ar">Arabic</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Sales Reports</h2>
+                    <button onclick="exportReport()" class="btn-primary">
+                        <i class="fas fa-download mr-2"></i>Export Report
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="bg-white p-6 rounded-lg border">
+                        <h3 class="text-lg font-semibold mb-4">Sales Summary</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Total Orders</span>
+                                <span class="font-semibold" id="total-orders">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Total Revenue</span>
+                                <span class="font-semibold" id="total-revenue">0.00 <span class="riyal-symbol">﷼</span></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Products in Stock</span>
+                                <span class="font-semibold" id="total-products">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border">
+                        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button onclick="exportReport()" class="w-full btn-primary text-sm">
+                                <i class="fas fa-download mr-2"></i>Export Report
+                            </button>
+                            <button onclick="showAddStockModal()" class="w-full btn-secondary text-sm">
+                                <i class="fas fa-plus mr-2"></i>Add Stock
+                            </button>
+                            <button onclick="showBulkImport()" class="w-full btn-secondary text-sm">
+                                <i class="fas fa-upload mr-2"></i>Import Products
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Start with empty data - load from localStorage
+        let orders = [];
+        let products = [];
+
+        // Categories data structure
+        let categories = [
+            { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة', parentId: null, icon: 'fas fa-pen', color: 'blue' },
+            { id: 'notebooks', name: 'Notebooks & Paper', nameAr: 'دفاتر وورق', parentId: null, icon: 'fas fa-book', color: 'green' },
+            { id: 'office', name: 'Office Supplies', nameAr: 'مستلزمات مكتبية', parentId: null, icon: 'fas fa-briefcase', color: 'purple' },
+            { id: 'art', name: 'Art Supplies', nameAr: 'مستلزمات فنية', parentId: null, icon: 'fas fa-palette', color: 'pink' },
+            { id: 'school', name: 'School Supplies', nameAr: 'مستلزمات مدرسية', parentId: null, icon: 'fas fa-graduation-cap', color: 'yellow' },
+            { id: 'printing', name: 'Printing & Technology', nameAr: 'طباعة وتكنولوجيا', parentId: null, icon: 'fas fa-print', color: 'gray' }
+        ];
+
+        let subcategories = [
+            { id: 'ballpoint', name: 'Ballpoint Pens', nameAr: 'أقلام حبر جاف', parentId: 'pens' },
+            { id: 'gel', name: 'Gel Pens', nameAr: 'أقلام جيل', parentId: 'pens' },
+            { id: 'fountain', name: 'Fountain Pens', nameAr: 'أقلام حبر', parentId: 'pens' },
+            { id: 'spiral', name: 'Spiral Notebooks', nameAr: 'دفاتر حلزونية', parentId: 'notebooks' },
+            { id: 'bound', name: 'Bound Notebooks', nameAr: 'دفاتر مجلدة', parentId: 'notebooks' },
+            { id: 'staplers', name: 'Staplers', nameAr: 'دباسات', parentId: 'office' },
+            { id: 'clips', name: 'Paper Clips', nameAr: 'مشابك ورق', parentId: 'office' }
+        ];
+
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('border-blue-500', 'text-blue-600');
+                button.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to clicked button
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+            event.target.classList.add('border-blue-500', 'text-blue-600');
+
+            // Load data for specific tabs
+            if (tabName === 'orders') {
+                loadOrders();
+            } else if (tabName === 'products') {
+                loadProducts();
+            } else if (tabName === 'categories') {
+                loadCategories();
+            } else if (tabName === 'inventory') {
+                loadInventory();
+            }
+        }
+
+        function loadOrders() {
+            const tbody = document.querySelector('#orders-tab tbody');
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${order.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.customer}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.items.map(item => `${item.name} × ${item.quantity}`).join(', ')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.total.toFixed(2)} <span class="riyal-symbol">﷼</span></td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="text-xs rounded border-gray-300">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="paid" ${order.status === 'paid' ? 'selected' : ''}>Paid</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                            <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Ready for Pickup</option>
+                            <option value="picked_up" ${order.status === 'picked_up' ? 'selected' : ''}>Picked Up</option>
+                            <option value="returned" ${order.status === 'returned' ? 'selected' : ''}>Returned</option>
+                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="editOrder('${order.id}')" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
+                        <button onclick="viewOrder('${order.id}')" class="text-green-600 hover:text-green-900 mr-3">View</button>
+                        <button onclick="printOrder('${order.id}')" class="text-purple-600 hover:text-purple-900">Print</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadProducts() {
+            // Load products from localStorage first
+            loadProductsFromStorage();
+            
+            const container = document.querySelector('#products-tab .grid');
+            container.innerHTML = products.map(product => `
+                <div class="border rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-medium">${product.name}</h3>
+                        <span class="text-sm text-gray-500">${product.price.toFixed(2)} <span class="riyal-symbol">﷼</span></span>
+                    </div>
+                    <div class="mb-3">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-32 object-cover rounded mb-2">
+                        <p class="text-sm text-gray-600">Stock: ${product.stock}</p>
+                        <p class="text-xs text-gray-500">Category: ${product.category}</p>
+                        ${product.rating ? `<p class="text-xs text-yellow-600">Rating: ${product.rating}/5</p>` : ''}
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editProduct(${product.id})" class="btn-secondary text-xs">Edit</button>
+                        <button onclick="deleteProduct(${product.id})" class="btn-danger text-xs">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadProductsFromStorage() {
+            const storedProducts = localStorage.getItem('stationeryProducts');
+            if (storedProducts) {
+                const parsedProducts = JSON.parse(storedProducts);
+                // Merge with existing products, avoiding duplicates
+                const existingIds = new Set(products.map(p => p.id));
+                const newProducts = parsedProducts.filter(p => !existingIds.has(p.id));
+                products = [...products, ...newProducts];
+            }
+        }
+
+        function loadInventory() {
+            const tbody = document.getElementById('inventory-tbody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = products.map(product => {
+                const status = product.stock > 20 ? 'In Stock' : product.stock > 5 ? 'Low Stock' : 'Out of Stock';
+                const statusColor = product.stock > 20 ? 'bg-green-100 text-green-800' : 
+                                  product.stock > 5 ? 'bg-yellow-100 text-yellow-800' : 
+                                  'bg-red-100 text-red-800';
+                
+                // Calculate actual sold today from orders
+                const today = new Date().toDateString();
+                const soldToday = orders.filter(order => {
+                    const orderDate = new Date(order.timestamp || order.date).toDateString();
+                    return orderDate === today && order.items.some(item => item.name === product.name);
+                }).reduce((total, order) => {
+                    return total + order.items
+                        .filter(item => item.name === product.name)
+                        .reduce((sum, item) => sum + item.quantity, 0);
+                }, 0);
+                
+                return `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.stock}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${soldToday}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColor}">${status}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="updateStock(${product.id}, prompt('Enter new stock quantity:', ${product.stock}))" class="text-blue-600 hover:text-blue-900">Update</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                showNotification(`Order ${orderId} status updated to ${newStatus}`, 'success');
+                loadOrders();
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg text-white ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 
+                'bg-blue-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function editOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Edit Order ${orderId}</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveOrderChanges(event, '${orderId}')">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Customer Email</label>
+                                    <input type="email" value="${order.customer}" name="customer" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                    <select name="status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                        <option value="paid" ${order.status === 'paid' ? 'selected' : ''}>Paid</option>
+                                        <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                                        <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Ready for Pickup</option>
+                                        <option value="picked_up" ${order.status === 'picked_up' ? 'selected' : ''}>Picked Up</option>
+                                        <option value="returned" ${order.status === 'returned' ? 'selected' : ''}>Returned</option>
+                                        <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Order Items</label>
+                                <div id="order-items">
+                                    ${order.items.map((item, index) => `
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <input type="text" value="${item.name}" name="itemName_${index}" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <input type="number" value="${item.quantity}" name="itemQuantity_${index}" min="1" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <input type="number" value="${item.price}" name="itemPrice_${index}" step="0.01" min="0" class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <button type="button" onclick="removeOrderItem(this)" class="text-red-600 hover:text-red-800">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <button type="button" onclick="addOrderItem()" class="text-blue-600 hover:text-blue-800 text-sm">
+                                    <i class="fas fa-plus mr-1"></i>Add Item
+                                </button>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                                <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">${order.notes}</textarea>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveOrderChanges(event, orderId) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const order = orders.find(o => o.id === orderId);
+            
+            if (order) {
+                order.customer = formData.get('customer');
+                order.status = formData.get('status');
+                order.notes = formData.get('notes');
+                
+                // Update items
+                const items = [];
+                let index = 0;
+                while (formData.get(`itemName_${index}`)) {
+                    items.push({
+                        name: formData.get(`itemName_${index}`),
+                        quantity: parseInt(formData.get(`itemQuantity_${index}`)),
+                        price: parseFloat(formData.get(`itemPrice_${index}`))
+                    });
+                    index++;
+                }
+                order.items = items;
+                
+                // Recalculate total
+                order.total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
+                showNotification(`Order ${orderId} updated successfully`, 'success');
+                loadOrders();
+                event.target.closest('.fixed').remove();
+            }
+        }
+
+        function addOrderItem() {
+            const container = document.getElementById('order-items');
+            const index = container.children.length;
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'flex items-center space-x-2 mb-2';
+            itemDiv.innerHTML = `
+                <input type="text" name="itemName_${index}" placeholder="Item name" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="number" name="itemQuantity_${index}" value="1" min="1" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="number" name="itemPrice_${index}" value="0" step="0.01" min="0" class="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="button" onclick="removeOrderItem(this)" class="text-red-600 hover:text-red-800">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(itemDiv);
+        }
+
+        function removeOrderItem(button) {
+            button.parentElement.remove();
+        }
+
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Edit Product</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveProductChanges(event, ${productId})">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name (English)</label>
+                                    <input type="text" value="${product.name}" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name (Arabic)</label>
+                                    <input type="text" value="${product.nameAr}" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Price (SAR) - Without VAT</label>
+                                    <input type="number" value="${product.originalPrice || product.price / 1.15}" name="price" step="0.01" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <p class="text-xs text-gray-500 mt-1">VAT (15%) will be added automatically</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                                    <input type="number" value="${product.stock}" name="stock" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <select name="category" id="edit-product-category" onchange="updateSubcategoryOptions('edit-product-category', 'edit-product-subcategory')" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Category</option>
+                                        <option value="pens" ${product.category === 'pens' ? 'selected' : ''}>Pens & Writing</option>
+                                        <option value="notebooks" ${product.category === 'notebooks' ? 'selected' : ''}>Notebooks & Paper</option>
+                                        <option value="office" ${product.category === 'office' ? 'selected' : ''}>Office Supplies</option>
+                                        <option value="art" ${product.category === 'art' ? 'selected' : ''}>Art Supplies</option>
+                                        <option value="school" ${product.category === 'school' ? 'selected' : ''}>School Supplies</option>
+                                        <option value="printing" ${product.category === 'printing' ? 'selected' : ''}>Printing & Technology</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
+                                    <select name="subcategory" id="edit-product-subcategory" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Subcategory</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+                                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                                    <div class="space-y-1 text-center">
+                                        <i class="fas fa-camera text-gray-400 text-3xl mb-2"></i>
+                                        <div class="flex text-sm text-gray-600">
+                                            <label for="edit-image-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                                <span>Upload new image</span>
+                                                <input id="edit-image-upload" name="image" type="file" class="sr-only" accept="image/*" onchange="handleEditImageUpload(event)">
+                                            </label>
+                                            <p class="pl-1">or keep current</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-center">
+                                    <img id="edit-image-preview" src="${product.image}" alt="Product preview" class="w-32 h-32 object-cover rounded border mx-auto">
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function handleEditImageUpload(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('edit-image-preview');
+            
+            if (file) {
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification('File size must be less than 10MB', 'error');
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Please select an image file', 'error');
+                    return;
+                }
+                
+                // Create object URL for preview
+                const imageUrl = URL.createObjectURL(file);
+                preview.src = imageUrl;
+                
+                // Store the file for later use
+                preview.dataset.file = file;
+            }
+        }
+
+        function saveProductChanges(event, productId) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const product = products.find(p => p.id === productId);
+            const preview = document.getElementById('edit-image-preview');
+            
+            if (product) {
+                product.name = formData.get('name');
+                product.nameAr = formData.get('nameAr');
+                
+                // Calculate VAT-included price
+                const originalPrice = parseFloat(formData.get('price'));
+                product.originalPrice = originalPrice; // Store original price without VAT
+                product.price = originalPrice * 1.15; // Store VAT-included price
+                
+                product.stock = parseInt(formData.get('stock'));
+                product.category = formData.get('category');
+                product.subcategory = formData.get('subcategory') || '';
+                
+                // Handle image update
+                if (preview.dataset.file) {
+                    // Convert file to base64 for storage
+                    const file = preview.dataset.file;
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        product.image = e.target.result;
+                        
+                        // Save to localStorage for sync with main website
+                        localStorage.setItem('stationeryProducts', JSON.stringify(products));
+                        
+                        showNotification(`Product "${product.name}" updated successfully`, 'success');
+                        loadProducts();
+                        loadInventory();
+                        event.target.closest('.fixed').remove();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Keep current image
+                    
+                    // Save to localStorage for sync with main website
+                    localStorage.setItem('stationeryProducts', JSON.stringify(products));
+                    
+                    showNotification(`Product "${product.name}" updated successfully`, 'success');
+                    loadProducts();
+                    loadInventory();
+                    event.target.closest('.fixed').remove();
+                }
+            }
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== productId);
+                
+                // Save to localStorage for sync with main website
+                localStorage.setItem('stationeryProducts', JSON.stringify(products));
+                
+                showNotification('Product deleted successfully', 'success');
+                loadProducts();
+                loadInventory();
+            }
+        }
+
+        function updateStock(productId, newStock) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.stock = parseInt(newStock);
+                showNotification(`Stock updated for ${product.name}`, 'success');
+            }
+        }
+
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Order Details - ${orderId}</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-sm font-medium text-gray-700">Customer Email</label>
+                                    <p class="text-gray-900">${order.customer}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-gray-700">Status</label>
+                                    <p class="text-gray-900 capitalize">${order.status.replace('_', ' ')}</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-gray-700">Order Items</label>
+                                <div class="mt-2 space-y-2">
+                                    ${order.items.map(item => `
+                                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                                            <span>${item.name} × ${item.quantity}</span>
+                                            <span class="font-medium">${(item.price * item.quantity).toFixed(2)} <span class="riyal-symbol">﷼</span></span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="border-t pt-4">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <span>Total:</span>
+                                    <span>${order.total.toFixed(2)} <span class="riyal-symbol">﷼</span></span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-gray-700">Payment Method</label>
+                                <p class="text-gray-900">${order.paymentMethod}</p>
+                            </div>
+                            
+                            <div>
+                                <label class="text-sm font-medium text-gray-700">Order Date</label>
+                                <p class="text-gray-900">${order.date}</p>
+                            </div>
+                            
+                            ${order.notes ? `
+                                <div>
+                                    <label class="text-sm font-medium text-gray-700">Notes</label>
+                                    <p class="text-gray-900">${order.notes}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="flex justify-end space-x-3 mt-6">
+                            <button onclick="this.closest('.fixed').remove()" class="btn-secondary">Close</button>
+                            <button onclick="printOrder('${orderId}')" class="btn-primary">Print Receipt</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function addNewProduct() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Add New Product</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveNewProduct(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name (English)</label>
+                                    <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Name (Arabic)</label>
+                                    <input type="text" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Price (SAR) - Without VAT</label>
+                                    <input type="number" name="price" step="0.01" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <p class="text-xs text-gray-500 mt-1">VAT (15%) will be added automatically</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                                    <input type="number" name="stock" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <select name="category" id="new-product-category" onchange="updateSubcategoryOptions('new-product-category', 'new-product-subcategory')" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Category</option>
+                                        <option value="pens">Pens & Writing</option>
+                                        <option value="notebooks">Notebooks & Paper</option>
+                                        <option value="office">Office Supplies</option>
+                                        <option value="art">Art Supplies</option>
+                                        <option value="school">School Supplies</option>
+                                        <option value="printing">Printing & Technology</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
+                                    <select name="subcategory" id="new-product-subcategory" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select Subcategory</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                                <div class="space-y-1 text-center">
+                                    <i class="fas fa-camera text-gray-400 text-3xl mb-2"></i>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="image-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                            <span>Upload an image</span>
+                                            <input id="image-upload" name="image" type="file" class="sr-only" accept="image/*" onchange="handleImageUpload(event)">
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <img id="image-preview" src="" alt="Product preview" class="w-32 h-32 object-cover rounded border hidden mx-auto">
+                            </div>
+                        </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Product</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add image preview functionality
+            const imageInput = modal.querySelector('input[name="image"]');
+            const imagePreview = modal.querySelector('#image-preview');
+            imageInput.addEventListener('input', function() {
+                if (this.value) {
+                    imagePreview.src = this.value;
+                    imagePreview.classList.remove('hidden');
+                } else {
+                    imagePreview.classList.add('hidden');
+                }
+            });
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('image-preview');
+            
+            if (file) {
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification('File size must be less than 10MB', 'error');
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Please select an image file', 'error');
+                    return;
+                }
+                
+                // Create object URL for preview
+                const imageUrl = URL.createObjectURL(file);
+                preview.src = imageUrl;
+                preview.classList.remove('hidden');
+                
+                // Store the file for later use
+                preview.dataset.file = file;
+            }
+        }
+
+        function saveNewProduct(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const preview = document.getElementById('image-preview');
+            
+            // Get image data
+            let imageData = '';
+            if (preview.dataset.file) {
+                // Convert file to base64 for storage
+                const file = preview.dataset.file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    saveProductWithImage(formData, imageData);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // No image provided, use placeholder
+                imageData = 'https://via.placeholder.com/300x300?text=No+Image';
+                saveProductWithImage(formData, imageData);
+            }
+        }
+
+        function saveProductWithImage(formData, imageData) {
+            // Generate ID safely
+            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+            
+            // Calculate VAT-included price
+            const originalPrice = parseFloat(formData.get('price'));
+            const priceWithVAT = originalPrice * 1.15; // Add 15% VAT
+            
+            const newProduct = {
+                id: newId,
+                name: formData.get('name'),
+                nameAr: formData.get('nameAr'),
+                price: priceWithVAT, // Store VAT-included price
+                originalPrice: originalPrice, // Store original price without VAT
+                stock: parseInt(formData.get('stock')),
+                category: formData.get('category'),
+                subcategory: formData.get('subcategory') || '',
+                rating: parseFloat(formData.get('rating')) || 0,
+                description: formData.get('description') || '',
+                descriptionAr: formData.get('descriptionAr') || '',
+                image: imageData
+            };
+            
+            products.push(newProduct);
+            
+            // Save to localStorage for sync with main website
+            localStorage.setItem('stationeryProducts', JSON.stringify(products));
+            
+            console.log('Product saved:', newProduct);
+            console.log('All products:', products);
+            console.log('Products saved to localStorage:', localStorage.getItem('stationeryProducts'));
+            
+            showNotification(`Product "${newProduct.name}" added successfully`, 'success');
+            loadProducts();
+            loadInventory();
+            updateReports();
+            document.querySelector('.fixed').remove();
+        }
+
+        function printOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Order Receipt - ${orderId}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; font-size: 12px; margin: 20px; }
+                            .text-center { text-align: center; }
+                            .font-bold { font-weight: bold; }
+                            .border-t { border-top: 1px solid #ccc; }
+                            .mt-4 { margin-top: 16px; }
+                            .mb-2 { margin-bottom: 8px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="text-center mb-4">
+                            <h3 class="font-bold">Knowledge Development Stationery</h3>
+                            <p>قرطاسية تنمية المعرفة</p>
+                            <p>8480 Hamad Al Jaser, AR Rawdah District</p>
+                            <p>Jeddah 23435, Saudi Arabia</p>
+                            <p>+966 12 236 7510</p>
+                        </div>
+                        
+                        <div class="border-t pt-2 mb-4">
+                            <div>Order #: ${orderId}</div>
+                            <div>Date: ${order.date}</div>
+                            <div>Customer: ${order.customer}</div>
+                        </div>
+
+                        <div class="mb-4">
+                            ${order.items.map(item => `
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span>${item.name} × ${item.quantity}</span>
+                                    <span>${(item.price * item.quantity).toFixed(2)} ﷼</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="border-t pt-2">
+                            <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                                <span>Total:</span>
+                                <span>${order.total.toFixed(2)} ﷼</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-2 mt-4 text-center">
+                            <p>Payment Method: ${order.paymentMethod}</p>
+                            <p class="font-bold" style="color: green;">PAYMENT SUCCESSFUL</p>
+                            <p>Show this receipt for pickup</p>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(`${window.location.origin}/order-tracker.html?id=${orderId}`)}" alt="QR Code" style="width: 120px; height: 120px;">
+                            <p style="font-size: 10px; margin-top: 4px;">Scan for order details</p>
+                        </div>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Check authentication
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            const loginTime = localStorage.getItem('adminLoginTime');
+            
+            console.log('Checking auth - isLoggedIn:', isLoggedIn, 'loginTime:', loginTime);
+            
+            if (!isLoggedIn || isLoggedIn !== 'true' || !loginTime) {
+                console.log('No valid session found, redirecting to login');
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+            
+            const loginDate = new Date(loginTime);
+            const now = new Date();
+            const hoursSinceLogin = (now - loginDate) / (1000 * 60 * 60);
+            
+            console.log('Hours since login:', hoursSinceLogin);
+            
+            // Auto-logout after 8 hours
+            if (hoursSinceLogin >= 8) {
+                console.log('Session expired, redirecting to login');
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+            
+            console.log('Authentication successful');
+            return true;
+        }
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            showNotification('Logged out successfully', 'success');
+            setTimeout(() => {
+                window.location.href = 'admin-login.html';
+            }, 1000);
+        }
+
+        function exportReport() {
+            // Calculate report data
+            const totalOrders = orders.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+            const completedOrders = orders.filter(order => order.status === 'ready' || order.status === 'picked_up').length;
+            const pendingOrders = orders.filter(order => order.status === 'pending' || order.status === 'paid' || order.status === 'processing').length;
+            
+            // Create CSV content
+            const csvContent = [
+                ['Order ID', 'Customer', 'Items', 'Total', 'Status', 'Date', 'Payment Method'],
+                ...orders.map(order => [
+                    order.id,
+                    order.customer,
+                    order.items.map(item => `${item.name} (${item.quantity})`).join('; '),
+                    order.total.toFixed(2),
+                    order.status,
+                    order.date,
+                    order.paymentMethod
+                ])
+            ].map(row => row.join(',')).join('\n');
+            
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `sales-report-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Report exported successfully!', 'success');
+        }
+
+        function showAddStockModal() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Add Stock & Edit Product</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="addStock(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Select Product</label>
+                                <select name="productId" id="stock-product-select" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required onchange="loadProductDetails(this.value)">
+                                    <option value="">Choose a product...</option>
+                                    ${products.map(product => `
+                                        <option value="${product.id}">${product.name} (Current: ${product.stock})</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            
+                            <div id="product-details" class="hidden mb-4 p-4 bg-gray-50 rounded-lg">
+                                <h3 class="font-medium text-gray-900 mb-3">Product Details</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">English Name</label>
+                                        <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Arabic Name</label>
+                                        <input type="text" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Price (SAR)</label>
+                                        <input type="number" name="price" step="0.01" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Section/Category</label>
+                                        <select name="category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option value="pens">Pens & Writing</option>
+                                            <option value="notebooks">Notebooks & Paper</option>
+                                            <option value="office">Office Supplies</option>
+                                            <option value="art">Art Supplies</option>
+                                            <option value="school">School Supplies</option>
+                                            <option value="printing">Printing & Technology</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Quantity to Add</label>
+                                <input type="number" name="quantity" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Reason (Optional)</label>
+                                <input type="text" name="reason" placeholder="e.g., New shipment, Returned items" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Stock & Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function loadProductDetails(productId) {
+            const product = products.find(p => p.id === parseInt(productId));
+            const detailsDiv = document.getElementById('product-details');
+            
+            if (product) {
+                detailsDiv.classList.remove('hidden');
+                
+                // Fill in the form fields
+                detailsDiv.querySelector('input[name="name"]').value = product.name;
+                detailsDiv.querySelector('input[name="nameAr"]').value = product.nameAr;
+                detailsDiv.querySelector('input[name="price"]').value = product.price;
+                detailsDiv.querySelector('select[name="category"]').value = product.category;
+            } else {
+                detailsDiv.classList.add('hidden');
+            }
+        }
+
+        function addStock(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const productId = parseInt(formData.get('productId'));
+            const quantity = parseInt(formData.get('quantity'));
+            const reason = formData.get('reason');
+            
+            // Get updated product details
+            const name = formData.get('name');
+            const nameAr = formData.get('nameAr');
+            const price = parseFloat(formData.get('price'));
+            const category = formData.get('category');
+            
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // Update product details
+                product.name = name;
+                product.nameAr = nameAr;
+                product.price = price;
+                product.category = category;
+                product.stock += quantity;
+                
+                // Save to localStorage for sync with main website
+                localStorage.setItem('stationeryProducts', JSON.stringify(products));
+                
+                showNotification(`Updated ${product.name} and added ${quantity} units. New stock: ${product.stock}`, 'success');
+                loadProducts();
+                loadInventory();
+                event.target.closest('.fixed').remove();
+            }
+        }
+
+        function showBulkImport() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Bulk Import Products</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload CSV File</label>
+                            <input type="file" id="csv-file" accept=".csv" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-medium mb-2">CSV Format:</h3>
+                            <p class="text-sm text-gray-600 mb-2">Required columns: name, nameAr, price, stock, category, rating, description, descriptionAr</p>
+                            <p class="text-xs text-gray-500">Example: Premium Pen, قلم متميز, 15.50, 50, pens, 4.5, High quality pen, قلم عالي الجودة</p>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-3">
+                            <button onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                            <button onclick="importProducts()" class="btn-primary">Import Products</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function importProducts() {
+            const fileInput = document.getElementById('csv-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Please select a CSV file', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const csv = e.target.result;
+                const lines = csv.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                let imported = 0;
+                let errors = 0;
+                
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim()) {
+                        const values = lines[i].split(',').map(v => v.trim());
+                        
+                        try {
+                            const product = {
+                                id: Math.max(...products.map(p => p.id), 0) + 1 + i,
+                                name: values[0] || 'Unknown Product',
+                                nameAr: values[1] || 'منتج غير معروف',
+                                price: parseFloat(values[2]) || 0,
+                                stock: parseInt(values[3]) || 0,
+                                category: values[4] || 'pens',
+                                rating: parseFloat(values[5]) || 0,
+                                description: values[6] || '',
+                                descriptionAr: values[7] || '',
+                                image: 'https://via.placeholder.com/300x300?text=No+Image'
+                            };
+                            
+                            products.push(product);
+                            imported++;
+                        } catch (error) {
+                            errors++;
+                        }
+                    }
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('stationeryProducts', JSON.stringify(products));
+                
+                showNotification(`Imported ${imported} products successfully${errors > 0 ? `, ${errors} errors` : ''}`, 'success');
+                loadProducts();
+                loadInventory();
+                document.querySelector('.fixed').remove();
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function exportProducts() {
+            const csvContent = [
+                ['name', 'nameAr', 'price', 'stock', 'category', 'rating', 'description', 'descriptionAr'],
+                ...products.map(p => [
+                    p.name,
+                    p.nameAr,
+                    p.price,
+                    p.stock,
+                    p.category,
+                    p.rating || 0,
+                    p.description || '',
+                    p.descriptionAr || ''
+                ])
+            ].map(row => row.join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `products_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('Products exported successfully', 'success');
+        }
+
+        function loadCategories() {
+            loadCategoriesFromStorage();
+            
+            // Load main categories
+            const mainCategoriesList = document.getElementById('main-categories-list');
+            mainCategoriesList.innerHTML = categories.map(category => `
+                <div class="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-2 bg-${category.color}-100 rounded-lg">
+                            <i class="${category.icon} text-${category.color}-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">${category.name}</h4>
+                            <p class="text-sm text-gray-500">${category.nameAr}</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editCategory('${category.id}')" class="btn-secondary text-xs">Edit</button>
+                        <button onclick="deleteCategory('${category.id}')" class="btn-danger text-xs">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Load subcategories
+            const subcategoriesList = document.getElementById('subcategories-list');
+            subcategoriesList.innerHTML = subcategories.map(subcategory => {
+                const parentCategory = categories.find(cat => cat.id === subcategory.parentId);
+                return `
+                    <div class="flex items-center justify-between p-4 bg-gray-50 border rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-2 bg-gray-200 rounded-lg">
+                                <i class="fas fa-tag text-gray-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">${subcategory.name}</h4>
+                                <p class="text-sm text-gray-500">${subcategory.nameAr}</p>
+                                <p class="text-xs text-gray-400">Under: ${parentCategory ? parentCategory.name : 'Unknown'}</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editSubcategory('${subcategory.id}')" class="btn-secondary text-xs">Edit</button>
+                            <button onclick="deleteSubcategory('${subcategory.id}')" class="btn-danger text-xs">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadCategoriesFromStorage() {
+            const storedCategories = localStorage.getItem('stationeryCategories');
+            const storedSubcategories = localStorage.getItem('stationerySubcategories');
+            
+            if (storedCategories) {
+                const parsedCategories = JSON.parse(storedCategories);
+                // Merge with existing categories, avoiding duplicates
+                const existingIds = new Set(categories.map(c => c.id));
+                const newCategories = parsedCategories.filter(c => !existingIds.has(c.id));
+                categories = [...categories, ...newCategories];
+            }
+            
+            if (storedSubcategories) {
+                const parsedSubcategories = JSON.parse(storedSubcategories);
+                // Merge with existing subcategories, avoiding duplicates
+                const existingIds = new Set(subcategories.map(s => s.id));
+                const newSubcategories = parsedSubcategories.filter(s => !existingIds.has(s.id));
+                subcategories = [...subcategories, ...newSubcategories];
+            }
+        }
+
+        function addNewCategory() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Add New Category</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveNewCategory(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (English)</label>
+                                <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (Arabic)</label>
+                                <input type="text" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon Class (FontAwesome)</label>
+                                <input type="text" name="icon" placeholder="fas fa-tag" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Color Theme</label>
+                                <select name="color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="blue">Blue</option>
+                                    <option value="green">Green</option>
+                                    <option value="purple">Purple</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="red">Red</option>
+                                    <option value="gray">Gray</option>
+                                    <option value="indigo">Indigo</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Category</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveNewCategory(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const newCategory = {
+                id: formData.get('name').toLowerCase().replace(/\s+/g, '_'),
+                name: formData.get('name'),
+                nameAr: formData.get('nameAr'),
+                parentId: null,
+                icon: formData.get('icon'),
+                color: formData.get('color')
+            };
+            
+            categories.push(newCategory);
+            
+            // Save to localStorage
+            localStorage.setItem('stationeryCategories', JSON.stringify(categories));
+            
+            showNotification(`Category "${newCategory.name}" added successfully`, 'success');
+            loadCategories();
+            event.target.closest('.fixed').remove();
+        }
+
+        function editCategory(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (!category) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Edit Category</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveCategoryChanges(event, '${categoryId}')">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (English)</label>
+                                <input type="text" name="name" value="${category.name}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (Arabic)</label>
+                                <input type="text" name="nameAr" value="${category.nameAr}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon Class (FontAwesome)</label>
+                                <input type="text" name="icon" value="${category.icon}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Color Theme</label>
+                                <select name="color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="blue" ${category.color === 'blue' ? 'selected' : ''}>Blue</option>
+                                    <option value="green" ${category.color === 'green' ? 'selected' : ''}>Green</option>
+                                    <option value="purple" ${category.color === 'purple' ? 'selected' : ''}>Purple</option>
+                                    <option value="pink" ${category.color === 'pink' ? 'selected' : ''}>Pink</option>
+                                    <option value="yellow" ${category.color === 'yellow' ? 'selected' : ''}>Yellow</option>
+                                    <option value="red" ${category.color === 'red' ? 'selected' : ''}>Red</option>
+                                    <option value="gray" ${category.color === 'gray' ? 'selected' : ''}>Gray</option>
+                                    <option value="indigo" ${category.color === 'indigo' ? 'selected' : ''}>Indigo</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveCategoryChanges(event, categoryId) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const category = categories.find(c => c.id === categoryId);
+            
+            if (category) {
+                category.name = formData.get('name');
+                category.nameAr = formData.get('nameAr');
+                category.icon = formData.get('icon');
+                category.color = formData.get('color');
+                
+                // Save to localStorage
+                localStorage.setItem('stationeryCategories', JSON.stringify(categories));
+                
+                showNotification(`Category "${category.name}" updated successfully`, 'success');
+                loadCategories();
+                event.target.closest('.fixed').remove();
+            }
+        }
+
+        function deleteCategory(categoryId) {
+            if (confirm('Are you sure you want to delete this category? This will also delete all subcategories under it.')) {
+                // Remove category and its subcategories
+                categories = categories.filter(c => c.id !== categoryId);
+                subcategories = subcategories.filter(s => s.parentId !== categoryId);
+                
+                // Save to localStorage
+                localStorage.setItem('stationeryCategories', JSON.stringify(categories));
+                localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+                
+                showNotification('Category deleted successfully', 'success');
+                loadCategories();
+            }
+        }
+
+        function addNewSubcategory() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Add New Subcategory</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveNewSubcategory(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Parent Category</label>
+                                <select name="parentId" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    ${categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('')}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (English)</label>
+                                <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (Arabic)</label>
+                                <input type="text" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Subcategory</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveNewSubcategory(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const newSubcategory = {
+                id: formData.get('name').toLowerCase().replace(/\s+/g, '_'),
+                name: formData.get('name'),
+                nameAr: formData.get('nameAr'),
+                parentId: formData.get('parentId')
+            };
+            
+            subcategories.push(newSubcategory);
+            
+            // Save to localStorage
+            localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+            
+            showNotification(`Subcategory "${newSubcategory.name}" added successfully`, 'success');
+            loadCategories();
+            event.target.closest('.fixed').remove();
+        }
+
+        function editSubcategory(subcategoryId) {
+            const subcategory = subcategories.find(s => s.id === subcategoryId);
+            if (!subcategory) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Edit Subcategory</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveSubcategoryChanges(event, '${subcategoryId}')">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Parent Category</label>
+                                <select name="parentId" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    ${categories.map(cat => `<option value="${cat.id}" ${cat.id === subcategory.parentId ? 'selected' : ''}>${cat.name}</option>`).join('')}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (English)</label>
+                                <input type="text" name="name" value="${subcategory.name}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (Arabic)</label>
+                                <input type="text" name="nameAr" value="${subcategory.nameAr}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveSubcategoryChanges(event, subcategoryId) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const subcategory = subcategories.find(s => s.id === subcategoryId);
+            
+            if (subcategory) {
+                subcategory.name = formData.get('name');
+                subcategory.nameAr = formData.get('nameAr');
+                subcategory.parentId = formData.get('parentId');
+                
+                // Save to localStorage
+                localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+                
+                showNotification(`Subcategory "${subcategory.name}" updated successfully`, 'success');
+                loadCategories();
+                event.target.closest('.fixed').remove();
+            }
+        }
+
+        function deleteSubcategory(subcategoryId) {
+            if (confirm('Are you sure you want to delete this subcategory?')) {
+                subcategories = subcategories.filter(s => s.id !== subcategoryId);
+                
+                // Save to localStorage
+                localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+                
+                showNotification('Subcategory deleted successfully', 'success');
+                loadCategories();
+            }
+        }
+
+        // Update subcategory options based on selected category
+        function updateSubcategoryOptions(categorySelectId, subcategorySelectId) {
+            const categorySelect = document.getElementById(categorySelectId);
+            const subcategorySelect = document.getElementById(subcategorySelectId);
+            
+            if (!categorySelect || !subcategorySelect) return;
+            
+            const selectedCategory = categorySelect.value;
+            
+            // Clear existing options
+            subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+            
+            if (selectedCategory) {
+                // Filter subcategories for the selected category
+                const categorySubcategories = subcategories.filter(sub => sub.parentId === selectedCategory);
+                
+                categorySubcategories.forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory.id;
+                    option.textContent = subcategory.name;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+        }
+
+        // Load data from localStorage
+        function loadDataFromStorage() {
+            // Load orders
+            const storedOrders = localStorage.getItem('stationeryOrders');
+            if (storedOrders) {
+                orders = JSON.parse(storedOrders);
+            }
+            
+            // Load products
+            const storedProducts = localStorage.getItem('stationeryProducts');
+            if (storedProducts) {
+                products = JSON.parse(storedProducts);
+            }
+            
+            // Load categories
+            const storedCategories = localStorage.getItem('stationeryCategories');
+            if (storedCategories) {
+                const parsedCategories = JSON.parse(storedCategories);
+                categories = [...categories, ...parsedCategories];
+            }
+            
+            // Load subcategories
+            const storedSubcategories = localStorage.getItem('stationerySubcategories');
+            if (storedSubcategories) {
+                const parsedSubcategories = JSON.parse(storedSubcategories);
+                subcategories = [...subcategories, ...parsedSubcategories];
+            }
+        }
+
+        // Update reports with real data
+        function updateReports() {
+            const totalOrders = orders.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+            const totalProducts = products.length;
+            
+            // Get unique customers from orders
+            const uniqueCustomers = new Set(orders.map(order => order.customerEmail));
+            const totalCustomers = uniqueCustomers.size;
+            
+            // Update main dashboard stats
+            document.getElementById('total-orders-count').textContent = totalOrders;
+            document.getElementById('total-revenue-amount').innerHTML = `${totalRevenue.toFixed(2)} <span class="riyal-symbol">﷼</span>`;
+            document.getElementById('total-products-count').textContent = totalProducts;
+            document.getElementById('total-customers-count').textContent = totalCustomers;
+            
+            // Update reports tab stats
+            document.getElementById('total-orders').textContent = totalOrders;
+            document.getElementById('total-revenue').innerHTML = `${totalRevenue.toFixed(2)} <span class="riyal-symbol">﷼</span>`;
+            document.getElementById('total-products').textContent = totalProducts;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            if (checkAuth()) {
+                loadDataFromStorage();
+                initializeSampleData();
+                loadOrders();
+                loadProducts();
+                loadCategories();
+                updateReports();
+                loadSettings();
+                startRealTimeSystem();
+            }
+        });
+
+        // Initialize sample data if none exists
+        function initializeSampleData() {
+            const storedProducts = localStorage.getItem('stationeryProducts');
+            if (!storedProducts || JSON.parse(storedProducts).length === 0) {
+                const sampleProducts = [
+                    {
+                        id: 1,
+                        name: 'Blue Ballpoint Pen',
+                        nameAr: 'قلم حبر أزرق',
+                        price: 2.88,
+                        originalPrice: 2.50,
+                        stock: 100,
+                        category: 'Pens & Pencils',
+                        image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop'
+                    },
+                    {
+                        id: 2,
+                        name: 'A4 Notebook',
+                        nameAr: 'دفتر A4',
+                        price: 17.25,
+                        originalPrice: 15.00,
+                        stock: 50,
+                        category: 'Notebooks',
+                        image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop'
+                    },
+                    {
+                        id: 3,
+                        name: 'Stapler',
+                        nameAr: 'دباسة',
+                        price: 28.75,
+                        originalPrice: 25.00,
+                        stock: 30,
+                        category: 'Office Supplies',
+                        image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop'
+                    },
+                    {
+                        id: 4,
+                        name: 'Colored Pencils Set',
+                        nameAr: 'مجموعة أقلام ملونة',
+                        price: 40.25,
+                        originalPrice: 35.00,
+                        stock: 25,
+                        category: 'Art Supplies',
+                        image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop'
+                    },
+                    {
+                        id: 5,
+                        name: 'Calculator',
+                        nameAr: 'آلة حاسبة',
+                        price: 51.75,
+                        originalPrice: 45.00,
+                        stock: 20,
+                        category: 'School Supplies',
+                        image: 'https://images.unsplash.com/photo-1587145820266-a5955ee6f622?w=300&h=300&fit=crop'
+                    }
+                ];
+                localStorage.setItem('stationeryProducts', JSON.stringify(sampleProducts));
+            }
+        }
+
+        // Analytics Functions
+        function loadAnalytics() {
+            updateAnalytics();
+            loadTopProducts();
+        }
+
+        function updateAnalytics() {
+            const period = document.getElementById('analytics-period').value;
+            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
+            
+            // Calculate analytics based on period
+            let filteredOrders = orders;
+            const now = new Date();
+            
+            switch(period) {
+                case 'daily':
+                    filteredOrders = orders.filter(order => {
+                        const orderDate = new Date(order.date);
+                        return orderDate.toDateString() === now.toDateString();
+                    });
+                    break;
+                case 'weekly':
+                    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    filteredOrders = orders.filter(order => new Date(order.date) >= weekAgo);
+                    break;
+                case 'monthly':
+                    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                    filteredOrders = orders.filter(order => new Date(order.date) >= monthAgo);
+                    break;
+                case 'yearly':
+                    const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+                    filteredOrders = orders.filter(order => new Date(order.date) >= yearAgo);
+                    break;
+            }
+            
+            // Update analytics stats
+            const totalOrders = filteredOrders.length;
+            const totalRevenue = filteredOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+            const avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            const uniqueCustomers = new Set(filteredOrders.map(order => order.email)).size;
+            
+            document.getElementById('analytics-total-orders').textContent = totalOrders;
+            document.getElementById('analytics-total-revenue').textContent = totalRevenue.toFixed(2) + ' ﷼';
+            document.getElementById('analytics-avg-order').textContent = avgOrder.toFixed(2) + ' ﷼';
+            document.getElementById('analytics-customers').textContent = uniqueCustomers;
+            
+            // Update charts
+            updateCharts(filteredOrders, period);
+        }
+
+        function updateCharts(orders, period) {
+            // Simple chart implementation without external library
+            const salesChart = document.getElementById('salesChart');
+            const revenueChart = document.getElementById('revenueChart');
+            
+            // Clear previous charts
+            salesChart.innerHTML = '';
+            revenueChart.innerHTML = '';
+            
+            // Group orders by time period
+            const chartData = groupOrdersByPeriod(orders, period);
+            
+            // Create simple bar charts
+            createSimpleChart(salesChart, chartData, 'Orders', 'orders');
+            createSimpleChart(revenueChart, chartData, 'Revenue (﷼)', 'revenue');
+        }
+
+        function groupOrdersByPeriod(orders, period) {
+            const groups = {};
+            
+            orders.forEach(order => {
+                const date = new Date(order.date);
+                let key;
+                
+                switch(period) {
+                    case 'daily':
+                        key = date.toDateString();
+                        break;
+                    case 'weekly':
+                        const weekStart = new Date(date);
+                        weekStart.setDate(date.getDate() - date.getDay());
+                        key = weekStart.toDateString();
+                        break;
+                    case 'monthly':
+                        key = date.getFullYear() + '-' + (date.getMonth() + 1);
+                        break;
+                    case 'yearly':
+                        key = date.getFullYear().toString();
+                        break;
+                }
+                
+                if (!groups[key]) {
+                    groups[key] = { orders: 0, revenue: 0 };
+                }
+                groups[key].orders += 1;
+                groups[key].revenue += order.total || 0;
+            });
+            
+            return groups;
+        }
+
+        function createSimpleChart(canvas, data, title, type) {
+            const ctx = canvas.getContext('2d');
+            const labels = Object.keys(data).sort();
+            const values = labels.map(label => data[label][type]);
+            const maxValue = Math.max(...values, 1);
+            
+            // Draw simple bar chart
+            const barWidth = canvas.width / labels.length * 0.8;
+            const barSpacing = canvas.width / labels.length * 0.2;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#3B82F6';
+            
+            labels.forEach((label, index) => {
+                const barHeight = (values[index] / maxValue) * (canvas.height - 40);
+                const x = index * (barWidth + barSpacing) + barSpacing / 2;
+                const y = canvas.height - barHeight - 20;
+                
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                // Draw label
+                ctx.fillStyle = '#374151';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(label.substring(0, 10), x + barWidth / 2, canvas.height - 5);
+                ctx.fillStyle = '#3B82F6';
+            });
+        }
+
+        function loadTopProducts() {
+            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
+            const products = JSON.parse(localStorage.getItem('stationeryProducts') || '[]');
+            
+            // Count product sales
+            const productSales = {};
+            orders.forEach(order => {
+                if (order.items) {
+                    order.items.forEach(item => {
+                        if (!productSales[item.product.id]) {
+                            productSales[item.product.id] = {
+                                product: item.product,
+                                quantity: 0,
+                                revenue: 0
+                            };
+                        }
+                        productSales[item.product.id].quantity += item.quantity;
+                        productSales[item.product.id].revenue += item.product.price * item.quantity;
+                    });
+                }
+            });
+            
+            // Sort by quantity sold
+            const topProducts = Object.values(productSales)
+                .sort((a, b) => b.quantity - a.quantity)
+                .slice(0, 5);
+            
+            const topProductsList = document.getElementById('top-products-list');
+            topProductsList.innerHTML = topProducts.map((item, index) => `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-semibold mr-3">
+                            ${index + 1}
+                        </span>
+                        <div>
+                            <p class="font-medium text-gray-900">${item.product.name}</p>
+                            <p class="text-sm text-gray-500">${item.product.category}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold text-gray-900">${item.quantity} sold</p>
+                        <p class="text-sm text-gray-500">${item.revenue.toFixed(2)} ﷼</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function refreshAnalytics() {
+            loadAnalytics();
+            showNotification('Analytics refreshed successfully!', 'success');
+        }
+
+        // Customer Management Functions
+        function loadCustomers() {
+            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
+            const customers = {};
+            
+            // Process orders to extract customer data
+            orders.forEach(order => {
+                const email = order.customerEmail;
+                if (!customers[email]) {
+                    customers[email] = {
+                        email: email,
+                        orders: 0,
+                        totalSpent: 0,
+                        firstOrder: order.timestamp,
+                        lastOrder: order.timestamp
+                    };
+                }
+                customers[email].orders += 1;
+                customers[email].totalSpent += order.total || 0;
+                if (new Date(order.timestamp) > new Date(customers[email].lastOrder)) {
+                    customers[email].lastOrder = order.timestamp;
+                }
+                if (new Date(order.timestamp) < new Date(customers[email].firstOrder)) {
+                    customers[email].firstOrder = order.timestamp;
+                }
+            });
+            
+            const customerList = Object.values(customers);
+            
+            // Update customer stats
+            document.getElementById('total-customers').textContent = customerList.length;
+            
+            const thisMonth = new Date();
+            thisMonth.setMonth(thisMonth.getMonth() - 1);
+            const newCustomers = customerList.filter(c => new Date(c.firstOrder) >= thisMonth).length;
+            document.getElementById('new-customers').textContent = newCustomers;
+            
+            const avgOrders = customerList.length > 0 ? (customerList.reduce((sum, c) => sum + c.orders, 0) / customerList.length).toFixed(1) : 0;
+            document.getElementById('avg-orders-customer').textContent = avgOrders;
+            
+            const avgSpend = customerList.length > 0 ? (customerList.reduce((sum, c) => sum + c.totalSpent, 0) / customerList.length).toFixed(2) : 0;
+            document.getElementById('avg-spend-customer').textContent = avgSpend + ' ﷼';
+            
+            // Update customer table
+            const tbody = document.getElementById('customers-table-body');
+            tbody.innerHTML = customerList.map(customer => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-gray-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${customer.email.split('@')[0]}</div>
+                                <div class="text-sm text-gray-500">Customer</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.email}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.orders}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.totalSpent.toFixed(2)} ﷼</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(customer.lastOrder).toLocaleDateString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="viewCustomerDetails('${customer.email}')" class="text-blue-600 hover:text-blue-900 mr-3">View</button>
+                        <button onclick="sendEmailToCustomer('${customer.email}')" class="text-green-600 hover:text-green-900">Email</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function refreshCustomers() {
+            loadCustomers();
+            showNotification('Customer data refreshed!', 'success');
+        }
+
+        function exportCustomers() {
+            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
+            const customers = {};
+            
+            orders.forEach(order => {
+                const email = order.customerEmail;
+                if (!customers[email]) {
+                    customers[email] = {
+                        email: email,
+                        orders: 0,
+                        totalSpent: 0,
+                        firstOrder: order.timestamp,
+                        lastOrder: order.timestamp
+                    };
+                }
+                customers[email].orders += 1;
+                customers[email].totalSpent += order.total || 0;
+                if (new Date(order.timestamp) > new Date(customers[email].lastOrder)) {
+                    customers[email].lastOrder = order.timestamp;
+                }
+            });
+            
+            const customerList = Object.values(customers);
+            const csvContent = [
+                ['Email', 'Orders', 'Total Spent', 'First Order', 'Last Order'],
+                ...customerList.map(c => [c.email, c.orders, c.totalSpent.toFixed(2), c.firstOrder, c.lastOrder])
+            ].map(row => row.join(',')).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'customers.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('Customer data exported!', 'success');
+        }
+
+        function viewCustomerDetails(email) {
+            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
+            const customerOrders = orders.filter(order => order.customerEmail === email);
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Customer Details: ${email}</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-600">Total Orders</p>
+                                <p class="text-lg font-semibold">${customerOrders.length}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Total Spent</p>
+                                <p class="text-lg font-semibold">${customerOrders.reduce((sum, order) => sum + (order.total || 0), 0).toFixed(2)} ﷼</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Recent Orders</h4>
+                            <div class="space-y-2 max-h-48 overflow-y-auto">
+                                ${customerOrders.slice(0, 5).map(order => `
+                                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                                        <span class="text-sm">${order.id}</span>
+                                        <span class="text-sm">${(order.total || 0).toFixed(2)} ﷼</span>
+                                        <span class="text-xs text-gray-500">${new Date(order.timestamp).toLocaleDateString()}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function sendEmailToCustomer(email) {
+            window.open(`mailto:${email}?subject=Thank you for your business!`, '_blank');
+        }
+
+        // Notification Functions
+        function loadNotifications() {
+            const notifications = JSON.parse(localStorage.getItem('stationeryNotifications') || '[]');
+            const notificationsList = document.getElementById('notifications-list');
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="p-6 text-center text-gray-500">
+                        <i class="fas fa-bell-slash text-4xl mb-4"></i>
+                        <p>No notifications yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            notificationsList.innerHTML = notifications.map(notification => `
+                <div class="p-4 ${notification.read ? 'bg-gray-50' : 'bg-blue-50 border-l-4 border-blue-400'}">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas ${notification.icon} text-${notification.type === 'success' ? 'green' : notification.type === 'warning' ? 'yellow' : 'blue'}-500"></i>
+                        </div>
+                        <div class="ml-3 flex-1">
+                            <p class="text-sm font-medium text-gray-900">${notification.title}</p>
+                            <p class="text-sm text-gray-600">${notification.message}</p>
+                            <p class="text-xs text-gray-500 mt-1">${new Date(notification.timestamp).toLocaleString()}</p>
+                        </div>
+                        <div class="ml-3">
+                            <button onclick="markNotificationAsRead('${notification.id}')" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function refreshNotifications() {
+            loadNotifications();
+            showNotification('Notifications refreshed!', 'success');
+        }
+
+        function markAllAsRead() {
+            const notifications = JSON.parse(localStorage.getItem('stationeryNotifications') || '[]');
+            notifications.forEach(notification => notification.read = true);
+            localStorage.setItem('stationeryNotifications', JSON.stringify(notifications));
+            loadNotifications();
+            showNotification('All notifications marked as read!', 'success');
+        }
+
+        function markNotificationAsRead(notificationId) {
+            const notifications = JSON.parse(localStorage.getItem('stationeryNotifications') || '[]');
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.read = true;
+                localStorage.setItem('stationeryNotifications', JSON.stringify(notifications));
+                loadNotifications();
+            }
+        }
+
+        function addNotification(title, message, type = 'info', icon = 'fa-info-circle') {
+            const notifications = JSON.parse(localStorage.getItem('stationeryNotifications') || '[]');
+            const notification = {
+                id: 'notif-' + Date.now(),
+                title: title,
+                message: message,
+                type: type,
+                icon: icon,
+                timestamp: new Date().toISOString(),
+                read: false
+            };
+            notifications.unshift(notification);
+            localStorage.setItem('stationeryNotifications', JSON.stringify(notifications));
+            loadNotifications();
+        }
+
+        // Settings Functions
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('stationerySettings') || '{}');
+            
+            document.getElementById('store-name').value = settings.storeName || 'Knowledge Development Stationery';
+            document.getElementById('store-email').value = settings.storeEmail || 'info@kdstationery.com';
+            document.getElementById('store-phone').value = settings.storePhone || '+966 12 236 7510';
+            document.getElementById('store-address').value = settings.storeAddress || '8480 Hamad Al Jaser, AR Rawdah District, Jeddah 23435, Saudi Arabia';
+            document.getElementById('vat-number').value = settings.vatNumber || '300012345600003';
+            document.getElementById('cr-number').value = settings.crNumber || '1010123456';
+            document.getElementById('currency').value = settings.currency || 'SAR';
+            document.getElementById('default-language').value = settings.defaultLanguage || 'en';
+        }
+
+        function saveSettings() {
+            const settings = {
+                storeName: document.getElementById('store-name').value,
+                storeEmail: document.getElementById('store-email').value,
+                storePhone: document.getElementById('store-phone').value,
+                storeAddress: document.getElementById('store-address').value,
+                vatNumber: document.getElementById('vat-number').value,
+                crNumber: document.getElementById('cr-number').value,
+                currency: document.getElementById('currency').value,
+                defaultLanguage: document.getElementById('default-language').value
+            };
+            
+            localStorage.setItem('stationerySettings', JSON.stringify(settings));
+            showNotification('Settings saved successfully!', 'success');
+        }
+
+        // Real-time System Functions
+        function startRealTimeSystem() {
+            // Check for new orders every 5 seconds
+            setInterval(() => {
+                checkForNewOrders();
+                checkLowStock();
+            }, 5000);
+            
+            // Check for notifications every 10 seconds
+            setInterval(() => {
+                loadNotifications();
+            }, 10000);
+        }
+
+        function checkForNewOrders() {
+            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
+            const lastCheck = localStorage.getItem('lastOrderCheck') || '0';
+            const recentOrders = orders.filter(order => new Date(order.timestamp) > new Date(parseInt(lastCheck)));
+            
+            if (recentOrders.length > 0) {
+                recentOrders.forEach(order => {
+                    addNotification(
+                        'New Order Received',
+                        `Order ${order.id} for ${order.total.toFixed(2)} ﷼`,
+                        'success',
+                        'fa-shopping-cart'
+                    );
+                });
+                localStorage.setItem('lastOrderCheck', Date.now().toString());
+            }
+        }
+
+        function checkLowStock() {
+            const products = JSON.parse(localStorage.getItem('stationeryProducts') || '[]');
+            const lowStockProducts = products.filter(product => product.stock <= 10);
+            
+            lowStockProducts.forEach(product => {
+                const notificationId = 'low-stock-' + product.id;
+                const existingNotifications = JSON.parse(localStorage.getItem('stationeryNotifications') || '[]');
+                const alreadyNotified = existingNotifications.some(n => n.id === notificationId);
+                
+                if (!alreadyNotified) {
+                    addNotification(
+                        'Low Stock Alert',
+                        `${product.name} is running low (${product.stock} left)`,
+                        'warning',
+                        'fa-exclamation-triangle'
+                    );
+                }
+            });
+        }
+
+        // Enhanced showTab function
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('border-blue-500', 'text-blue-600');
+                button.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to clicked button
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+            event.target.classList.add('border-blue-500', 'text-blue-600');
+
+            // Load data for specific tabs
+            if (tabName === 'orders') {
+                loadOrders();
+            } else if (tabName === 'products') {
+                loadProducts();
+            } else if (tabName === 'categories') {
+                loadCategories();
+            } else if (tabName === 'inventory') {
+                loadInventory();
+            } else if (tabName === 'reports') {
+                updateReports();
+            } else if (tabName === 'analytics') {
+                loadAnalytics();
+            } else if (tabName === 'customers') {
+                loadCustomers();
+            } else if (tabName === 'notifications') {
+                loadNotifications();
+            } else if (tabName === 'settings') {
+                loadSettings();
+            }
+        }
+    </script>
+</body>
+</html>
