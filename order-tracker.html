@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Order Tracker - Knowledge Development Stationery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .riyal-symbol {
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="mx-auto h-16 w-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-store text-white text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Order Tracker</h1>
+                <p class="text-gray-600">Knowledge Development Stationery</p>
+                <p class="text-gray-500 text-sm">قرطاسية تنمية المعرفة</p>
+            </div>
+
+            <!-- Order Details -->
+            <div id="order-details" class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="text-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600">Loading order details...</p>
+                </div>
+            </div>
+
+            <!-- Store Info -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Store Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Contact Details</h3>
+                        <p class="text-gray-600 mb-1">📍 8480 Hamad Al Jaser, AR Rawdah District</p>
+                        <p class="text-gray-600 mb-1">Jeddah 23435, Saudi Arabia</p>
+                        <p class="text-gray-600 mb-1">📞 +966 12 236 7510</p>
+                        <p class="text-gray-600">✉️ info@kdstationery.com</p>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">Business Hours</h3>
+                        <p class="text-gray-600 mb-1">Sunday - Thursday: 8:00 AM - 10:00 PM</p>
+                        <p class="text-gray-600 mb-1">Friday: 2:00 PM - 10:00 PM</p>
+                        <p class="text-gray-600">Saturday: 8:00 AM - 10:00 PM</p>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-center">
+                    <a href="stationery-website.html" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Store
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample order data (in real app, this would come from URL parameter)
+        const sampleOrders = {
+            'ORD-1759096838877': {
+                id: 'ORD-1759096838877',
+                customer: 'customer@gmail.com',
+                items: [
+                    { name: 'Printer Paper A4 (1000 sheets)', quantity: 1, price: 85.00 }
+                ],
+                total: 85.00,
+                status: 'ready',
+                paymentMethod: 'MASTERCARD',
+                date: '2025-01-28 18:00:38',
+                notes: 'Ready for pickup'
+            },
+            'ORD-1759096838876': {
+                id: 'ORD-1759096838876',
+                customer: 'john@example.com',
+                items: [
+                    { name: 'Gel Pen Set (12 colors)', quantity: 2, price: 25.00 }
+                ],
+                total: 50.00,
+                status: 'processing',
+                paymentMethod: 'VISA',
+                date: '2025-01-28 17:30:15',
+                notes: 'Being prepared'
+            }
+        };
+
+        function getOrderIdFromUrl() {
+            const path = window.location.pathname;
+            const match = path.match(/\/order\/(.+)$/);
+            return match ? match[1] : null;
+        }
+
+        function getOrderIdFromQuery() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        function loadOrderDetails() {
+            const orderId = getOrderIdFromUrl() || getOrderIdFromQuery() || 'ORD-1759096838877';
+            const order = sampleOrders[orderId];
+            
+            const orderDetails = document.getElementById('order-details');
+            
+            if (order) {
+                orderDetails.innerHTML = `
+                    <div class="border-b border-gray-200 pb-4 mb-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">Order #${order.id}</h2>
+                                <p class="text-gray-600">${order.date}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}">
+                                ${getStatusText(order.status)}
+                            </span>
+                        </div>
+                        <p class="text-gray-600">Customer: ${order.customer}</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Items</h3>
+                        <div class="space-y-3">
+                            ${order.items.map(item => `
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <span class="font-medium">${item.name}</span>
+                                        <span class="text-gray-500 ml-2">× ${item.quantity}</span>
+                                    </div>
+                                    <span class="font-semibold">${(item.price * item.quantity).toFixed(2)} <span class="riyal-symbol">﷼</span></span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-4 mb-6">
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span>Total:</span>
+                            <span>${order.total.toFixed(2)} <span class="riyal-symbol">﷼</span></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-2">Payment Method</h4>
+                            <p class="text-gray-600">${order.paymentMethod}</p>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-2">Status</h4>
+                            <p class="text-gray-600">${getStatusText(order.status)}</p>
+                        </div>
+                    </div>
+
+                    ${order.notes ? `
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h4 class="font-medium text-blue-900 mb-2">Notes</h4>
+                            <p class="text-blue-800">${order.notes}</p>
+                        </div>
+                    ` : ''}
+                `;
+            } else {
+                orderDetails.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-4"></i>
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">Order Not Found</h2>
+                        <p class="text-gray-600">The order you're looking for doesn't exist or has been removed.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'pending': 'bg-yellow-100 text-yellow-800',
+                'paid': 'bg-blue-100 text-blue-800',
+                'processing': 'bg-purple-100 text-purple-800',
+                'ready': 'bg-green-100 text-green-800',
+                'picked_up': 'bg-gray-100 text-gray-800',
+                'returned': 'bg-red-100 text-red-800',
+                'cancelled': 'bg-red-100 text-red-800'
+            };
+            return colors[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getStatusText(status) {
+            const texts = {
+                'pending': 'Pending',
+                'paid': 'Paid',
+                'processing': 'Processing',
+                'ready': 'Ready for Pickup',
+                'picked_up': 'Picked Up',
+                'returned': 'Returned',
+                'cancelled': 'Cancelled'
+            };
+            return texts[status] || status;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(loadOrderDetails, 1000); // Simulate loading
+        });
+    </script>
+</body>
+</html>

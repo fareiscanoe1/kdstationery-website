@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kdstationery.sa/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin.html
+Disallow: /admin-login.html
+
+# Allow order tracker
+Allow: /order-tracker.html
