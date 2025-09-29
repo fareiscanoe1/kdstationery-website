@@ -999,9 +999,11 @@
     </footer>
 
     <script>
-        // Products data - Start with one sample product, manage others from admin
+        // Products data - Start with sample products for testing
         let products = [
-            { id: 1, name: 'Sample Product', nameAr: 'منتج تجريبي', price: 25.00, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', stock: 50, rating: 4.5 }
+            { id: 1, name: 'Blue Ballpoint Pen', nameAr: 'قلم حبر جاف أزرق', price: 5.00, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', stock: 50, rating: 4.5 },
+            { id: 2, name: 'Spiral Notebook', nameAr: 'دفتر حلزوني', price: 15.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 30, rating: 4.8 },
+            { id: 3, name: 'Stapler', nameAr: 'دباسة', price: 25.00, image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', category: 'office', stock: 20, rating: 4.2 }
         ];
 
         let cart = [];
@@ -1010,6 +1012,7 @@
         let selectedPaymentMethod = 'mada';
         let currentOrder = null;
         let searchQuery = '';
+        let categories = [];
 
         // Language translations
         const translations = {
@@ -1599,8 +1602,8 @@
                 vat: 0,
                 total: totalPrice,
                 paymentMethod: selectedPaymentMethod,
-                cardNumber: selectedPaymentMethod === 'apple_pay' || selectedPaymentMethod === 'google_pay' ? '****' : cardNumber.slice(-4),
-                cardName: selectedPaymentMethod === 'apple_pay' || selectedPaymentMethod === 'google_pay' ? 'Digital Wallet' : cardName,
+                cardNumber: cardNumber.slice(-4),
+                cardName: cardName,
                 customerEmail: customerEmail,
                 timestamp: new Date().toISOString(),
                 status: 'paid'
@@ -1910,9 +1913,7 @@
                 'visa': isArabic ? 'فيزا' : 'Visa',
                 'mastercard': isArabic ? 'ماستركارد' : 'Mastercard',
                 'amex': isArabic ? 'أمريكان إكسبريس' : 'American Express',
-                'mada': isArabic ? 'مدى' : 'Mada',
-                'apple_pay': isArabic ? 'آبل باي' : 'Apple Pay',
-                'google_pay': isArabic ? 'جوجل باي' : 'Google Pay'
+                'mada': isArabic ? 'مدى' : 'Mada'
             };
             return names[method] || method;
         }
