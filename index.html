@@ -1045,12 +1045,8 @@
     </footer>
 
     <script>
-        // Products data - Start with sample products for testing
-        let products = [
-            { id: 1, name: 'Blue Ballpoint Pen', nameAr: 'قلم حبر جاف أزرق', price: 5.00, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', stock: 50, rating: 4.5 },
-            { id: 2, name: 'Spiral Notebook', nameAr: 'دفتر حلزوني', price: 15.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 30, rating: 4.8 },
-            { id: 3, name: 'Stapler', nameAr: 'دباسة', price: 25.00, image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', category: 'office', stock: 20, rating: 4.2 }
-        ];
+        // Products data - Start empty, load from admin
+        let products = [];
 
         let cart = [];
         let isArabic = false;
@@ -1279,6 +1275,23 @@
                 `;
                 productsGrid.appendChild(productCard);
             });
+            
+            // Show message if no products
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">
+                            <span class="en-text">No Products Available</span>
+                            <span class="ar-text hidden">لا توجد منتجات متاحة</span>
+                        </h3>
+                        <p class="text-gray-500">
+                            <span class="en-text">Products will appear here when added by admin</span>
+                            <span class="ar-text hidden">ستظهر المنتجات هنا عند إضافتها من قبل الإدارة</span>
+                        </p>
+                    </div>
+                `;
+            }
             } catch (error) {
                 console.error('Error loading products:', error);
                 const productsGrid = document.getElementById('products-grid');

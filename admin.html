@@ -186,40 +186,8 @@
                         </button>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="border rounded-lg p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-medium">Premium Ballpoint Pen</h3>
-                            <span class="text-sm text-gray-500">15.50 <span class="riyal-symbol">﷼</span></span>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-3">Stock: 50</p>
-                        <div class="flex space-x-2">
-                            <button class="btn-secondary text-xs">Edit</button>
-                            <button class="btn-danger text-xs">Delete</button>
-                        </div>
-                    </div>
-                    <div class="border rounded-lg p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-medium">Gel Pen Set (12 colors)</h3>
-                            <span class="text-sm text-gray-500">25.00 <span class="riyal-symbol">﷼</span></span>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-3">Stock: 30</p>
-                        <div class="flex space-x-2">
-                            <button class="btn-secondary text-xs">Edit</button>
-                            <button class="btn-danger text-xs">Delete</button>
-                        </div>
-                    </div>
-                    <div class="border rounded-lg p-4">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-medium">Fountain Pen</h3>
-                            <span class="text-sm text-gray-500">45.00 <span class="riyal-symbol">﷼</span></span>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-3">Stock: 15</p>
-                        <div class="flex space-x-2">
-                            <button class="btn-secondary text-xs">Edit</button>
-                            <button class="btn-danger text-xs">Delete</button>
-                        </div>
-                    </div>
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <!-- Products will be loaded here dynamically -->
                 </div>
             </div>
 
@@ -292,37 +260,34 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div class="bg-white p-6 rounded-lg border">
-                        <h3 class="text-lg font-semibold mb-4">Daily Sales</h3>
+                        <h3 class="text-lg font-semibold mb-4">Sales Summary</h3>
                         <div class="space-y-3">
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Today</span>
-                                <span class="font-semibold">450.00 <span class="riyal-symbol">﷼</span></span>
+                                <span class="text-gray-600">Total Orders</span>
+                                <span class="font-semibold" id="total-orders">0</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Yesterday</span>
-                                <span class="font-semibold">320.00 <span class="riyal-symbol">﷼</span></span>
+                                <span class="text-gray-600">Total Revenue</span>
+                                <span class="font-semibold" id="total-revenue">0.00 <span class="riyal-symbol">﷼</span></span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-600">This Week</span>
-                                <span class="font-semibold">2,150.00 <span class="riyal-symbol">﷼</span></span>
+                                <span class="text-gray-600">Products in Stock</span>
+                                <span class="font-semibold" id="total-products">0</span>
                             </div>
                         </div>
                     </div>
                     <div class="bg-white p-6 rounded-lg border">
-                        <h3 class="text-lg font-semibold mb-4">Top Products</h3>
+                        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
                         <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Printer Paper A4</span>
-                                <span class="font-semibold">15 sold</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Gel Pen Set</span>
-                                <span class="font-semibold">12 sold</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Premium Ballpoint Pen</span>
-                                <span class="font-semibold">8 sold</span>
-                            </div>
+                            <button onclick="exportReport()" class="w-full btn-primary text-sm">
+                                <i class="fas fa-download mr-2"></i>Export Report
+                            </button>
+                            <button onclick="showAddStockModal()" class="w-full btn-secondary text-sm">
+                                <i class="fas fa-plus mr-2"></i>Add Stock
+                            </button>
+                            <button onclick="showBulkImport()" class="w-full btn-secondary text-sm">
+                                <i class="fas fa-upload mr-2"></i>Import Products
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -331,36 +296,9 @@
     </main>
 
     <script>
-        // Sample data
-        let orders = [
-            {
-                id: 'ORD-1759096838877',
-                customer: 'customer@gmail.com',
-                items: [{ name: 'Printer Paper A4 (1000 sheets)', quantity: 1, price: 85.00 }],
-                total: 85.00,
-                status: 'paid',
-                paymentMethod: 'MASTERCARD',
-                date: '2025-01-28 18:00:38',
-                notes: ''
-            },
-            {
-                id: 'ORD-1759096838876',
-                customer: 'john@example.com',
-                items: [{ name: 'Gel Pen Set (12 colors)', quantity: 2, price: 25.00 }],
-                total: 50.00,
-                status: 'pending',
-                paymentMethod: 'VISA',
-                date: '2025-01-28 17:30:15',
-                notes: ''
-            }
-        ];
-
-        let products = [
-            { id: 1, name: 'Premium Ballpoint Pen', nameAr: 'قلم حبر جاف متميز', price: 15.50, stock: 50, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', rating: 4.5 },
-            { id: 2, name: 'Gel Pen Set (12 colors)', nameAr: 'مجموعة أقلام جيل (12 لون)', price: 25.00, stock: 30, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens', rating: 4.8 },
-            { id: 3, name: 'Fountain Pen', nameAr: 'قلم حبر', price: 45.00, stock: 15, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop', category: 'pens', rating: 4.2 },
-            { id: 4, name: 'Professional Notebook A4', nameAr: 'دفتر مهني A4', price: 35.00, stock: 25, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', rating: 4.7 }
-        ];
+        // Start with empty data - load from localStorage
+        let orders = [];
+        let products = [];
 
         // Categories data structure
         let categories = [
@@ -1873,10 +1811,54 @@
             }
         }
 
+        // Load data from localStorage
+        function loadDataFromStorage() {
+            // Load orders
+            const storedOrders = localStorage.getItem('stationeryOrders');
+            if (storedOrders) {
+                orders = JSON.parse(storedOrders);
+            }
+            
+            // Load products
+            const storedProducts = localStorage.getItem('stationeryProducts');
+            if (storedProducts) {
+                products = JSON.parse(storedProducts);
+            }
+            
+            // Load categories
+            const storedCategories = localStorage.getItem('stationeryCategories');
+            if (storedCategories) {
+                const parsedCategories = JSON.parse(storedCategories);
+                categories = [...categories, ...parsedCategories];
+            }
+            
+            // Load subcategories
+            const storedSubcategories = localStorage.getItem('stationerySubcategories');
+            if (storedSubcategories) {
+                const parsedSubcategories = JSON.parse(storedSubcategories);
+                subcategories = [...subcategories, ...parsedSubcategories];
+            }
+        }
+
+        // Update reports with real data
+        function updateReports() {
+            const totalOrders = orders.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+            const totalProducts = products.length;
+            
+            document.getElementById('total-orders').textContent = totalOrders;
+            document.getElementById('total-revenue').innerHTML = `${totalRevenue.toFixed(2)} <span class="riyal-symbol">﷼</span>`;
+            document.getElementById('total-products').textContent = totalProducts;
+        }
+
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
             if (checkAuth()) {
+                loadDataFromStorage();
                 loadOrders();
+                loadProducts();
+                loadCategories();
+                updateReports();
             }
         });
     </script>
