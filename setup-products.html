@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Products - Knowledge Development Stationery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="max-w-2xl w-full space-y-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">🛠️ Setup Products</h1>
+            
+            <div class="space-y-6">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">📦 Sample Products Ready</h3>
+                    <p class="text-blue-700">Click the button below to add sample products to your website. This will populate your store with professional stationery items.</p>
+                </div>
+
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-green-800 mb-2">✅ What Will Be Added:</h3>
+                    <ul class="text-green-700 space-y-1">
+                        <li>• 9 Professional Products</li>
+                        <li>• 6 Product Categories</li>
+                        <li>• Saudi VAT Compliant Prices</li>
+                        <li>• Arabic & English Names</li>
+                        <li>• High-Quality Images</li>
+                    </ul>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="setupProducts()" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold">
+                        <i class="fas fa-plus mr-2"></i>Add Sample Products
+                    </button>
+                </div>
+
+                <div id="status" class="hidden text-center">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span id="status-text">Products added successfully!</span>
+                    </div>
+                </div>
+
+                <div class="text-center space-y-2">
+                    <a href="index.html" class="block bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-store mr-2"></i>View Main Store
+                    </a>
+                    <a href="admin.html" class="block bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors">
+                        <i class="fas fa-cog mr-2"></i>Admin Panel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setupProducts() {
+            const sampleProducts = [
+                {
+                    id: 1,
+                    name: 'Blue Ballpoint Pen',
+                    nameAr: 'قلم حبر أزرق',
+                    price: 2.88,
+                    originalPrice: 2.50,
+                    stock: 100,
+                    category: 'Pens & Pencils',
+                    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 2,
+                    name: 'A4 Notebook',
+                    nameAr: 'دفتر A4',
+                    price: 17.25,
+                    originalPrice: 15.00,
+                    stock: 50,
+                    category: 'Notebooks',
+                    image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 3,
+                    name: 'Stapler',
+                    nameAr: 'دباسة',
+                    price: 28.75,
+                    originalPrice: 25.00,
+                    stock: 30,
+                    category: 'Office Supplies',
+                    image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 4,
+                    name: 'Colored Pencils Set',
+                    nameAr: 'مجموعة أقلام ملونة',
+                    price: 40.25,
+                    originalPrice: 35.00,
+                    stock: 25,
+                    category: 'Art Supplies',
+                    image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 5,
+                    name: 'Calculator',
+                    nameAr: 'آلة حاسبة',
+                    price: 51.75,
+                    originalPrice: 45.00,
+                    stock: 20,
+                    category: 'School Supplies',
+                    image: 'https://images.unsplash.com/photo-1587145820266-a5955ee6f622?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 6,
+                    name: 'Highlighter Set',
+                    nameAr: 'مجموعة أقلام تمييز',
+                    price: 13.80,
+                    originalPrice: 12.00,
+                    stock: 40,
+                    category: 'Pens & Pencils',
+                    image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 7,
+                    name: 'Binder Clips',
+                    nameAr: 'مشابك ورق',
+                    price: 9.78,
+                    originalPrice: 8.50,
+                    stock: 60,
+                    category: 'Office Supplies',
+                    image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 8,
+                    name: 'Watercolor Paint Set',
+                    nameAr: 'مجموعة ألوان مائية',
+                    price: 63.25,
+                    originalPrice: 55.00,
+                    stock: 15,
+                    category: 'Art Supplies',
+                    image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&h=300&fit=crop'
+                },
+                {
+                    id: 9,
+                    name: 'PlayStation 5',
+                    nameAr: 'بلايستيشن 5',
+                    price: 2185.00,
+                    originalPrice: 1900.00,
+                    stock: 10,
+                    category: 'Games',
+                    image: 'https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=300&h=300&fit=crop'
+                }
+            ];
+
+            const sampleCategories = [
+                { id: 1, name: 'Pens & Pencils', nameAr: 'أقلام وأقلام رصاص' },
+                { id: 2, name: 'Notebooks', nameAr: 'دفاتر' },
+                { id: 3, name: 'Office Supplies', nameAr: 'مستلزمات مكتبية' },
+                { id: 4, name: 'Art Supplies', nameAr: 'مستلزمات فنية' },
+                { id: 5, name: 'School Supplies', nameAr: 'مستلزمات مدرسية' },
+                { id: 6, name: 'Games', nameAr: 'ألعاب' }
+            ];
+
+            // Save to localStorage
+            localStorage.setItem('stationeryProducts', JSON.stringify(sampleProducts));
+            localStorage.setItem('stationeryCategories', JSON.stringify(sampleCategories));
+
+            // Show success message
+            document.getElementById('status').classList.remove('hidden');
+            document.getElementById('status-text').textContent = `Successfully added ${sampleProducts.length} products and ${sampleCategories.length} categories!`;
+            
+            console.log('Sample products and categories added successfully!');
+        }
+    </script>
+</body>
+</html>
