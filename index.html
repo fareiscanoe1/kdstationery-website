@@ -519,6 +519,10 @@
                     <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8" id="products-description">
                         Discover our wide range of high-quality stationery products
                     </p>
+                    <button onclick="checkLocalStorage()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors mb-4">
+                        <span class="en-text">Check Storage</span>
+                        <span class="ar-text hidden">فحص التخزين</span>
+                    </button>
                     
                     <!-- Search and Filters -->
                     <div class="max-w-4xl mx-auto mb-8">
@@ -1211,21 +1215,44 @@
                 }
             }, 2000);
         }
+        
+        // Debug function to check localStorage
+        function checkLocalStorage() {
+            console.log('🔍 === LOCALSTORAGE DEBUG ===');
+            console.log('All localStorage keys:', Object.keys(localStorage));
+            console.log('stationeryProducts:', localStorage.getItem('stationeryProducts'));
+            console.log('stationeryCategories:', localStorage.getItem('stationeryCategories'));
+            console.log('stationerySubcategories:', localStorage.getItem('stationerySubcategories'));
+            console.log('Current products array:', products);
+            console.log('Products length:', products.length);
+            
+            // Try to reload products
+            loadProductsFromStorage();
+            loadProducts();
+            
+            alert(`Found ${products.length} products in localStorage. Check console for details.`);
+        }
 
         // Load products from localStorage or use default
         function loadProductsFromStorage() {
             try {
                 const storedProducts = localStorage.getItem('stationeryProducts');
+                console.log('🔍 Checking localStorage for products...');
+                console.log('Raw stored products:', storedProducts);
                 
                 if (storedProducts) {
                     const parsedProducts = JSON.parse(storedProducts);
+                    console.log('✅ Parsed products:', parsedProducts);
+                    console.log('📊 Number of products found:', parsedProducts.length);
                     // Replace products array with stored products
                     products = [...parsedProducts]; // Use spread operator to create new array
+                    console.log('💾 Products array updated:', products);
                 } else {
+                    console.log('❌ No products found in localStorage');
                     products = []; // Ensure products is empty array if no stored products
                 }
             } catch (error) {
-                console.error('Error loading products from storage:', error);
+                console.error('❌ Error loading products from storage:', error);
                 products = []; // Fallback to empty array on error
             }
         }
@@ -1235,9 +1262,13 @@
             try {
                 const productsGrid = document.getElementById('products-grid');
                 if (!productsGrid) {
-                    console.error('Products grid not found');
+                    console.error('❌ Products grid not found');
                     return;
                 }
+                
+                console.log('🔄 Loading products into grid...');
+                console.log('📦 Current products array:', products);
+                console.log('📊 Products count:', products.length);
                 
                 productsGrid.innerHTML = '';
 
@@ -1245,6 +1276,9 @@
                 let filteredProducts = currentCategory === 'all' 
                     ? products 
                     : products.filter(product => product.category === currentCategory);
+                
+                console.log('🔍 Filtered products:', filteredProducts);
+                console.log('📊 Filtered count:', filteredProducts.length);
 
                 // Apply search filter
                 if (searchQuery.trim()) {
