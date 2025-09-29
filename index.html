@@ -1761,86 +1761,103 @@
 
         // Language switching function
         function toggleLanguage() {
-            isArabic = !isArabic;
-            
-            // Update HTML direction
-            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
-            document.documentElement.lang = isArabic ? 'ar' : 'en';
-            
-            // Toggle text visibility
-            const enTexts = document.querySelectorAll('.en-text');
-            const arTexts = document.querySelectorAll('.ar-text');
-            
-            enTexts.forEach(el => {
-                el.classList.toggle('hidden', isArabic);
-            });
-            
-            arTexts.forEach(el => {
-                el.classList.toggle('hidden', !isArabic);
-            });
-            
-            // Update dynamic content
-            updateLanguageContent();
-            
-            // Reload categories and products to update language
-            loadCategoryButtons();
-            loadProducts();
-            
-            // Update cart display
-            updateCartDisplay();
+            try {
+                console.log('Toggling language, current isArabic:', isArabic);
+                isArabic = !isArabic;
+                console.log('New isArabic:', isArabic);
+                
+                // Update HTML direction
+                document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+                document.documentElement.lang = isArabic ? 'ar' : 'en';
+                
+                // Toggle text visibility
+                const enTexts = document.querySelectorAll('.en-text');
+                const arTexts = document.querySelectorAll('.ar-text');
+                
+                console.log('Found enTexts:', enTexts.length, 'arTexts:', arTexts.length);
+                
+                enTexts.forEach(el => {
+                    el.classList.toggle('hidden', isArabic);
+                });
+                
+                arTexts.forEach(el => {
+                    el.classList.toggle('hidden', !isArabic);
+                });
+                
+                // Update dynamic content
+                updateLanguageContent();
+                
+                // Reload categories and products to update language
+                loadCategoryButtons();
+                loadProducts();
+                
+                // Update cart display
+                updateCartDisplay();
+                
+                console.log('Language toggle completed successfully');
+            } catch (error) {
+                console.error('Error in toggleLanguage:', error);
+            }
         }
 
         function updateLanguageContent() {
-            const currentLang = isArabic ? translations.ar : translations.en;
-            
-            // Update store name
-            const storeName = document.getElementById('store-name');
-            if (storeName) {
-                storeName.textContent = currentLang.storeName;
-            }
-            
-            // Update hero section
-            const heroTitle = document.getElementById('hero-title');
-            if (heroTitle) {
-                heroTitle.textContent = currentLang.heroTitle;
-            }
-            
-            const heroDescription = document.getElementById('hero-description');
-            if (heroDescription) {
-                heroDescription.textContent = currentLang.heroDescription;
-            }
-            
-            // Update products section
-            const productsTitle = document.getElementById('products-title');
-            if (productsTitle) {
-                productsTitle.textContent = currentLang.productsTitle;
-            }
-            
-            const productsDescription = document.getElementById('products-description');
-            if (productsDescription) {
-                productsDescription.textContent = currentLang.productsDescription;
-            }
-            
-            // Update search placeholder
-            const searchInput = document.getElementById('product-search');
-            if (searchInput) {
-                searchInput.placeholder = isArabic ? 'البحث في المنتجات...' : 'Search products...';
-            }
-            
-            // Update footer
-            const footerTitle = document.getElementById('footer-title');
-            if (footerTitle) {
-                footerTitle.textContent = currentLang.footerTitle;
-            }
-            
-            const footerDescription = document.getElementById('footer-description');
-            if (footerDescription) {
-                footerDescription.textContent = currentLang.footerDescription;
-            }
-            
-            const copyright = document.getElementById('copyright');
-            if (copyright) {
-                copyright.textContent = currentLang.copyright;
+            try {
+                const currentLang = isArabic ? translations.ar : translations.en;
+                console.log('Updating language content, currentLang:', currentLang);
+                
+                // Update store name
+                const storeName = document.getElementById('store-name');
+                if (storeName) {
+                    storeName.textContent = currentLang.storeName;
+                }
+                
+                // Update hero section
+                const heroTitle = document.getElementById('hero-title');
+                if (heroTitle) {
+                    heroTitle.textContent = currentLang.heroTitle;
+                }
+                
+                const heroDescription = document.getElementById('hero-description');
+                if (heroDescription) {
+                    heroDescription.textContent = currentLang.heroDescription;
+                }
+                
+                // Update products section
+                const productsTitle = document.getElementById('products-title');
+                if (productsTitle) {
+                    productsTitle.textContent = currentLang.productsTitle;
+                }
+                
+                const productsDescription = document.getElementById('products-description');
+                if (productsDescription) {
+                    productsDescription.textContent = currentLang.productsDescription;
+                }
+                
+                // Update search placeholder
+                const searchInput = document.getElementById('product-search');
+                if (searchInput) {
+                    searchInput.placeholder = isArabic ? 'البحث في المنتجات...' : 'Search products...';
+                }
+                
+                // Update footer
+                const footerTitle = document.getElementById('footer-title');
+                if (footerTitle) {
+                    footerTitle.textContent = currentLang.footerTitle;
+                }
+                
+                const footerDescription = document.getElementById('footer-description');
+                if (footerDescription) {
+                    footerDescription.textContent = currentLang.footerDescription;
+                }
+                
+                const copyright = document.getElementById('copyright');
+                if (copyright) {
+                    copyright.textContent = currentLang.copyright;
+                }
+                
+                console.log('Language content updated successfully');
+            } catch (error) {
+                console.error('Error updating language content:', error);
             }
         }
 
