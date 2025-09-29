@@ -1708,67 +1708,117 @@
             if (!currentOrder) return;
 
             const receiptContent = document.getElementById('receipt-content');
+            const orderDate = new Date(currentOrder.timestamp);
+            const formattedDate = orderDate.toLocaleDateString('en-SA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
             receiptContent.innerHTML = `
-                <div class="text-center mb-4">
-                    <h3 class="font-bold text-lg">Knowledge Development Stationery</h3>
-                    <p class="text-sm text-gray-600">قرطاسية تنمية المعرفة</p>
-                    <p class="text-xs text-gray-500">8480 Hamad Al Jaser, AR Rawdah District</p>
-                    <p class="text-xs text-gray-500">Jeddah 23435, Saudi Arabia</p>
-                    <p class="text-xs text-gray-500">+966 12 236 7510</p>
-                    <div class="mt-2 text-xs text-gray-500">
-                        <p>Commercial Registration: 1010123456</p>
-                        <p>VAT Number: 300012345600003</p>
+                <div class="text-center mb-6">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-lg mb-4">
+                        <h3 class="font-bold text-xl">Knowledge Development Stationery</h3>
+                        <p class="text-sm opacity-90">قرطاسية تنمية المعرفة</p>
+                        <p class="text-xs opacity-75 mt-1">Your Trusted Stationery Partner</p>
+                    </div>
+                    
+                    <div class="text-xs text-gray-600 space-y-1">
+                        <p class="font-semibold">📍 Store Location</p>
+                        <p>8480 Hamad Al Jaser, AR Rawdah District</p>
+                        <p>Jeddah 23435, Saudi Arabia</p>
+                        <p>📞 +966 12 236 7510 | ✉️ info@kdstationery.com</p>
+                    </div>
+                    
+                    <div class="mt-3 text-xs text-gray-500 bg-gray-50 p-2 rounded">
+                        <p><strong>Commercial Registration:</strong> 1010123456</p>
+                        <p><strong>VAT Number:</strong> 300012345600003</p>
+                        <p><strong>Business License:</strong> Valid until 2025</p>
                     </div>
                 </div>
                 
-                <div class="border-t border-gray-300 pt-2 mb-4">
-                    <div class="flex justify-between text-sm">
-                        <span>Order #: ${currentOrder.id}</span>
-                        <span>${new Date(currentOrder.timestamp).toLocaleString()}</span>
-                    </div>
-                    <div class="text-sm text-gray-600 mt-1">
-                        <span class="en-text">Email:</span>
-                        <span class="ar-text hidden">البريد الإلكتروني:</span>
-                        ${currentOrder.customerEmail}
-                    </div>
-                </div>
-
-                <div class="space-y-2 mb-4">
-                    ${currentOrder.items.map(item => `
-                        <div class="flex justify-between text-sm">
-                            <span>${isArabic ? item.product.nameAr : item.product.name} × ${item.quantity}</span>
-                            <span>${(item.product.price * item.quantity).toFixed(2)} ﷼</span>
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-semibold text-blue-800">Order #${currentOrder.id}</p>
+                            <p class="text-sm text-blue-600">${formattedDate}</p>
                         </div>
-                    `).join('')}
+                        <div class="text-right">
+                            <p class="text-xs text-blue-600">Status: <span class="font-semibold text-green-600">PAID</span></p>
+                            <p class="text-xs text-blue-600">Payment: ${getPaymentMethodName(selectedPaymentMethod)}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="border-t border-gray-300 pt-2 space-y-1">
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">
+                        <span class="en-text">Customer Information</span>
+                        <span class="ar-text hidden">معلومات العميل</span>
+                    </h4>
+                    <div class="bg-gray-50 p-3 rounded text-sm">
+                        <p><strong>Email:</strong> ${currentOrder.customerEmail}</p>
+                        <p><strong>Order Date:</strong> ${formattedDate}</p>
+                        <p><strong>Pickup Method:</strong> Store Pickup</p>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">
+                        <span class="en-text">Order Items</span>
+                        <span class="ar-text hidden">عناصر الطلب</span>
+                    </h4>
+                    <div class="space-y-2">
+                        ${currentOrder.items.map(item => `
+                            <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">${isArabic ? item.product.nameAr : item.product.name}</p>
+                                    <p class="text-xs text-gray-600">Qty: ${item.quantity} × ${item.product.price.toFixed(2)} ﷼</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold">${(item.product.price * item.quantity).toFixed(2)} ﷼</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded-lg space-y-2">
                     <div class="flex justify-between text-sm">
-                        <span>Subtotal:</span>
+                        <span class="en-text">Subtotal:</span>
+                        <span class="ar-text hidden">المجموع الفرعي:</span>
                         <span>${currentOrder.subtotal.toFixed(2)} ﷼</span>
                     </div>
                     <div class="flex justify-between text-sm">
-                        <span>VAT (15%):</span>
+                        <span class="en-text">VAT (15%):</span>
+                        <span class="ar-text hidden">ضريبة القيمة المضافة (15%):</span>
                         <span>${currentOrder.vat.toFixed(2)} ﷼</span>
                     </div>
-                    <div class="flex justify-between font-bold text-base border-t border-gray-300 pt-1">
-                        <span>Total:</span>
-                        <span>${currentOrder.total.toFixed(2)} ﷼</span>
+                    <div class="flex justify-between font-bold text-lg border-t border-gray-400 pt-2">
+                        <span class="en-text">Total Amount:</span>
+                        <span class="ar-text hidden">المبلغ الإجمالي:</span>
+                        <span class="text-blue-600">${currentOrder.total.toFixed(2)} ﷼</span>
                     </div>
                 </div>
 
-                <div class="border-t border-gray-300 pt-2 mt-4 text-center">
-                    <p class="text-xs text-gray-600 mb-2">
-                        <span class="en-text">Payment Method:</span>
-                        <span class="ar-text hidden">طريقة الدفع:</span>
-                        ${getPaymentMethodName(selectedPaymentMethod)}
+                <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-center">
+                    <p class="text-green-800 font-semibold text-sm">✅ PAYMENT SUCCESSFUL</p>
+                    <p class="text-xs text-green-600 mt-1">
+                        <span class="en-text">Your order is confirmed and ready for pickup</span>
+                        <span class="ar-text hidden">تم تأكيد طلبك وهو جاهز للاستلام</span>
                     </p>
-                    <p class="text-xs text-gray-600">**** **** **** ${currentOrder.cardNumber}</p>
                 </div>
 
-                <div class="border-t border-gray-300 pt-2 mt-4 text-center">
-                    <p class="text-sm font-semibold text-green-600">PAYMENT SUCCESSFUL</p>
-                    <p class="text-xs text-gray-600 mt-1">Show this receipt for pickup</p>
+                <div class="mt-4 text-center text-xs text-gray-500">
+                    <p>
+                        <span class="en-text">Thank you for choosing Knowledge Development Stationery!</span>
+                        <span class="ar-text hidden">شكراً لاختياركم قرطاسية تنمية المعرفة!</span>
+                    </p>
+                    <p class="mt-1">
+                        <span class="en-text">Please bring this receipt for order pickup</span>
+                        <span class="ar-text hidden">يرجى إحضار هذا الإيصال لاستلام الطلب</span>
+                    </p>
                 </div>
             `;
 

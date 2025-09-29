@@ -1007,8 +1007,11 @@
         }
 
         function saveProductWithImage(formData, imageData) {
+            // Generate ID safely
+            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+            
             const newProduct = {
-                id: Math.max(...products.map(p => p.id)) + 1,
+                id: newId,
                 name: formData.get('name'),
                 nameAr: formData.get('nameAr'),
                 price: parseFloat(formData.get('price')),
@@ -1026,9 +1029,13 @@
             // Save to localStorage for sync with main website
             localStorage.setItem('stationeryProducts', JSON.stringify(products));
             
+            console.log('Product saved:', newProduct);
+            console.log('All products:', products);
+            
             showNotification(`Product "${newProduct.name}" added successfully`, 'success');
             loadProducts();
             loadInventory();
+            updateReports();
             document.querySelector('.fixed').remove();
         }
 
