@@ -519,6 +519,10 @@
                     <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8" id="products-description">
                         Discover our wide range of high-quality stationery products
                     </p>
+                    <button onclick="refreshProducts()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors mb-4">
+                        <span class="en-text">Refresh Products</span>
+                        <span class="ar-text hidden">تحديث المنتجات</span>
+                    </button>
                     
                     <!-- Search and Filters -->
                     <div class="max-w-4xl mx-auto mb-8">
@@ -1174,10 +1178,19 @@
 
         // Initialize the page
         function init() {
+            console.log('Initializing page...');
             loadCategoriesFromStorage();
             loadCategoryButtons();
             loadProducts();
             updateCartDisplay();
+            console.log('Page initialization complete');
+        }
+        
+        // Manual refresh function for testing
+        function refreshProducts() {
+            console.log('Manual refresh triggered');
+            loadProductsFromStorage();
+            loadProducts();
         }
 
         // Load products from localStorage or use default
@@ -1191,12 +1204,15 @@
                     console.log('Loaded products from storage:', parsedProducts);
                     console.log('Number of products loaded:', parsedProducts.length);
                     // Replace products array with stored products
-                    products = parsedProducts;
+                    products = [...parsedProducts]; // Use spread operator to create new array
+                    console.log('Products array after loading:', products);
                 } else {
                     console.log('No stored products found, using default products');
+                    products = []; // Ensure products is empty array if no stored products
                 }
             } catch (error) {
                 console.error('Error loading products from storage:', error);
+                products = []; // Fallback to empty array on error
             }
         }
 
@@ -1905,6 +1921,7 @@
         // Language switching function
         function toggleLanguage() {
             try {
+                console.log('Language button clicked!');
                 console.log('Toggling language, current isArabic:', isArabic);
                 isArabic = !isArabic;
                 console.log('New isArabic:', isArabic);
