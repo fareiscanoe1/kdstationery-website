@@ -1257,7 +1257,7 @@
                         </h3>
                         ${product.rating ? `
                         <div class="flex items-center mb-2">
-                        <div class="flex" style="color: #FFE135;">
+                        <div class="flex" style="color: var(--store-yellow);">
                             ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
                         </div>
                             <span class="text-sm text-gray-600 ml-2">${product.rating}/5</span>
@@ -1892,12 +1892,12 @@
         function toggleLanguage() {
             try {
                 console.log('Toggling language, current isArabic:', isArabic);
-            isArabic = !isArabic;
+                isArabic = !isArabic;
                 console.log('New isArabic:', isArabic);
             
                 // Update HTML direction and language
-            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
-            document.documentElement.lang = isArabic ? 'ar' : 'en';
+                document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+                document.documentElement.lang = isArabic ? 'ar' : 'en';
                 document.body.dir = isArabic ? 'rtl' : 'ltr';
                 
                 // Force CSS to apply by adding/removing class
@@ -1909,15 +1909,27 @@
                     document.body.classList.remove('arabic-mode');
                 }
             
-            // Update dynamic content
-            updateLanguageContent();
+                // Force update all text elements
+                const enTexts = document.querySelectorAll('.en-text');
+                const arTexts = document.querySelectorAll('.ar-text');
+                
+                enTexts.forEach(el => {
+                    el.style.display = isArabic ? 'none' : 'inline';
+                });
+                
+                arTexts.forEach(el => {
+                    el.style.display = isArabic ? 'inline' : 'none';
+                });
+            
+                // Update dynamic content
+                updateLanguageContent();
             
                 // Reload categories and products to update language
                 loadCategoryButtons();
-            loadProducts();
+                loadProducts();
             
-            // Update cart display
-            updateCartDisplay();
+                // Update cart display
+                updateCartDisplay();
                 
                 console.log('Language toggle completed successfully');
             } catch (error) {
