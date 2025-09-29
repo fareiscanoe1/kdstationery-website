@@ -45,7 +45,7 @@
         /* Mobile improvements */
         @media (max-width: 640px) {
             .container-custom {
-                padding: 0 0.5rem;
+                padding: 0 0.75rem;
             }
             
             .grid-products {
@@ -58,27 +58,129 @@
             }
             
             .hero-section {
-                padding: 2rem 1rem;
+                padding: 3rem 1rem;
+                text-align: center;
             }
             
             .hero-title {
-                font-size: 2rem;
-                line-height: 1.2;
+                font-size: 1.75rem;
+                line-height: 1.3;
+                margin-bottom: 1rem;
             }
             
             .hero-description {
-                font-size: 1rem;
-                margin-top: 1rem;
+                font-size: 0.95rem;
+                margin-bottom: 2rem;
+                line-height: 1.5;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9rem;
             }
             
             .category-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.875rem;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+                margin: 0.25rem;
             }
             
             .btn-primary, .btn-secondary {
-                padding: 0.75rem 1.5rem;
+                padding: 0.75rem 1.25rem;
                 font-size: 0.875rem;
+            }
+            
+            /* Header improvements */
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            
+            .brand-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .brand-name {
+                font-size: 1.1rem;
+                line-height: 1.2;
+            }
+            
+            .brand-tagline {
+                font-size: 0.75rem;
+            }
+            
+            /* Search bar improvements */
+            .search-container {
+                margin: 1rem 0;
+            }
+            
+            .search-container input {
+                font-size: 0.9rem;
+                padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+            }
+            
+            /* Filter section improvements */
+            .filter-section {
+                padding: 1rem;
+            }
+            
+            .filter-section .flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .filter-section select {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+            }
+            
+            /* Product cards improvements */
+            .card-product {
+                border-radius: 0.75rem;
+                overflow: hidden;
+            }
+            
+            .card-product img {
+                height: 200px;
+            }
+            
+            .card-product .p-6 {
+                padding: 1rem;
+            }
+            
+            .card-product h3 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            /* Footer improvements */
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .footer-section h3 {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .footer-section p,
+            .footer-section a {
+                font-size: 0.9rem;
+                line-height: 1.5;
             }
         }
         
@@ -229,18 +331,18 @@
     <!-- Header -->
     <header class="brand-gradient border-b border-gray-300 sticky top-0 z-50">
         <div class="container-custom">
-            <div class="flex justify-between items-center h-20">
+            <div class="flex justify-between items-center h-20 header-content">
                 <!-- Logo -->
-                <div class="flex-shrink-0">
+                <div class="flex-shrink-0 brand-section">
                     <div class="flex items-center group">
                         <div class="h-10 w-10 bg-white flex items-center justify-center group-hover:bg-gray-100 transition-colors rounded-lg shadow-md">
                             <span class="brand-text-glow font-bold text-lg">K</span>
                         </div>
                         <div class="ml-3">
-                            <div class="text-lg font-semibold brand-text-glow" id="store-name">
+                            <div class="text-lg font-semibold brand-text-glow brand-name" id="store-name">
                                 Knowledge Development Stationery
                             </div>
-                            <div class="text-xs text-white uppercase tracking-wide opacity-90">
+                            <div class="text-xs text-white uppercase tracking-wide opacity-90 brand-tagline">
                                 Stationery
                             </div>
                         </div>
@@ -323,13 +425,13 @@
         <div class="container-custom">
             <div class="py-20 md:py-32">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-8 leading-tight brand-text-glow" id="hero-title">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-8 leading-tight brand-text-glow hero-title" id="hero-title">
                         Knowledge Development Stationery
                     </h1>
-                    <p class="text-lg md:text-xl text-white mb-12 max-w-2xl mx-auto leading-relaxed opacity-90" id="hero-description">
+                    <p class="text-lg md:text-xl text-white mb-12 max-w-2xl mx-auto leading-relaxed opacity-90 hero-description" id="hero-description">
                         Your trusted stationery partner in Jeddah. We provide quality products and convenient pickup service.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center hero-buttons">
                         <a href="#products" class="brand-button text-white px-8 py-4 rounded-lg font-medium inline-flex items-center justify-center transition-all duration-300">
                             <span class="en-text">Shop Now</span>
                             <span class="ar-text hidden">تسوق الآن</span>
@@ -359,7 +461,7 @@
                     <!-- Search and Filters -->
                     <div class="max-w-4xl mx-auto mb-8">
                         <!-- Search Bar -->
-                        <div class="mb-6">
+                        <div class="mb-6 search-container">
                             <div class="relative max-w-md mx-auto">
                                 <input type="text" id="product-search" 
                                        class="w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -368,67 +470,11 @@
                             </div>
                         </div>
                         
-                        <!-- Advanced Filters -->
-                        <div class="bg-gray-50 rounded-lg p-4">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <!-- Price Range -->
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <span class="en-text">Price Range (SAR)</span>
-                                        <span class="ar-text hidden">نطاق السعر (ريال)</span>
-                                    </label>
-                                    <select id="price-range" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="searchProducts()">
-                                        <option value="all">
-                                            <span class="en-text">All Prices</span>
-                                            <span class="ar-text hidden">جميع الأسعار</span>
-                                        </option>
-                                        <option value="0-20">
-                                            <span class="en-text">Under 20 SAR</span>
-                                            <span class="ar-text hidden">أقل من 20 ريال</span>
-                                        </option>
-                                        <option value="20-50">
-                                            <span class="en-text">20 - 50 SAR</span>
-                                            <span class="ar-text hidden">20 - 50 ريال</span>
-                                        </option>
-                                        <option value="50-100">
-                                            <span class="en-text">50 - 100 SAR</span>
-                                            <span class="ar-text hidden">50 - 100 ريال</span>
-                                        </option>
-                                        <option value="100+">
-                                            <span class="en-text">Over 100 SAR</span>
-                                            <span class="ar-text hidden">أكثر من 100 ريال</span>
-                                        </option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Stock Status -->
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <span class="en-text">Stock Status</span>
-                                        <span class="ar-text hidden">حالة المخزون</span>
-                                    </label>
-                                    <select id="stock-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="searchProducts()">
-                                        <option value="all">
-                                            <span class="en-text">All Products</span>
-                                            <span class="ar-text hidden">جميع المنتجات</span>
-                                        </option>
-                                        <option value="in-stock">
-                                            <span class="en-text">In Stock</span>
-                                            <span class="ar-text hidden">متوفر</span>
-                                        </option>
-                                        <option value="low-stock">
-                                            <span class="en-text">Low Stock</span>
-                                            <span class="ar-text hidden">مخزون منخفض</span>
-                                        </option>
-                                        <option value="out-of-stock">
-                                            <span class="en-text">Out of Stock</span>
-                                            <span class="ar-text hidden">نفد المخزون</span>
-                                        </option>
-                                    </select>
-                                </div>
-                                
+                        <!-- Simple Sort Options -->
+                        <div class="bg-gray-50 rounded-lg p-4 filter-section">
+                            <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
                                 <!-- Sort By -->
-                                <div>
+                                <div class="w-full sm:w-auto">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <span class="en-text">Sort By</span>
                                         <span class="ar-text hidden">ترتيب حسب</span>
@@ -450,16 +496,20 @@
                                             <span class="en-text">Price High-Low</span>
                                             <span class="ar-text hidden">السعر عالي-منخفض</span>
                                         </option>
+                                        <option value="rating-desc">
+                                            <span class="en-text">Rating High-Low</span>
+                                            <span class="ar-text hidden">التقييم عالي-منخفض</span>
+                                        </option>
                                     </select>
                                 </div>
-                            </div>
-                            
-                            <!-- Clear Filters Button -->
-                            <div class="mt-4 text-center">
-                                <button onclick="clearFilters()" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                    <span class="en-text">Clear All Filters</span>
-                                    <span class="ar-text hidden">مسح جميع المرشحات</span>
-                                </button>
+                                
+                                <!-- Clear Filters Button -->
+                                <div class="w-full sm:w-auto">
+                                    <button onclick="clearFilters()" class="w-full sm:w-auto text-blue-600 hover:text-blue-800 text-sm font-medium px-4 py-2 border border-blue-300 rounded-lg hover:bg-blue-50">
+                                        <span class="en-text">Clear Filters</span>
+                                        <span class="ar-text hidden">مسح المرشحات</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -586,14 +636,6 @@
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/120px-American_Express_logo.svg.png" alt="AMEX" class="h-8">
                                 <span class="text-xs">AMEX</span>
                             </button>
-                            <button onclick="selectPaymentMethod('apple_pay')" class="payment-method-btn" data-method="apple_pay">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Apple_Pay_logo.svg/120px-Apple_Pay_logo.svg.png" alt="Apple Pay" class="h-8">
-                                <span class="text-xs">Apple Pay</span>
-                            </button>
-                            <button onclick="selectPaymentMethod('google_pay')" class="payment-method-btn" data-method="google_pay">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Google_Pay_%28GPay%29_logo.svg/120px-Google_Pay_%28GPay%29_logo.svg.png" alt="Google Pay" class="h-8">
-                                <span class="text-xs">Google Pay</span>
-                            </button>
                         </div>
                     </div>
 
@@ -640,22 +682,6 @@
                         </div>
                     </div>
 
-                    <!-- Digital Wallet Message -->
-                    <div id="digital-wallet-message" class="hidden p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <div class="flex items-center">
-                            <i class="fas fa-mobile-alt text-blue-600 mr-3 rtl:ml-3 rtl:mr-0"></i>
-                            <div>
-                                <p class="text-sm font-medium text-blue-800">
-                                    <span class="en-text">Digital Wallet Ready</span>
-                                    <span class="ar-text hidden">المحفظة الرقمية جاهزة</span>
-                                </p>
-                                <p class="text-xs text-blue-600">
-                                    <span class="en-text">Your device will prompt for authentication</span>
-                                    <span class="ar-text hidden">سيطلب جهازك المصادقة</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Order Summary -->
                     <div class="mt-6 p-4 bg-gray-50 rounded-lg">
@@ -1000,35 +1026,9 @@
     </footer>
 
     <script>
-        // Products data - Reduced to 18 essential products
+        // Products data - Start with one sample product, manage others from admin
         const products = [
-            // Pens & Writing
-            { id: 1, name: 'Premium Ballpoint Pen', nameAr: 'قلم حبر جاف متميز', price: 15.50, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', stock: 50 },
-            { id: 2, name: 'Gel Pen Set (12 colors)', nameAr: 'مجموعة أقلام جيل (12 لون)', price: 25.00, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens', stock: 30 },
-            { id: 3, name: 'Fountain Pen', nameAr: 'قلم حبر', price: 45.00, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop', category: 'pens', stock: 15 },
-            { id: 4, name: 'Highlighter Set (6 colors)', nameAr: 'مجموعة أقلام تمييز (6 ألوان)', price: 18.25, image: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop', category: 'pens', stock: 25 },
-            
-            // Notebooks & Paper
-            { id: 5, name: 'A4 Notebook (200 pages)', nameAr: 'دفتر A4 (200 صفحة)', price: 12.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 40 },
-            { id: 6, name: 'Spiral Notebook Set', nameAr: 'مجموعة دفاتر حلزونية', price: 35.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 20 },
-            { id: 7, name: 'A4 Copy Paper (500 sheets)', nameAr: 'ورق A4 للنسخ (500 ورقة)', price: 28.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 35 },
-            { id: 8, name: 'Sticky Notes Set', nameAr: 'مجموعة ملاحظات لاصقة', price: 15.00, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', stock: 60 },
-            
-            // Office Supplies
-            { id: 9, name: 'Stapler Heavy Duty', nameAr: 'دباسة قوية', price: 35.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office', stock: 12 },
-            { id: 10, name: 'Calculator Scientific', nameAr: 'آلة حاسبة علمية', price: 45.00, image: 'https://images.unsplash.com/photo-1587145820266-a5955ee7f620?w=300&h=300&fit=crop', category: 'office', stock: 8 },
-            { id: 11, name: 'Paper Clips Set', nameAr: 'مجموعة مشابك ورق', price: 8.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office', stock: 45 },
-            { id: 12, name: 'Desk Organizer', nameAr: 'منظم مكتب', price: 40.00, image: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop', category: 'office', stock: 6 },
-            
-            // Art Supplies
-            { id: 13, name: 'Colored Pencils Set (24)', nameAr: 'مجموعة أقلام ملونة (24)', price: 35.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art', stock: 18 },
-            { id: 14, name: 'Watercolor Paint Set', nameAr: 'مجموعة ألوان مائية', price: 55.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art', stock: 10 },
-            { id: 15, name: 'Paint Brushes Set', nameAr: 'مجموعة فرش رسم', price: 28.00, image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop', category: 'art', stock: 22 },
-            
-            // School Supplies
-            { id: 16, name: 'School Bag', nameAr: 'حقيبة مدرسية', price: 65.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school', stock: 15 },
-            { id: 17, name: 'Pencil Case', nameAr: 'حافظة أقلام', price: 18.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school', stock: 35 },
-            { id: 18, name: 'Geometry Set', nameAr: 'مجموعة هندسة', price: 25.00, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop', category: 'school', stock: 20 }
+            { id: 1, name: 'Sample Product', nameAr: 'منتج تجريبي', price: 25.00, image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=300&h=300&fit=crop', category: 'pens', stock: 50, rating: 4.5 }
         ];
 
         let cart = [];
@@ -1108,41 +1108,7 @@
                 );
             }
 
-            // Apply price range filter
-            const priceRange = document.getElementById('price-range').value;
-            if (priceRange !== 'all') {
-                filteredProducts = filteredProducts.filter(product => {
-                    switch (priceRange) {
-                        case '0-20':
-                            return product.price < 20;
-                        case '20-50':
-                            return product.price >= 20 && product.price <= 50;
-                        case '50-100':
-                            return product.price >= 50 && product.price <= 100;
-                        case '100+':
-                            return product.price > 100;
-                        default:
-                            return true;
-                    }
-                });
-            }
-
-            // Apply stock status filter
-            const stockFilter = document.getElementById('stock-filter').value;
-            if (stockFilter !== 'all') {
-                filteredProducts = filteredProducts.filter(product => {
-                    switch (stockFilter) {
-                        case 'in-stock':
-                            return product.stock > 20;
-                        case 'low-stock':
-                            return product.stock > 0 && product.stock <= 20;
-                        case 'out-of-stock':
-                            return product.stock === 0;
-                        default:
-                            return true;
-                    }
-                });
-            }
+            // No additional filters - just search and sorting
 
             // Apply sorting
             const sortFilter = document.getElementById('sort-filter').value;
@@ -1156,6 +1122,8 @@
                         return a.price - b.price;
                     case 'price-desc':
                         return b.price - a.price;
+                    case 'rating-desc':
+                        return (b.rating || 0) - (a.rating || 0);
                     default:
                         return 0;
                 }
@@ -1172,6 +1140,14 @@
                         <h3 class="text-lg font-medium text-gray-900 mb-2">
                             ${isArabic ? product.nameAr : product.name}
                         </h3>
+                        ${product.rating ? `
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </div>
+                            <span class="text-sm text-gray-600 ml-2">${product.rating}/5</span>
+                        </div>
+                        ` : ''}
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-xl font-semibold text-gray-900 flex items-center">
                                 <span class="riyal-symbol">﷼</span>
@@ -1212,8 +1188,6 @@
         // Clear all filters
         function clearFilters() {
             document.getElementById('product-search').value = '';
-            document.getElementById('price-range').value = 'all';
-            document.getElementById('stock-filter').value = 'all';
             document.getElementById('sort-filter').value = 'name-asc';
             
             searchQuery = '';
@@ -1473,17 +1447,7 @@
             });
             document.querySelector(`[data-method="${method}"]`).classList.add('active');
             
-            // Show/hide card form based on payment method
-            const cardForm = document.getElementById('card-form');
-            const digitalWalletMessage = document.getElementById('digital-wallet-message');
-            
-            if (method === 'apple_pay' || method === 'google_pay') {
-                cardForm.classList.add('hidden');
-                digitalWalletMessage.classList.remove('hidden');
-            } else {
-                cardForm.classList.remove('hidden');
-                digitalWalletMessage.classList.add('hidden');
-            }
+            // Card form is always visible for all payment methods
         }
 
         function updatePaymentSummary() {
@@ -1518,11 +1482,10 @@
                 return;
             }
 
-            if (selectedPaymentMethod !== 'apple_pay' && selectedPaymentMethod !== 'google_pay') {
-                if (!cardNumber || !cardName || !expiryDate || !cvv) {
-                    alert(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
-                    return;
-                }
+            if (!cardNumber || !cardName || !expiryDate || !cvv) {
+                alert(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
+                return;
+            }
 
                 // Validate card number based on payment method
                 if (!validateCardNumber(cardNumber, selectedPaymentMethod)) {
