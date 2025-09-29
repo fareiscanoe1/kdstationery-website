@@ -106,6 +106,9 @@
                     <button onclick="showTab('products')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
                         <i class="fas fa-box mr-2"></i>Products
                     </button>
+                    <button onclick="showTab('categories')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-tags mr-2"></i>Categories
+                    </button>
                     <button onclick="showTab('inventory')" class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
                         <i class="fas fa-warehouse mr-2"></i>Inventory
                     </button>
@@ -220,6 +223,39 @@
                 </div>
             </div>
 
+            <!-- Categories Tab -->
+            <div id="categories-tab" class="tab-content p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900">Category Management</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="addNewCategory()" class="btn-primary">
+                            <i class="fas fa-plus mr-2"></i>Add Category
+                        </button>
+                        <button onclick="addNewSubcategory()" class="btn-secondary">
+                            <i class="fas fa-tag mr-2"></i>Add Subcategory
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Main Categories -->
+                    <div>
+                        <h3 class="text-md font-semibold text-gray-900 mb-4">Main Categories</h3>
+                        <div id="main-categories-list" class="space-y-3">
+                            <!-- Main categories will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Subcategories -->
+                    <div>
+                        <h3 class="text-md font-semibold text-gray-900 mb-4">Subcategories</h3>
+                        <div id="subcategories-list" class="space-y-3">
+                            <!-- Subcategories will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Inventory Tab -->
             <div id="inventory-tab" class="tab-content p-6 hidden">
                 <div class="flex justify-between items-center mb-6">
@@ -326,6 +362,26 @@
             { id: 4, name: 'Professional Notebook A4', nameAr: 'دفتر مهني A4', price: 35.00, stock: 25, image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&h=300&fit=crop', category: 'notebooks', rating: 4.7 }
         ];
 
+        // Categories data structure
+        let categories = [
+            { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة', parentId: null, icon: 'fas fa-pen', color: 'blue' },
+            { id: 'notebooks', name: 'Notebooks & Paper', nameAr: 'دفاتر وورق', parentId: null, icon: 'fas fa-book', color: 'green' },
+            { id: 'office', name: 'Office Supplies', nameAr: 'مستلزمات مكتبية', parentId: null, icon: 'fas fa-briefcase', color: 'purple' },
+            { id: 'art', name: 'Art Supplies', nameAr: 'مستلزمات فنية', parentId: null, icon: 'fas fa-palette', color: 'pink' },
+            { id: 'school', name: 'School Supplies', nameAr: 'مستلزمات مدرسية', parentId: null, icon: 'fas fa-graduation-cap', color: 'yellow' },
+            { id: 'printing', name: 'Printing & Technology', nameAr: 'طباعة وتكنولوجيا', parentId: null, icon: 'fas fa-print', color: 'gray' }
+        ];
+
+        let subcategories = [
+            { id: 'ballpoint', name: 'Ballpoint Pens', nameAr: 'أقلام حبر جاف', parentId: 'pens' },
+            { id: 'gel', name: 'Gel Pens', nameAr: 'أقلام جيل', parentId: 'pens' },
+            { id: 'fountain', name: 'Fountain Pens', nameAr: 'أقلام حبر', parentId: 'pens' },
+            { id: 'spiral', name: 'Spiral Notebooks', nameAr: 'دفاتر حلزونية', parentId: 'notebooks' },
+            { id: 'bound', name: 'Bound Notebooks', nameAr: 'دفاتر مجلدة', parentId: 'notebooks' },
+            { id: 'staplers', name: 'Staplers', nameAr: 'دباسات', parentId: 'office' },
+            { id: 'clips', name: 'Paper Clips', nameAr: 'مشابك ورق', parentId: 'office' }
+        ];
+
         function showTab(tabName) {
             // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
@@ -350,6 +406,8 @@
                 loadOrders();
             } else if (tabName === 'products') {
                 loadProducts();
+            } else if (tabName === 'categories') {
+                loadCategories();
             } else if (tabName === 'inventory') {
                 loadInventory();
             }
@@ -1387,6 +1445,387 @@
             window.URL.revokeObjectURL(url);
             
             showNotification('Products exported successfully', 'success');
+        }
+
+        function loadCategories() {
+            loadCategoriesFromStorage();
+            
+            // Load main categories
+            const mainCategoriesList = document.getElementById('main-categories-list');
+            mainCategoriesList.innerHTML = categories.map(category => `
+                <div class="flex items-center justify-between p-4 bg-white border rounded-lg shadow-sm">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-2 bg-${category.color}-100 rounded-lg">
+                            <i class="${category.icon} text-${category.color}-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900">${category.name}</h4>
+                            <p class="text-sm text-gray-500">${category.nameAr}</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="editCategory('${category.id}')" class="btn-secondary text-xs">Edit</button>
+                        <button onclick="deleteCategory('${category.id}')" class="btn-danger text-xs">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Load subcategories
+            const subcategoriesList = document.getElementById('subcategories-list');
+            subcategoriesList.innerHTML = subcategories.map(subcategory => {
+                const parentCategory = categories.find(cat => cat.id === subcategory.parentId);
+                return `
+                    <div class="flex items-center justify-between p-4 bg-gray-50 border rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-2 bg-gray-200 rounded-lg">
+                                <i class="fas fa-tag text-gray-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">${subcategory.name}</h4>
+                                <p class="text-sm text-gray-500">${subcategory.nameAr}</p>
+                                <p class="text-xs text-gray-400">Under: ${parentCategory ? parentCategory.name : 'Unknown'}</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editSubcategory('${subcategory.id}')" class="btn-secondary text-xs">Edit</button>
+                            <button onclick="deleteSubcategory('${subcategory.id}')" class="btn-danger text-xs">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadCategoriesFromStorage() {
+            const storedCategories = localStorage.getItem('stationeryCategories');
+            const storedSubcategories = localStorage.getItem('stationerySubcategories');
+            
+            if (storedCategories) {
+                const parsedCategories = JSON.parse(storedCategories);
+                // Merge with existing categories, avoiding duplicates
+                const existingIds = new Set(categories.map(c => c.id));
+                const newCategories = parsedCategories.filter(c => !existingIds.has(c.id));
+                categories = [...categories, ...newCategories];
+            }
+            
+            if (storedSubcategories) {
+                const parsedSubcategories = JSON.parse(storedSubcategories);
+                // Merge with existing subcategories, avoiding duplicates
+                const existingIds = new Set(subcategories.map(s => s.id));
+                const newSubcategories = parsedSubcategories.filter(s => !existingIds.has(s.id));
+                subcategories = [...subcategories, ...newSubcategories];
+            }
+        }
+
+        function addNewCategory() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Add New Category</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveNewCategory(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (English)</label>
+                                <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (Arabic)</label>
+                                <input type="text" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon Class (FontAwesome)</label>
+                                <input type="text" name="icon" placeholder="fas fa-tag" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Color Theme</label>
+                                <select name="color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="blue">Blue</option>
+                                    <option value="green">Green</option>
+                                    <option value="purple">Purple</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="red">Red</option>
+                                    <option value="gray">Gray</option>
+                                    <option value="indigo">Indigo</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Category</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveNewCategory(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const newCategory = {
+                id: formData.get('name').toLowerCase().replace(/\s+/g, '_'),
+                name: formData.get('name'),
+                nameAr: formData.get('nameAr'),
+                parentId: null,
+                icon: formData.get('icon'),
+                color: formData.get('color')
+            };
+            
+            categories.push(newCategory);
+            
+            // Save to localStorage
+            localStorage.setItem('stationeryCategories', JSON.stringify(categories));
+            
+            showNotification(`Category "${newCategory.name}" added successfully`, 'success');
+            loadCategories();
+            event.target.closest('.fixed').remove();
+        }
+
+        function editCategory(categoryId) {
+            const category = categories.find(c => c.id === categoryId);
+            if (!category) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Edit Category</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveCategoryChanges(event, '${categoryId}')">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (English)</label>
+                                <input type="text" name="name" value="${category.name}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category Name (Arabic)</label>
+                                <input type="text" name="nameAr" value="${category.nameAr}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon Class (FontAwesome)</label>
+                                <input type="text" name="icon" value="${category.icon}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Color Theme</label>
+                                <select name="color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="blue" ${category.color === 'blue' ? 'selected' : ''}>Blue</option>
+                                    <option value="green" ${category.color === 'green' ? 'selected' : ''}>Green</option>
+                                    <option value="purple" ${category.color === 'purple' ? 'selected' : ''}>Purple</option>
+                                    <option value="pink" ${category.color === 'pink' ? 'selected' : ''}>Pink</option>
+                                    <option value="yellow" ${category.color === 'yellow' ? 'selected' : ''}>Yellow</option>
+                                    <option value="red" ${category.color === 'red' ? 'selected' : ''}>Red</option>
+                                    <option value="gray" ${category.color === 'gray' ? 'selected' : ''}>Gray</option>
+                                    <option value="indigo" ${category.color === 'indigo' ? 'selected' : ''}>Indigo</option>
+                                </select>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveCategoryChanges(event, categoryId) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const category = categories.find(c => c.id === categoryId);
+            
+            if (category) {
+                category.name = formData.get('name');
+                category.nameAr = formData.get('nameAr');
+                category.icon = formData.get('icon');
+                category.color = formData.get('color');
+                
+                // Save to localStorage
+                localStorage.setItem('stationeryCategories', JSON.stringify(categories));
+                
+                showNotification(`Category "${category.name}" updated successfully`, 'success');
+                loadCategories();
+                event.target.closest('.fixed').remove();
+            }
+        }
+
+        function deleteCategory(categoryId) {
+            if (confirm('Are you sure you want to delete this category? This will also delete all subcategories under it.')) {
+                // Remove category and its subcategories
+                categories = categories.filter(c => c.id !== categoryId);
+                subcategories = subcategories.filter(s => s.parentId !== categoryId);
+                
+                // Save to localStorage
+                localStorage.setItem('stationeryCategories', JSON.stringify(categories));
+                localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+                
+                showNotification('Category deleted successfully', 'success');
+                loadCategories();
+            }
+        }
+
+        function addNewSubcategory() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Add New Subcategory</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveNewSubcategory(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Parent Category</label>
+                                <select name="parentId" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    ${categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('')}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (English)</label>
+                                <input type="text" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (Arabic)</label>
+                                <input type="text" name="nameAr" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Add Subcategory</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveNewSubcategory(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const newSubcategory = {
+                id: formData.get('name').toLowerCase().replace(/\s+/g, '_'),
+                name: formData.get('name'),
+                nameAr: formData.get('nameAr'),
+                parentId: formData.get('parentId')
+            };
+            
+            subcategories.push(newSubcategory);
+            
+            // Save to localStorage
+            localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+            
+            showNotification(`Subcategory "${newSubcategory.name}" added successfully`, 'success');
+            loadCategories();
+            event.target.closest('.fixed').remove();
+        }
+
+        function editSubcategory(subcategoryId) {
+            const subcategory = subcategories.find(s => s.id === subcategoryId);
+            if (!subcategory) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold">Edit Subcategory</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form onsubmit="saveSubcategoryChanges(event, '${subcategoryId}')">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Parent Category</label>
+                                <select name="parentId" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    ${categories.map(cat => `<option value="${cat.id}" ${cat.id === subcategory.parentId ? 'selected' : ''}>${cat.name}</option>`).join('')}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (English)</label>
+                                <input type="text" name="name" value="${subcategory.name}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subcategory Name (Arabic)</label>
+                                <input type="text" name="nameAr" value="${subcategory.nameAr}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="btn-secondary">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveSubcategoryChanges(event, subcategoryId) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const subcategory = subcategories.find(s => s.id === subcategoryId);
+            
+            if (subcategory) {
+                subcategory.name = formData.get('name');
+                subcategory.nameAr = formData.get('nameAr');
+                subcategory.parentId = formData.get('parentId');
+                
+                // Save to localStorage
+                localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+                
+                showNotification(`Subcategory "${subcategory.name}" updated successfully`, 'success');
+                loadCategories();
+                event.target.closest('.fixed').remove();
+            }
+        }
+
+        function deleteSubcategory(subcategoryId) {
+            if (confirm('Are you sure you want to delete this subcategory?')) {
+                subcategories = subcategories.filter(s => s.id !== subcategoryId);
+                
+                // Save to localStorage
+                localStorage.setItem('stationerySubcategories', JSON.stringify(subcategories));
+                
+                showNotification('Subcategory deleted successfully', 'success');
+                loadCategories();
+            }
         }
 
         // Initialize the page

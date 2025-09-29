@@ -515,35 +515,8 @@
                     </div>
 
                     <!-- Category Filter -->
-                    <div class="flex flex-wrap justify-center gap-4 mb-8">
-                        <button onclick="filterProducts('all')" class="category-btn active" data-category="all">
-                            <span class="en-text">All Products</span>
-                            <span class="ar-text hidden">جميع المنتجات</span>
-                        </button>
-                        <button onclick="filterProducts('pens')" class="category-btn" data-category="pens">
-                            <span class="en-text">Pens & Writing</span>
-                            <span class="ar-text hidden">أقلام وكتابة</span>
-                        </button>
-                        <button onclick="filterProducts('notebooks')" class="category-btn" data-category="notebooks">
-                            <span class="en-text">Notebooks</span>
-                            <span class="ar-text hidden">دفاتر</span>
-                        </button>
-                        <button onclick="filterProducts('office')" class="category-btn" data-category="office">
-                            <span class="en-text">Office</span>
-                            <span class="ar-text hidden">مكتب</span>
-                        </button>
-                        <button onclick="filterProducts('art')" class="category-btn" data-category="art">
-                            <span class="en-text">Art Supplies</span>
-                            <span class="ar-text hidden">أدوات رسم</span>
-                        </button>
-                        <button onclick="filterProducts('school')" class="category-btn" data-category="school">
-                            <span class="en-text">School</span>
-                            <span class="ar-text hidden">مدرسة</span>
-                        </button>
-                        <button onclick="filterProducts('printing')" class="category-btn" data-category="printing">
-                            <span class="en-text">Printing</span>
-                            <span class="ar-text hidden">طباعة</span>
-                        </button>
+                    <div class="flex flex-wrap justify-center gap-4 mb-8" id="category-buttons">
+                        <!-- Categories will be loaded dynamically -->
                     </div>
                 </div>
 
@@ -1068,8 +1041,51 @@
             localStorage.removeItem('adminLoginTime');
         }
 
+        // Load categories from localStorage
+        function loadCategoriesFromStorage() {
+            const storedCategories = localStorage.getItem('stationeryCategories');
+            if (storedCategories) {
+                const parsedCategories = JSON.parse(storedCategories);
+                // Add "All Products" at the beginning
+                categories = [
+                    { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
+                    ...parsedCategories.map(cat => ({
+                        id: cat.id,
+                        name: cat.name,
+                        nameAr: cat.nameAr
+                    }))
+                ];
+            } else {
+                // Default categories if none stored
+                categories = [
+                    { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
+                    { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة' },
+                    { id: 'notebooks', name: 'Notebooks', nameAr: 'دفاتر' },
+                    { id: 'office', name: 'Office', nameAr: 'مكتب' },
+                    { id: 'art', name: 'Art Supplies', nameAr: 'أدوات رسم' },
+                    { id: 'school', name: 'School', nameAr: 'مدرسة' },
+                    { id: 'printing', name: 'Printing', nameAr: 'طباعة' }
+                ];
+            }
+        }
+
+        // Load category buttons
+        function loadCategoryButtons() {
+            const categoryButtonsContainer = document.getElementById('category-buttons');
+            if (!categoryButtonsContainer) return;
+
+            categoryButtonsContainer.innerHTML = categories.map(category => `
+                <button onclick="filterProducts('${category.id}')" class="category-btn ${category.id === 'all' ? 'active' : ''}" data-category="${category.id}">
+                    <span class="en-text">${category.name}</span>
+                    <span class="ar-text hidden">${category.nameAr}</span>
+                </button>
+            `).join('');
+        }
+
         // Initialize the page
         function init() {
+            loadCategoriesFromStorage();
+            loadCategoryButtons();
             loadProducts();
             updateCartDisplay();
         }
@@ -1703,7 +1719,8 @@
             // Update dynamic content
             updateLanguageContent();
             
-            // Reload products to update language
+            // Reload categories and products to update language
+            loadCategoryButtons();
             loadProducts();
             
             // Update cart display
