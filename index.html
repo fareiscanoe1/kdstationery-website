@@ -294,56 +294,28 @@
             color: var(--store-blue);
         }
         
-        /* Language switching styles - Force display control */
+        /* Language switching styles - Simple and effective */
         .en-text {
-            display: inline !important;
+            display: block;
         }
         .ar-text {
-            display: none !important;
+            display: none;
         }
         
         /* When Arabic is active */
         body[dir="rtl"] .en-text {
-            display: none !important;
+            display: none;
         }
         body[dir="rtl"] .ar-text {
-            display: inline !important;
+            display: block;
         }
         
         /* When English is active */
         body[dir="ltr"] .en-text {
-            display: inline !important;
+            display: block;
         }
         body[dir="ltr"] .ar-text {
-            display: none !important;
-        }
-        
-        /* Additional class-based language switching */
-        .arabic-mode .en-text {
-            display: none !important;
-        }
-        .arabic-mode .ar-text {
-            display: inline !important;
-        }
-        .english-mode .en-text {
-            display: inline !important;
-        }
-        .english-mode .ar-text {
-            display: none !important;
-        }
-        
-        /* Force language switching on all elements */
-        body.arabic-mode * .en-text {
-            display: none !important;
-        }
-        body.arabic-mode * .ar-text {
-            display: inline !important;
-        }
-        body.english-mode * .en-text {
-            display: inline !important;
-        }
-        body.english-mode * .ar-text {
-            display: none !important;
+            display: none;
         }
         .category-btn {
             padding: 0.5rem 1rem;
@@ -519,10 +491,6 @@
                     <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8" id="products-description">
                         Discover our wide range of high-quality stationery products
                     </p>
-                    <button onclick="checkLocalStorage()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors mb-4">
-                        <span class="en-text">Check Storage</span>
-                        <span class="ar-text hidden">فحص التخزين</span>
-                    </button>
                     
                     <!-- Search and Filters -->
                     <div class="max-w-4xl mx-auto mb-8">
@@ -1193,66 +1161,34 @@
         
         // Set up automatic product synchronization
         function setupProductSync() {
-            // Listen for storage changes (when admin adds products)
-            window.addEventListener('storage', function(e) {
-                if (e.key === 'stationeryProducts') {
-                    console.log('Products updated in localStorage, reloading...');
-                    loadProductsFromStorage();
-                    loadProducts();
-                }
-            });
-            
-            // Also check for products every 2 seconds as a fallback
+            // Check for products every 1 second to ensure sync
             setInterval(function() {
                 const storedProducts = localStorage.getItem('stationeryProducts');
                 if (storedProducts) {
                     const parsedProducts = JSON.parse(storedProducts);
                     if (parsedProducts.length !== products.length) {
-                        console.log('Product count changed, reloading...');
                         loadProductsFromStorage();
                         loadProducts();
                     }
                 }
-            }, 2000);
+            }, 1000);
         }
         
-        // Debug function to check localStorage
-        function checkLocalStorage() {
-            console.log('🔍 === LOCALSTORAGE DEBUG ===');
-            console.log('All localStorage keys:', Object.keys(localStorage));
-            console.log('stationeryProducts:', localStorage.getItem('stationeryProducts'));
-            console.log('stationeryCategories:', localStorage.getItem('stationeryCategories'));
-            console.log('stationerySubcategories:', localStorage.getItem('stationerySubcategories'));
-            console.log('Current products array:', products);
-            console.log('Products length:', products.length);
-            
-            // Try to reload products
-            loadProductsFromStorage();
-            loadProducts();
-            
-            alert(`Found ${products.length} products in localStorage. Check console for details.`);
-        }
 
         // Load products from localStorage or use default
         function loadProductsFromStorage() {
             try {
                 const storedProducts = localStorage.getItem('stationeryProducts');
-                console.log('🔍 Checking localStorage for products...');
-                console.log('Raw stored products:', storedProducts);
                 
                 if (storedProducts) {
                     const parsedProducts = JSON.parse(storedProducts);
-                    console.log('✅ Parsed products:', parsedProducts);
-                    console.log('📊 Number of products found:', parsedProducts.length);
                     // Replace products array with stored products
                     products = [...parsedProducts]; // Use spread operator to create new array
-                    console.log('💾 Products array updated:', products);
                 } else {
-                    console.log('❌ No products found in localStorage');
                     products = []; // Ensure products is empty array if no stored products
                 }
             } catch (error) {
-                console.error('❌ Error loading products from storage:', error);
+                console.error('Error loading products from storage:', error);
                 products = []; // Fallback to empty array on error
             }
         }
@@ -1262,13 +1198,9 @@
             try {
                 const productsGrid = document.getElementById('products-grid');
                 if (!productsGrid) {
-                    console.error('❌ Products grid not found');
+                    console.error('Products grid not found');
                     return;
                 }
-                
-                console.log('🔄 Loading products into grid...');
-                console.log('📦 Current products array:', products);
-                console.log('📊 Products count:', products.length);
                 
                 productsGrid.innerHTML = '';
 
@@ -1276,9 +1208,6 @@
                 let filteredProducts = currentCategory === 'all' 
                     ? products 
                     : products.filter(product => product.category === currentCategory);
-                
-                console.log('🔍 Filtered products:', filteredProducts);
-                console.log('📊 Filtered count:', filteredProducts.length);
 
                 // Apply search filter
                 if (searchQuery.trim()) {
@@ -1957,38 +1886,34 @@
 
         // Language switching function
         function toggleLanguage() {
-            try {
-                isArabic = !isArabic;
+            isArabic = !isArabic;
             
-                // Update HTML direction and language
-                document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
-                document.documentElement.lang = isArabic ? 'ar' : 'en';
-                document.body.dir = isArabic ? 'rtl' : 'ltr';
-                
-                // Force update all text elements immediately
-                const enTexts = document.querySelectorAll('.en-text');
-                const arTexts = document.querySelectorAll('.ar-text');
-                
-                enTexts.forEach(el => {
-                    el.style.display = isArabic ? 'none' : 'inline';
-                });
-                
-                arTexts.forEach(el => {
-                    el.style.display = isArabic ? 'inline' : 'none';
-                });
+            // Update HTML direction and language
+            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+            document.documentElement.lang = isArabic ? 'ar' : 'en';
+            document.body.dir = isArabic ? 'rtl' : 'ltr';
             
-                // Update dynamic content
-                updateLanguageContent();
+            // Update all text elements
+            const enTexts = document.querySelectorAll('.en-text');
+            const arTexts = document.querySelectorAll('.ar-text');
             
-                // Reload categories and products to update language
-                loadCategoryButtons();
-                loadProducts();
+            enTexts.forEach(el => {
+                el.style.display = isArabic ? 'none' : 'block';
+            });
             
-                // Update cart display
-                updateCartDisplay();
-            } catch (error) {
-                console.error('Error in toggleLanguage:', error);
-            }
+            arTexts.forEach(el => {
+                el.style.display = isArabic ? 'block' : 'none';
+            });
+        
+            // Update dynamic content
+            updateLanguageContent();
+        
+            // Reload categories and products to update language
+            loadCategoryButtons();
+            loadProducts();
+        
+            // Update cart display
+            updateCartDisplay();
         }
 
         function updateLanguageContent() {
