@@ -2,12 +2,13 @@
 // Replace with your actual Firebase config
 
 const firebaseConfig = {
-  apiKey: "your-api-key-here",
-  authDomain: "kdstationery-website.firebaseapp.com",
-  projectId: "kdstationery-website",
-  storageBucket: "kdstationery-website.appspot.com",
-  messagingSenderId: "your-sender-id",
-  appId: "your-app-id"
+  apiKey: "AIzaSyDTlezN3jxgFytRj_NbltV4sOgwpCLlhhk",
+  authDomain: "stationery-website-37a02.firebaseapp.com",
+  projectId: "stationery-website-37a02",
+  storageBucket: "stationery-website-37a02.firebasestorage.app",
+  messagingSenderId: "921131993445",
+  appId: "1:921131993445:web:6bf0a390721f2d61ef798c",
+  measurementId: "G-D7X54VCW42"
 };
 
 // Initialize Firebase
