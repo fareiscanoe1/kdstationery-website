@@ -15,8 +15,8 @@
     <meta property="og:title" content="Knowledge Development Stationery - Premium Stationery Store in Jeddah">
     <meta property="og:description" content="Your trusted stationery partner in Jeddah. Premium pens, notebooks, office supplies, art materials, and printing services.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kdstationery.sa">
-    <meta property="og:image" content="https://kdstationery.sa/og-image.jpg">
+    <meta property="og:url" content="https://tanmiahdevstationery.com">
+    <meta property="og:image" content="https://tanmiahdevstationery.com/og-image.jpg">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="ar_SA">
     
@@ -24,18 +24,49 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Knowledge Development Stationery - Premium Stationery Store in Jeddah">
     <meta name="twitter:description" content="Your trusted stationery partner in Jeddah. Premium pens, notebooks, office supplies, art materials, and printing services.">
-    <meta name="twitter:image" content="https://kdstationery.sa/og-image.jpg">
+    <meta name="twitter:image" content="https://tanmiahdevstationery.com/og-image.jpg">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://kdstationery.sa">
+    <link rel="canonical" href="https://tanmiahdevstationery.com">
     
     <!-- Language Alternates -->
-    <link rel="alternate" hreflang="en" href="https://kdstationery.sa">
-    <link rel="alternate" hreflang="ar" href="https://kdstationery.sa">
-    <link rel="alternate" hreflang="x-default" href="https://kdstationery.sa">
+    <link rel="alternate" hreflang="en" href="https://tanmiahdevstationery.com">
+    <link rel="alternate" hreflang="ar" href="https://tanmiahdevstationery.com">
+    <link rel="alternate" hreflang="x-default" href="https://tanmiahdevstationery.com">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDTlezN3jxgFytRj_NbltV4sOgwpCLlhhk",
+            authDomain: "stationery-website-37a02.firebaseapp.com",
+            projectId: "stationery-website-37a02",
+            storageBucket: "stationery-website-37a02.firebasestorage.app",
+            messagingSenderId: "921131993445",
+            appId: "1:921131993445:web:6bf0a390721f2d61ef798c",
+            measurementId: "G-D7X54VCW42"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.auth = getAuth(app);
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --store-yellow: #FFD700;
+            --store-bright-yellow: #FFED4E;
+            --store-light-yellow: #FFF9C4;
+            --store-dark: #1a1a1a;
+            --store-gray: #6b7280;
+        }
+        
         .container-custom {
             max-width: 1280px;
             margin: 0 auto;
@@ -47,2327 +78,1297 @@
             .container-custom {
                 padding: 0 0.75rem;
             }
-            
-            .grid-products {
-                grid-template-columns: repeat(1, minmax(0, 1fr));
-                gap: 1rem;
-            }
-            
-            .card-product {
-                margin-bottom: 1rem;
-            }
-            
-            .hero-section {
-                padding: 3rem 1rem;
-                text-align: center;
-            }
-            
-            .hero-title {
-                font-size: 1.75rem;
-                line-height: 1.3;
-                margin-bottom: 1rem;
-            }
-            
-            .hero-description {
-                font-size: 0.95rem;
-                margin-bottom: 2rem;
-                line-height: 1.5;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: center;
-            }
-            
-            .hero-buttons .btn-primary,
-            .hero-buttons .btn-secondary {
-                width: 100%;
-                max-width: 280px;
-                padding: 0.875rem 1.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .category-btn {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.8rem;
-                margin: 0.25rem;
-            }
-            
-            .btn-primary, .btn-secondary {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.875rem;
-            }
-            
-            /* Header improvements */
-            .header-content {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                height: auto;
-                min-height: 60px;
-            }
-            
-            .brand-section {
-                flex-direction: row;
-                align-items: center;
-                gap: 0.5rem;
-            }
-            
-            .brand-name {
-                font-size: 1rem;
-                line-height: 1.2;
-            }
-            
-            .brand-tagline {
-                font-size: 0.7rem;
-                display: none;
-            }
-            
-            /* Fix mobile menu spacing */
-            #mobile-menu {
-                border-top: 1px solid rgba(255, 255, 255, 0.2);
-            }
-            
-            /* Search bar improvements */
-            .search-container {
-                margin: 1rem 0;
-            }
-            
-            .search-container input {
-                font-size: 0.9rem;
-                padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-            }
-            
-            /* Filter section improvements */
-            .filter-section {
-                padding: 1rem;
-            }
-            
-            .filter-section .flex {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .filter-section select {
-                font-size: 0.9rem;
-                padding: 0.75rem;
-            }
-            
-            /* Product cards improvements */
-            .card-product {
-                border-radius: 0.75rem;
-                overflow: hidden;
-            }
-            
-            .card-product img {
-                height: 200px;
-            }
-            
-            .card-product .p-6 {
-                padding: 1rem;
-            }
-            
-            .card-product h3 {
-                font-size: 1rem;
-                margin-bottom: 0.75rem;
-            }
-            
-            /* Footer improvements */
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                text-align: center;
-            }
-            
-            .footer-section h3 {
-                font-size: 1.1rem;
-                margin-bottom: 1rem;
-            }
-            
-            .footer-section p,
-            .footer-section a {
-                font-size: 0.9rem;
-                line-height: 1.5;
-            }
-        }
-        
-        /* Store Brand Colors */
-        :root {
-            --store-brown: #8B7355;
-            --store-tan: #D2B48C;
-            --store-blue: #4A90E2;
-            --store-blue-glow: #6BB6FF;
-            --store-yellow: #FFEB3B;
-            --store-bright-yellow: #FFF176;
-            --store-light-yellow: #FFF9C4;
-            --store-dark-brown: #6B5B47;
         }
         
         .brand-gradient {
-            background: linear-gradient(135deg, var(--store-yellow) 0%, var(--store-bright-yellow) 50%, var(--store-light-yellow) 100%);
+            background: linear-gradient(135deg, var(--store-bright-yellow) 0%, var(--store-light-yellow) 50%, var(--store-yellow) 100%);
         }
         
-        .brand-text-glow {
-            color: var(--store-blue);
-            text-shadow: 0 0 10px var(--store-blue-glow), 0 0 20px var(--store-blue-glow), 0 0 30px var(--store-blue-glow);
+        .product-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
-        .brand-button {
-            background: linear-gradient(135deg, var(--store-blue) 0%, var(--store-blue-glow) 100%);
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--store-yellow);
         }
         
-        .brand-button:hover {
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-            transform: translateY(-2px);
-        }
-        @media (min-width: 640px) {
-            .container-custom { padding: 0 1.5rem; }
-        }
-        @media (min-width: 1024px) {
-            .container-custom { padding: 0 2rem; }
-        }
         .btn-primary {
-            background-color: #111827;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-size: 0.875rem;
-            border: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .btn-primary:hover {
-            background-color: #374151;
-        }
-        .btn-secondary {
-            background-color: transparent;
-            color: #111827;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-size: 0.875rem;
-            border: 1px solid #111827;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .btn-secondary:hover {
-            background-color: #111827;
-            color: white;
-        }
-        .card-product {
-            background-color: white;
-            border: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, var(--store-yellow) 0%, var(--store-bright-yellow) 100%);
+            color: var(--store-dark);
+            font-weight: 600;
             transition: all 0.3s ease;
         }
-        .card-product:hover {
-            border-color: #d1d5db;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
-        .grid-products {
-            display: grid;
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 1.5rem;
+        
+        .cart-badge {
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            top: -8px;
+            right: -8px;
         }
-        @media (min-width: 640px) {
-            .grid-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        }
-        @media (min-width: 1024px) {
-            .grid-products { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
-        }
-        @media (min-width: 1280px) {
-            .grid-products { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        }
-        .cart-sidebar {
-            transform: translateX(100%);
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(400px);
             transition: transform 0.3s ease;
         }
-        .cart-sidebar.open {
+        
+        .notification.show {
             transform: translateX(0);
         }
-        .riyal-symbol {
-            font-family: 'Arial', sans-serif;
-            font-size: 1.2em;
-            color: var(--store-blue);
+        
+        .notification.success {
+            background: #10b981;
         }
         
-        /* Language switching styles - Simple and effective */
-        .en-text {
-            display: block;
-        }
-        .ar-text {
-            display: none;
+        .notification.error {
+            background: #ef4444;
         }
         
-        /* When Arabic is active */
-        body[dir="rtl"] .en-text {
-            display: none;
-        }
-        body[dir="rtl"] .ar-text {
-            display: block;
+        .notification.info {
+            background: #3b82f6;
         }
         
-        /* When English is active */
-        body[dir="ltr"] .en-text {
-            display: block;
+        /* Arabic RTL Support */
+        [dir="rtl"] {
+            text-align: right;
         }
-        body[dir="ltr"] .ar-text {
+        
+        [dir="rtl"] .flex {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .space-x-4 > * + * {
+            margin-right: 1rem;
+            margin-left: 0;
+        }
+        
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--store-yellow);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Modal Styles */
+        .modal {
             display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
         }
-        .category-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--store-blue);
-            background-color: white;
-            color: var(--store-blue);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-size: 0.875rem;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .category-btn:hover {
-            border-color: var(--store-dark-brown);
-            color: var(--store-dark-brown);
-            background-color: var(--store-tan);
-        }
-        .category-btn.active {
-            background-color: var(--store-blue);
-            color: white;
-            border-color: var(--store-blue);
-            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
-        }
-        .payment-method-btn {
+        
+        .modal.show {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 1rem;
-            border: 2px solid #e5e7eb;
-            background-color: white;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            cursor: pointer;
+            justify-content: center;
         }
-        .payment-method-btn:hover {
-            border-color: #111827;
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
         }
-        .payment-method-btn.active {
-            border-color: #111827;
-            background-color: #f9fafb;
+        
+        /* Payment Icons */
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+        }
+        
+        /* User Account Styles */
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .user-dropdown.show {
+            display: block;
+        }
+        
+        .user-dropdown a {
+            display: block;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .user-dropdown a:hover {
+            background: #f9fafb;
+        }
+        
+        .user-dropdown a:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
-<body class="min-h-screen bg-white">
-    <!-- Header -->
-    <header class="brand-gradient border-b border-gray-300 sticky top-0 z-50">
+<body class="brand-gradient min-h-screen">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <p class="text-gray-600">Loading store...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-40">
         <div class="container-custom">
-            <div class="flex justify-between items-center h-20 header-content">
+            <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
-                <div class="flex-shrink-0 brand-section">
-                    <div class="flex items-center group">
-                        <div class="h-10 w-10 bg-white flex items-center justify-center group-hover:bg-gray-100 transition-colors rounded-lg shadow-md">
-                            <span class="brand-text-glow font-bold text-lg">K</span>
-                        </div>
-                        <div class="ml-3">
-                            <div class="text-lg font-semibold brand-text-glow brand-name" id="store-name">
-                                Knowledge Development Stationery
-                            </div>
-                            <div class="text-xs text-white uppercase tracking-wide opacity-90 brand-tagline">
-                                Stationery
-                            </div>
-                        </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-pen-fancy text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800 en-text">Knowledge Development</h1>
+                        <h1 class="text-xl font-bold text-gray-800 ar-text" style="display: none;">تنمية المعرفة</h1>
+                        <p class="text-sm text-gray-600 en-text">Stationery</p>
+                        <p class="text-sm text-gray-600 ar-text" style="display: none;">القرطاسية</p>
                     </div>
                 </div>
 
-                <!-- Desktop Navigation -->
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-white hover:text-blue-200 text-sm font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">Home</span>
-                        <span class="ar-text hidden">الرئيسية</span>
-                    </a>
-                    <a href="#products" class="text-white hover:text-blue-200 text-sm font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">Products</span>
-                        <span class="ar-text hidden">المنتجات</span>
-                    </a>
-                    <a href="#about" onclick="scrollToSection('about')" class="text-white hover:text-blue-200 text-sm font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">About</span>
-                        <span class="ar-text hidden">من نحن</span>
-                    </a>
-                    <a href="#contact" class="text-white hover:text-blue-200 text-sm font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">Contact</span>
-                        <span class="ar-text hidden">اتصل بنا</span>
-                    </a>
-                </nav>
-
-                <!-- Right side actions -->
-                <div class="flex items-center space-x-6">
-                    <!-- Language Switcher -->
-                    <button onclick="toggleLanguage()" class="text-white hover:text-blue-200 text-sm font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">العربية</span>
-                        <span class="ar-text hidden">English</span>
-                    </button>
-
-                    <!-- Cart Button -->
-                    <button onclick="toggleCart()" class="relative p-2 text-white hover:text-blue-200 transition-colors group">
-                        <i class="fas fa-shopping-cart text-xl group-hover:scale-110 transition-transform"></i>
-                        <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-blue-600 text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium hidden">0</span>
-                    </button>
-
-                    <!-- Mobile menu button -->
-                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-white hover:text-blue-200 transition-colors">
-                        <i id="menu-icon" class="fas fa-bars text-xl"></i>
-                    </button>
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">الرئيسية</a>
+                    
+                    <a href="#products" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">Products</a>
+                    <a href="#products" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">المنتجات</a>
+                    
+                    <a href="#about" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">About</a>
+                    <a href="#about" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">من نحن</a>
+                    
+                    <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">Contact</a>
+                    <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">اتصل بنا</a>
                 </div>
-            </div>
 
-            <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="md:hidden border-t border-gray-300 hidden">
-                <div class="px-4 py-6 space-y-4">
-                    <a href="#home" class="block text-white hover:text-blue-200 text-base font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">Home</span>
-                        <span class="ar-text hidden">الرئيسية</span>
-                    </a>
-                    <a href="#products" class="block text-white hover:text-blue-200 text-base font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">Products</span>
-                        <span class="ar-text hidden">المنتجات</span>
-                    </a>
-                    <a href="#about" onclick="scrollToSection('about')" class="block text-white hover:text-blue-200 text-base font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">About</span>
-                        <span class="ar-text hidden">من نحن</span>
-                    </a>
-                    <a href="#contact" class="block text-white hover:text-blue-200 text-base font-medium uppercase tracking-wide transition-colors">
-                        <span class="en-text">Contact</span>
-                        <span class="ar-text hidden">اتصل بنا</span>
-                    </a>
-                    <div class="pt-4 border-t border-gray-300">
-                        <button onclick="toggleLanguage()" class="block text-white hover:text-blue-200 text-base font-medium uppercase tracking-wide transition-colors">
-                            <span class="en-text">العربية</span>
-                            <span class="ar-text hidden">English</span>
+                <!-- User Account & Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Toggle -->
+                    <button onclick="toggleLanguage()" class="p-2 text-gray-600 hover:text-yellow-600 transition-colors">
+                        <i class="fas fa-language text-lg"></i>
+                    </button>
+
+                    <!-- User Account -->
+                    <div class="user-menu">
+                        <button id="userMenuBtn" class="flex items-center space-x-2 p-2 text-gray-600 hover:text-yellow-600 transition-colors">
+                            <i class="fas fa-user text-lg"></i>
+                            <span id="userDisplayName" class="hidden md:block en-text">Account</span>
+                            <span id="userDisplayNameAr" class="hidden md:block ar-text" style="display: none;">الحساب</span>
                         </button>
+                        <div id="userDropdown" class="user-dropdown">
+                            <div id="guestMenu">
+                                <a href="#" onclick="showLoginModal()" class="en-text">Login</a>
+                                <a href="#" onclick="showLoginModal()" class="ar-text" style="display: none;">تسجيل الدخول</a>
+                                <a href="#" onclick="showRegisterModal()" class="en-text">Register</a>
+                                <a href="#" onclick="showRegisterModal()" class="ar-text" style="display: none;">إنشاء حساب</a>
+                            </div>
+                            <div id="userMenu" style="display: none;">
+                                <a href="#" onclick="showOrderHistory()" class="en-text">Order History</a>
+                                <a href="#" onclick="showOrderHistory()" class="ar-text" style="display: none;">تاريخ الطلبات</a>
+                                <a href="#" onclick="showProfile()" class="en-text">Profile</a>
+                                <a href="#" onclick="showProfile()" class="ar-text" style="display: none;">الملف الشخصي</a>
+                                <a href="#" onclick="logout()" class="en-text">Logout</a>
+                                <a href="#" onclick="logout()" class="ar-text" style="display: none;">تسجيل الخروج</a>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Cart -->
+                    <button onclick="toggleCart()" class="relative p-2 text-gray-600 hover:text-yellow-600 transition-colors">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                        <span id="cartBadge" class="cart-badge" style="display: none;">0</span>
+                    </button>
+
+                    <!-- Admin Link -->
+                    <a href="admin-login.html" class="hidden md:block text-sm text-gray-500 hover:text-yellow-600 transition-colors">
+                        <i class="fas fa-cog mr-1"></i>
+                        <span class="en-text">Admin</span>
+                        <span class="ar-text" style="display: none;">الإدارة</span>
+                    </a>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="brand-gradient">
+    <section class="py-16 text-center">
         <div class="container-custom">
-            <div class="py-20 md:py-32">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-8 leading-tight brand-text-glow hero-title" id="hero-title">
-                        Knowledge Development Stationery
-                    </h1>
-                    <p class="text-lg md:text-xl text-white mb-12 max-w-2xl mx-auto leading-relaxed opacity-90 hero-description" id="hero-description">
-                        Your trusted stationery partner in Jeddah. We provide quality products and convenient pickup service.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center hero-buttons">
-                        <a href="#products" class="brand-button text-white px-8 py-4 rounded-lg font-medium inline-flex items-center justify-center transition-all duration-300">
-                            <span class="en-text">Shop Now</span>
-                            <span class="ar-text hidden">تسوق الآن</span>
-                        </a>
-                        <a href="#about" class="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 inline-flex items-center justify-center transition-all duration-300">
-                            <span class="en-text">Learn More</span>
-                            <span class="ar-text hidden">اعرف المزيد</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <h2 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 en-text">
+                Premium Stationery Store
+            </h2>
+            <h2 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 ar-text" style="display: none;">
+                متجر القرطاسية المميز
+            </h2>
+            
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto en-text">
+                Discover high-quality pens, notebooks, office supplies, and art materials. 
+                Your trusted stationery partner in Jeddah with online ordering and pickup service.
+            </p>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto ar-text" style="display: none;">
+                اكتشف الأقلام عالية الجودة والدفاتر ومستلزمات المكتب والمواد الفنية.
+                شريكك الموثوق في القرطاسية في جدة مع خدمة الطلب عبر الإنترنت والاستلام.
+            </p>
+            
+            <button onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})" 
+                    class="btn-primary px-8 py-3 rounded-lg text-lg">
+                <span class="en-text">Shop Now</span>
+                <span class="ar-text" style="display: none;">تسوق الآن</span>
+                <i class="fas fa-arrow-right ml-2"></i>
+            </button>
         </div>
     </section>
 
     <!-- Products Section -->
-    <section id="products" class="bg-white">
+    <section id="products" class="py-16 bg-white">
         <div class="container-custom">
-            <div class="py-16">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-light text-gray-800 mb-6" id="products-title" style="color: var(--store-dark-brown);">
-                        Our Products
-                    </h2>
-                    <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8" id="products-description">
-                        Discover our wide range of high-quality stationery products
-                    </p>
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">
+                <span class="en-text">Our Products</span>
+                <span class="ar-text" style="display: none;">منتجاتنا</span>
+            </h3>
+
+            <!-- Category Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8" id="categoryButtons">
+                <button onclick="filterProducts('all')" 
+                        class="category-btn active px-6 py-2 rounded-full bg-yellow-500 text-white font-medium hover:bg-yellow-600 transition-colors">
+                    <span class="en-text">All Products</span>
+                    <span class="ar-text" style="display: none;">جميع المنتجات</span>
+                </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+
+            <!-- Loading State -->
+            <div id="productsLoading" class="text-center py-12">
+                <div class="spinner mx-auto mb-4"></div>
+                <p class="text-gray-600 en-text">Loading products...</p>
+                <p class="text-gray-600 ar-text" style="display: none;">جاري تحميل المنتجات...</p>
+            </div>
+
+            <!-- No Products State -->
+            <div id="noProducts" class="text-center py-12" style="display: none;">
+                <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+                <p class="text-xl text-gray-500 en-text">No products found</p>
+                <p class="text-xl text-gray-500 ar-text" style="display: none;">لم يتم العثور على منتجات</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold en-text">Shopping Cart</h3>
+                <h3 class="text-xl font-bold ar-text" style="display: none;">سلة التسوق</h3>
+                <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="cartItems" class="flex-1 overflow-y-auto p-6">
+            <!-- Cart items will be displayed here -->
+        </div>
+        
+        <div class="border-t p-6">
+            <div class="space-y-2 mb-4">
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span class="en-text">Subtotal:</span>
+                    <span class="ar-text" style="display: none;">المجموع الفرعي:</span>
+                    <span id="cartSubtotal">0.00 SAR</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span class="en-text">VAT (15%):</span>
+                    <span class="ar-text" style="display: none;">ضريبة القيمة المضافة (15%):</span>
+                    <span id="cartVAT">0.00 SAR</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold">
+                    <span class="en-text">Total:</span>
+                    <span class="ar-text" style="display: none;">المجموع:</span>
+                    <span id="cartTotal">0.00 SAR</span>
+                </div>
+            </div>
+            <button onclick="proceedToCheckout()" 
+                    class="w-full btn-primary py-3 rounded-lg text-lg font-semibold" 
+                    id="checkoutBtn" disabled>
+                <span class="en-text">Proceed to Checkout</span>
+                <span class="ar-text" style="display: none;">المتابعة للدفع</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40" style="display: none;" onclick="toggleCart()"></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold en-text">Login</h3>
+                <h3 class="text-2xl font-bold ar-text" style="display: none;">تسجيل الدخول</h3>
+                <button onclick="closeModal('loginModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">البريد الإلكتروني</label>
+                        <input type="email" id="loginEmail" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Password</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">كلمة المرور</label>
+                        <input type="password" id="loginPassword" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary py-3 rounded-lg mt-6">
+                    <span class="en-text">Login</span>
+                    <span class="ar-text" style="display: none;">تسجيل الدخول</span>
+                </button>
+            </form>
+            
+            <p class="text-center mt-4 text-gray-600">
+                <span class="en-text">Don't have an account? </span>
+                <span class="ar-text" style="display: none;">ليس لديك حساب؟ </span>
+                <button onclick="closeModal('loginModal'); showRegisterModal()" class="text-yellow-600 hover:underline">
+                    <span class="en-text">Register here</span>
+                    <span class="ar-text" style="display: none;">سجل هنا</span>
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold en-text">Create Account</h3>
+                <h3 class="text-2xl font-bold ar-text" style="display: none;">إنشاء حساب</h3>
+                <button onclick="closeModal('registerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 en-text">First Name</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">الاسم الأول</label>
+                            <input type="text" id="registerFirstName" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Last Name</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">اسم العائلة</label>
+                            <input type="text" id="registerLastName" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">البريد الإلكتروني</label>
+                        <input type="email" id="registerEmail" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Phone</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">رقم الهاتف</label>
+                        <input type="tel" id="registerPhone" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Password</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">كلمة المرور</label>
+                        <input type="password" id="registerPassword" required minlength="6"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary py-3 rounded-lg mt-6">
+                    <span class="en-text">Create Account</span>
+                    <span class="ar-text" style="display: none;">إنشاء حساب</span>
+                </button>
+            </form>
+            
+            <p class="text-center mt-4 text-gray-600">
+                <span class="en-text">Already have an account? </span>
+                <span class="ar-text" style="display: none;">لديك حساب بالفعل؟ </span>
+                <button onclick="closeModal('registerModal'); showLoginModal()" class="text-yellow-600 hover:underline">
+                    <span class="en-text">Login here</span>
+                    <span class="ar-text" style="display: none;">سجل الدخول هنا</span>
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold en-text">Checkout</h3>
+                <h3 class="text-2xl font-bold ar-text" style="display: none;">الدفع</h3>
+                <button onclick="closeModal('checkoutModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Order Summary -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 en-text">Order Summary</h4>
+                    <h4 class="text-lg font-semibold mb-4 ar-text" style="display: none;">ملخص الطلب</h4>
+                    <div id="checkoutItems" class="space-y-3 mb-4">
+                        <!-- Checkout items will be displayed here -->
+                    </div>
+                    <div class="border-t pt-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="en-text">Subtotal:</span>
+                            <span class="ar-text" style="display: none;">المجموع الفرعي:</span>
+                            <span id="checkoutSubtotal">0.00 SAR</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="en-text">VAT (15%):</span>
+                            <span class="ar-text" style="display: none;">ضريبة القيمة المضافة (15%):</span>
+                            <span id="checkoutVAT">0.00 SAR</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold">
+                            <span class="en-text">Total:</span>
+                            <span class="ar-text" style="display: none;">المجموع:</span>
+                            <span id="checkoutTotal">0.00 SAR</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Form -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 en-text">Payment Information</h4>
+                    <h4 class="text-lg font-semibold mb-4 ar-text" style="display: none;">معلومات الدفع</h4>
                     
-                    <!-- Search and Filters -->
-                    <div class="max-w-4xl mx-auto mb-8">
-                        <!-- Search Bar -->
-                        <div class="mb-6 search-container">
-                            <div class="relative max-w-md mx-auto">
-                                <input type="text" id="product-search" 
-                                       class="w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                       onkeyup="searchProducts()">
-                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                        <!-- Customer Information -->
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Full Name</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">الاسم الكامل</label>
+                                <input type="text" id="customerName" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Email</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">البريد الإلكتروني</label>
+                                <input type="email" id="customerEmail" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Phone</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">رقم الهاتف</label>
+                                <input type="tel" id="customerPhone" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
                             </div>
                         </div>
                         
-                        <!-- Simple Sort Options -->
-                        <div class="bg-gray-50 rounded-lg p-4 filter-section">
-                            <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
-                                <!-- Sort By -->
-                                <div class="w-full sm:w-auto">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <span class="en-text">Sort By</span>
-                                        <span class="ar-text hidden">ترتيب حسب</span>
-                                    </label>
-                                    <select id="sort-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="searchProducts()">
-                                        <option value="name-asc">
-                                            <span class="en-text">Name A-Z</span>
-                                            <span class="ar-text hidden">الاسم أ-ي</span>
-                                        </option>
-                                        <option value="name-desc">
-                                            <span class="en-text">Name Z-A</span>
-                                            <span class="ar-text hidden">الاسم ي-أ</span>
-                                        </option>
-                                        <option value="price-asc">
-                                            <span class="en-text">Price Low-High</span>
-                                            <span class="ar-text hidden">السعر منخفض-عالي</span>
-                                        </option>
-                                        <option value="price-desc">
-                                            <span class="en-text">Price High-Low</span>
-                                            <span class="ar-text hidden">السعر عالي-منخفض</span>
-                                        </option>
-                                        <option value="rating-desc">
-                                            <span class="en-text">Rating High-Low</span>
-                                            <span class="ar-text hidden">التقييم عالي-منخفض</span>
-                                        </option>
-                                    </select>
-                            </div>
-                            
-                            <!-- Clear Filters Button -->
-                                <div class="w-full sm:w-auto">
-                                    <button onclick="clearFilters()" class="w-full sm:w-auto text-blue-600 hover:text-blue-800 text-sm font-medium px-4 py-2 border border-blue-300 rounded-lg hover:bg-blue-50">
-                                        <span class="en-text">Clear Filters</span>
-                                        <span class="ar-text hidden">مسح المرشحات</span>
-                                </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Category Filter -->
-                    <div class="flex flex-wrap justify-center gap-4 mb-8" id="category-buttons">
-                        <!-- Categories will be loaded dynamically -->
-                    </div>
-                </div>
-
-                <div class="grid-products" id="products-grid">
-                    <!-- Products will be loaded here -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cart Sidebar -->
-    <div id="cart-sidebar" class="fixed inset-0 z-50 overflow-hidden cart-sidebar">
-        <div class="absolute inset-0 bg-black bg-opacity-50" onclick="toggleCart()"></div>
-        <div class="absolute right-0 top-0 h-full w-full sm:w-96 bg-white shadow-xl">
-            <div class="flex flex-col h-full">
-                <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-900">
-                        <span class="en-text">Shopping Cart</span>
-                        <span class="ar-text hidden">سلة التسوق</span>
-                    </h2>
-                    <button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-
-                <div class="flex-1 overflow-y-auto p-6">
-                    <div id="cart-items">
-                        <p class="text-gray-500 text-center py-8">
-                            <span class="en-text">Your cart is empty</span>
-                            <span class="ar-text hidden">سلة التسوق فارغة</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div id="cart-footer" class="border-t border-gray-200 p-6 hidden">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-lg font-semibold text-gray-900">
-                            <span class="en-text">Total</span>
-                            <span class="ar-text hidden">المجموع</span>
-                        </span>
-                        <span class="text-lg font-semibold text-gray-900 flex items-center">
-                            <span class="riyal-symbol">﷼</span>
-                            <span id="cart-total">0.00</span>
-                        </span>
-                    </div>
-                    <button class="w-full btn-primary" onclick="openPaymentModal()">
-                        <span class="en-text">Checkout</span>
-                        <span class="ar-text hidden">الدفع</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Payment Modal -->
-    <div id="payment-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden">
-        <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
-            <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
-                <div class="p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-semibold text-gray-900">
-                            <span class="en-text">Payment Details</span>
-                            <span class="ar-text hidden">تفاصيل الدفع</span>
-                        </h2>
-                        <button onclick="closePaymentModal()" class="text-gray-400 hover:text-gray-600">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-
-                    <!-- Payment Methods -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">
-                            <span class="en-text">Payment Method</span>
-                            <span class="ar-text hidden">طريقة الدفع</span>
-                        </label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="selectPaymentMethod('mada')" class="payment-method-btn" data-method="mada">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Mada_Logo.svg/120px-Mada_Logo.svg.png" alt="Mada" class="h-8">
-                                <span class="text-xs">Mada</span>
-                            </button>
-                            <button onclick="selectPaymentMethod('visa')" class="payment-method-btn" data-method="visa">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/120px-Visa_Inc._logo.svg.png" alt="Visa" class="h-8">
-                                <span class="text-xs">Visa</span>
-                            </button>
-                            <button onclick="selectPaymentMethod('mastercard')" class="payment-method-btn" data-method="mastercard">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/120px-Mastercard-logo.svg.png" alt="Mastercard" class="h-8">
-                                <span class="text-xs">Mastercard</span>
-                            </button>
-                            <button onclick="selectPaymentMethod('amex')" class="payment-method-btn" data-method="amex">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/120px-American_Express_logo.svg.png" alt="AMEX" class="h-8">
-                                <span class="text-xs">AMEX</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Email Input -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            <span class="en-text">Email Address (for receipt)</span>
-                            <span class="ar-text hidden">البريد الإلكتروني (للإيصال)</span>
-                        </label>
-                        <input type="email" id="customer-email" placeholder="customer@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    </div>
-
-                    <!-- Card Details Form -->
-                    <div id="card-form" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                <span class="en-text">Card Number</span>
-                                <span class="ar-text hidden">رقم البطاقة</span>
-                            </label>
-                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                <span class="en-text">Cardholder Name</span>
-                                <span class="ar-text hidden">اسم حامل البطاقة</span>
-                            </label>
-                            <input type="text" id="card-name" placeholder="John Doe" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">
-                                    <span class="en-text">Expiry Date</span>
-                                    <span class="ar-text hidden">تاريخ الانتهاء</span>
+                        <!-- Payment Method -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3 en-text">Payment Method</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-3 ar-text" style="display: none;">طريقة الدفع</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="moyasar" class="mr-3" checked>
+                                    <img src="https://moyasar.com/img/moyasar-logo.svg" alt="Moyasar" class="payment-icon mr-3">
+                                    <span class="en-text">Moyasar (Credit/Debit Cards)</span>
+                                    <span class="ar-text" style="display: none;">ميسر (بطاقات ائتمانية/مدينة)</span>
                                 </label>
-                                <input type="text" id="expiry-date" placeholder="MM/YY" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">
-                                    <span class="en-text">CVV</span>
-                                    <span class="ar-text hidden">رمز الأمان</span>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="tamara" class="mr-3">
+                                    <img src="https://tamara.co/static/images/tamara-logo.svg" alt="Tamara" class="payment-icon mr-3">
+                                    <span class="en-text">Tamara (Buy Now, Pay Later)</span>
+                                    <span class="ar-text" style="display: none;">تمارا (اشتري الآن، ادفع لاحقاً)</span>
                                 </label>
-                                <input type="text" id="cvv" placeholder="123" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="mada" class="mr-3">
+                                    <div class="payment-icon mr-3 bg-green-600 text-white rounded flex items-center justify-center text-xs font-bold">MADA</div>
+                                    <span class="en-text">Mada Card</span>
+                                    <span class="ar-text" style="display: none;">بطاقة مدى</span>
+                                </label>
                             </div>
                         </div>
-                    </div>
-
-
-                    <!-- Order Summary -->
-                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                        <h3 class="font-semibold text-gray-900 mb-3">
-                            <span class="en-text">Order Summary</span>
-                            <span class="ar-text hidden">ملخص الطلب</span>
-                        </h3>
-                        <div id="payment-summary">
-                            <!-- Order items will be populated here -->
-                        </div>
-                        <div class="border-t border-gray-200 pt-3 mt-3">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">
-                                    <span class="en-text">Subtotal:</span>
-                                    <span class="ar-text hidden">المجموع الفرعي:</span>
-                                </span>
-                                <span id="payment-subtotal">0.00 ﷼</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">
-                                    <span class="en-text">VAT (15%):</span>
-                                    <span class="ar-text hidden">ضريبة القيمة المضافة (15%):</span>
-                                </span>
-                                <span id="payment-vat">0.00 ﷼</span>
-                            </div>
-                            <div class="flex justify-between font-semibold text-lg">
-                                <span class="text-gray-900">
-                                    <span class="en-text">Total:</span>
-                                    <span class="ar-text hidden">المجموع:</span>
-                                </span>
-                                <span id="payment-total">0.00 ﷼</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Payment Buttons -->
-                    <div class="flex space-x-3 mt-6">
-                        <button onclick="closePaymentModal()" class="flex-1 btn-secondary">
-                            <span class="en-text">Cancel</span>
-                            <span class="ar-text hidden">إلغاء</span>
+                        
+                        <button type="submit" class="w-full btn-primary py-3 rounded-lg text-lg font-semibold">
+                            <span class="en-text">Complete Order</span>
+                            <span class="ar-text" style="display: none;">إتمام الطلب</span>
                         </button>
-                        <button onclick="processPayment()" class="flex-1 btn-primary">
-                            <span class="en-text">Pay Now</span>
-                            <span class="ar-text hidden">ادفع الآن</span>
-                        </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Receipt Modal -->
-    <div id="receipt-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
-                <div class="p-6">
-                    <div class="text-center mb-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-2">
-                            <span class="en-text">Order Receipt</span>
-                            <span class="ar-text hidden">إيصال الطلب</span>
-                        </h2>
-                        <p class="text-sm text-gray-600">
-                            <span class="en-text">Show this receipt for pickup</span>
-                            <span class="ar-text hidden">أظهر هذا الإيصال للاستلام</span>
-                        </p>
-                    </div>
-
-                    <div id="receipt-content" class="bg-gray-50 p-4 rounded-lg mb-6">
-                        <!-- Receipt content will be populated here -->
-                    </div>
-                    
-                    <!-- QR Code -->
-                    <div class="text-center mb-6">
-                        <div id="receipt-qr" class="inline-block p-4 bg-white rounded-lg border-2 border-gray-200">
-                            <!-- QR code will be generated here -->
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2">
-                            <span class="en-text">Scan for order details</span>
-                            <span class="ar-text hidden">امسح للحصول على تفاصيل الطلب</span>
-                        </p>
-                    </div>
-
-                    <div class="flex space-x-3">
-                        <button onclick="printReceipt()" class="flex-1 btn-primary">
-                            <i class="fas fa-print mr-2 rtl:ml-2 rtl:mr-0"></i>
-                            <span class="en-text">Print</span>
-                            <span class="ar-text hidden">طباعة</span>
-                        </button>
-                        <button onclick="closeReceiptModal()" class="flex-1 btn-secondary">
-                            <span class="en-text">Close</span>
-                            <span class="ar-text hidden">إغلاق</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- About Section -->
-    <section id="about" class="bg-white py-16">
-        <div class="container-custom">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-light text-gray-900 mb-6">
-                    <span class="en-text">About Us</span>
-                    <span class="ar-text hidden">من نحن</span>
-                </h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                    <span class="en-text">Your trusted stationery partner in Jeddah</span>
-                    <span class="ar-text hidden">شريكك الموثوق في القرطاسية بجدة</span>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Store Information Section -->
-    <section id="contact" class="bg-white py-16">
-        <div class="container-custom">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-light mb-6" style="color: var(--store-dark-brown);">
-                    <span class="en-text">Visit Our Store</span>
-                    <span class="ar-text hidden">زر متجرنا</span>
-                </h2>
-                <p class="text-lg text-gray-700 max-w-2xl mx-auto">
-                    <span class="en-text">Come visit us at our convenient location in Jeddah</span>
-                    <span class="ar-text hidden">تعال لزيارتنا في موقعنا المريح في جدة</span>
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <!-- Store Details -->
-                <div class="space-y-8">
-                    <div class="bg-gray-50 p-6 rounded-lg">
-                        <h3 class="text-xl font-semibold mb-4" style="color: var(--store-dark-brown);">
-                            <span class="en-text">Store Information</span>
-                            <span class="ar-text hidden">معلومات المتجر</span>
-                        </h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-map-marker-alt mt-1" style="color: var(--store-blue);"></i>
-                                <div>
-                                    <p class="font-medium" style="color: var(--store-dark-brown);">
-                                        <span class="en-text">Address:</span>
-                                        <span class="ar-text hidden">العنوان:</span>
-                                    </p>
-                                    <p class="text-gray-700">
-                                        <span class="en-text">8480 Hamad Al Jaser, AR Rawdah District</span>
-                                        <span class="ar-text hidden">8480 حمد الجاسر، حي الروضة</span>
-                                    </p>
-                                    <p class="text-gray-700">
-                                        <span class="en-text">Jeddah 23435, Saudi Arabia</span>
-                                        <span class="ar-text hidden">جدة 23435، المملكة العربية السعودية</span>
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-phone" style="color: var(--store-blue);"></i>
-                                <div>
-                                    <p class="font-medium" style="color: var(--store-dark-brown);">
-                                        <span class="en-text">Phone:</span>
-                                        <span class="ar-text hidden">الهاتف:</span>
-                                    </p>
-                                    <a href="tel:+966122367510" style="color: var(--store-blue);" class="hover:opacity-80">+966 12 236 7510</a>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-envelope" style="color: var(--store-blue);"></i>
-                                <div>
-                                    <p class="font-medium" style="color: var(--store-dark-brown);">
-                                        <span class="en-text">Email:</span>
-                                        <span class="ar-text hidden">البريد الإلكتروني:</span>
-                                    </p>
-                                    <a href="mailto:info@kdstationery.com" style="color: var(--store-blue);" class="hover:opacity-80">info@kdstationery.com</a>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-clock mt-1" style="color: var(--store-blue);"></i>
-                                <div>
-                                    <p class="font-medium" style="color: var(--store-dark-brown);">
-                                        <span class="en-text">Business Hours:</span>
-                                        <span class="ar-text hidden">ساعات العمل:</span>
-                                    </p>
-                                    <p class="text-gray-700">
-                                        <span class="en-text">Saturday - Thursday: 9:00 AM - 10:00 PM</span>
-                                        <span class="ar-text hidden">السبت - الخميس: 9:00 ص - 10:00 م</span>
-                                    </p>
-                                    <p class="text-gray-700">
-                                        <span class="en-text">Friday: 2:00 PM - 10:00 PM</span>
-                                        <span class="ar-text hidden">الجمعة: 2:00 م - 10:00 م</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://wa.me/966122367510" target="_blank" class="btn-primary text-center">
-                            <i class="fab fa-whatsapp mr-2 rtl:ml-2 rtl:mr-0"></i>
-                            <span class="en-text">WhatsApp Us</span>
-                            <span class="ar-text hidden">راسلنا على واتساب</span>
-                        </a>
-                        <a href="https://maps.google.com/?q=8480+Hamad+Al+Jaser,+AR+Rawdah+District,+Jeddah+23435,+Saudi+Arabia" target="_blank" class="btn-secondary text-center">
-                            <i class="fas fa-map-marker-alt mr-2 rtl:ml-2 rtl:mr-0"></i>
-                            <span class="en-text">Get Directions</span>
-                            <span class="ar-text hidden">احصل على الاتجاهات</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- About Section -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold mb-4" style="color: var(--store-dark-brown);">
-                        <span class="en-text">About Knowledge Development Stationery</span>
-                        <span class="ar-text hidden">حول قرطاسية تنمية المعرفة</span>
-                    </h3>
-                    <div class="space-y-4 text-gray-700">
-                        <p>
-                            <span class="en-text">Knowledge Development Stationery is Jeddah's trusted partner for all stationery needs. We provide high-quality products for students, professionals, and businesses across the Kingdom.</span>
-                            <span class="ar-text hidden">قرطاسية تنمية المعرفة هي شريك جدة الموثوق لجميع احتياجات القرطاسية. نحن نقدم منتجات عالية الجودة للطلاب والمهنيين والشركات في جميع أنحاء المملكة.</span>
-                        </p>
-                        <p>
-                            <span class="en-text">Our commitment to quality, competitive pricing, and excellent customer service has made us a preferred choice for educational institutions, offices, and individuals throughout Jeddah.</span>
-                            <span class="ar-text hidden">التزامنا بالجودة والأسعار التنافسية وخدمة العملاء الممتازة جعلنا خياراً مفضلاً للمؤسسات التعليمية والمكاتب والأفراد في جميع أنحاء جدة.</span>
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-award" style="color: var(--store-blue);"></i>
-                                <span class="text-sm text-gray-700">
-                                    <span class="en-text">Quality Guaranteed</span>
-                                    <span class="ar-text hidden">ضمان الجودة</span>
-                                </span>
-                            </div>
-                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-shipping-fast" style="color: var(--store-blue);"></i>
-                                <span class="text-sm text-gray-700">
-                                    <span class="en-text">Quick Pickup</span>
-                                    <span class="ar-text hidden">استلام سريع</span>
-                                </span>
-                            </div>
-                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-credit-card" style="color: var(--store-blue);"></i>
-                                <span class="text-sm text-gray-700">
-                                    <span class="en-text">Secure Payment</span>
-                                    <span class="ar-text hidden">دفع آمن</span>
-                                </span>
-                            </div>
-                            <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                                <i class="fas fa-store" style="color: var(--store-blue);"></i>
-                                <span class="text-sm text-gray-700">
-                                    <span class="en-text">Local Business</span>
-                                    <span class="ar-text hidden">عمل محلي</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
-    <footer class="brand-gradient text-white">
+    <footer class="bg-gray-800 text-white py-12">
         <div class="container-custom">
-            <div class="py-16">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div class="md:col-span-2">
-                        <h3 class="text-lg font-semibold mb-6 text-white" id="footer-title">
-                            Knowledge Development Stationery
-                        </h3>
-                        <p class="text-white opacity-90 mb-6" id="footer-description">
-                            <span class="en-text">Your trusted stationery partner in Jeddah. We provide quality products and convenient pickup service.</span>
-                            <span class="ar-text hidden">شريكك الموثوق في القرطاسية بجدة. نحن نقدم منتجات عالية الجودة وخدمة استلام مريحة.</span>
-                        </p>
-                        <div class="flex space-x-4 rtl:space-x-reverse">
-                            <a href="https://wa.me/966122367510" target="_blank" class="text-white opacity-80 hover:opacity-100 transition-opacity">
-                                <i class="fab fa-whatsapp text-xl"></i>
-                            </a>
-                            <a href="https://maps.google.com/?q=8480+Hamad+Al+Jaser,+AR+Rawdah+District,+Jeddah+23435,+Saudi+Arabia" target="_blank" class="text-white opacity-80 hover:opacity-100 transition-opacity">
-                                <i class="fas fa-map-marker-alt text-xl"></i>
-                            </a>
-                            <a href="mailto:info@kdstationery.com" class="text-white opacity-80 hover:opacity-100 transition-opacity">
-                                <i class="fas fa-envelope text-xl"></i>
-                            </a>
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 en-text">Knowledge Development Stationery</h4>
+                    <h4 class="text-lg font-semibold mb-4 ar-text" style="display: none;">قرطاسية تنمية المعرفة</h4>
+                    <p class="text-gray-300 en-text">Your trusted partner for premium stationery and office supplies in Jeddah.</p>
+                    <p class="text-gray-300 ar-text" style="display: none;">شريكك الموثوق للقرطاسية المميزة ومستلزمات المكتب في جدة.</p>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4 en-text">Quick Links</h5>
+                    <h5 class="font-semibold mb-4 ar-text" style="display: none;">روابط سريعة</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Home</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">الرئيسية</a></li>
+                        <li><a href="#products" class="hover:text-yellow-400 en-text">Products</a></li>
+                        <li><a href="#products" class="hover:text-yellow-400 ar-text" style="display: none;">المنتجات</a></li>
+                        <li><a href="#about" class="hover:text-yellow-400 en-text">About Us</a></li>
+                        <li><a href="#about" class="hover:text-yellow-400 ar-text" style="display: none;">من نحن</a></li>
+                        <li><a href="#contact" class="hover:text-yellow-400 en-text">Contact</a></li>
+                        <li><a href="#contact" class="hover:text-yellow-400 ar-text" style="display: none;">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4 en-text">Categories</h5>
+                    <h5 class="font-semibold mb-4 ar-text" style="display: none;">الفئات</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Pens & Pencils</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">أقلام وأقلام رصاص</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Notebooks</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">دفاتر</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Office Supplies</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">مستلزمات مكتبية</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Art Supplies</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">مستلزمات فنية</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4 en-text">Contact Info</h5>
+                    <h5 class="font-semibold mb-4 ar-text" style="display: none;">معلومات الاتصال</h5>
+                    <div class="space-y-2 text-gray-300">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Jeddah, Saudi Arabia</p>
+                        <p><i class="fas fa-phone mr-2"></i>+966 XX XXX XXXX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>info@kdstationery.sa</p>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-6 text-white">
-                            <span class="en-text">Quick Links</span>
-                            <span class="ar-text hidden">روابط سريعة</span>
-                        </h3>
-                        <div class="space-y-3">
-                            <a href="#home" class="block text-white opacity-80 hover:opacity-100 transition-opacity text-sm uppercase tracking-wide">
-                                <span class="en-text">Home</span>
-                                <span class="ar-text hidden">الرئيسية</span>
-                            </a>
-                            <a href="#products" class="block text-white opacity-80 hover:opacity-100 transition-opacity text-sm uppercase tracking-wide">
-                                <span class="en-text">Products</span>
-                                <span class="ar-text hidden">المنتجات</span>
-                            </a>
-                            <a href="#contact" class="block text-white opacity-80 hover:opacity-100 transition-opacity text-sm uppercase tracking-wide">
-                                <span class="en-text">Contact</span>
-                                <span class="ar-text hidden">اتصل بنا</span>
-                            </a>
-                            <a href="admin-login.html" onclick="clearAdminSession()" class="block text-white opacity-80 hover:opacity-100 transition-opacity text-sm uppercase tracking-wide">
-                                <span class="en-text">Admin</span>
-                                <span class="ar-text hidden">الإدارة</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-6 text-white">
-                            <span class="en-text">Business Info</span>
-                            <span class="ar-text hidden">معلومات العمل</span>
-                        </h3>
-                        <div class="space-y-3 text-sm text-white opacity-90">
-                            <p>
-                                <span class="en-text">Commercial Registration:</span>
-                                <span class="ar-text hidden">السجل التجاري:</span>
-                                <br class="text-white opacity-100 font-medium">1010123456
-                            </p>
-                            <p>
-                                <span class="en-text">VAT Number:</span>
-                                <span class="ar-text hidden">رقم ضريبة القيمة المضافة:</span>
-                                <br class="text-white opacity-100 font-medium">300012345600003
-                            </p>
-                        </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-whatsapp text-xl"></i></a>
                     </div>
                 </div>
             </div>
-
-            <div class="border-t border-white border-opacity-20 py-8">
-                <div class="text-center">
-                    <p class="text-white opacity-80 text-sm" id="copyright">
-                        © 2024 Knowledge Development Stationery. All rights reserved.
-                    </p>
-                </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Knowledge Development Stationery. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Notification Toast Container -->
-    <div id="notification-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
-
-    <script>
-        // Products data - Start with sample products
+    <!-- Firebase Services Script -->
+    <script type="module" src="firebase-service.js"></script>
+    
+    <!-- Main Application Script -->
+    <script type="module">
+        import { ProductService, CategoryService, OrderService, AuthService } from './firebase-service.js';
+        
+        // Global variables
         let products = [];
-
+        let categories = [];
         let cart = [];
-        let isArabic = false;
+        let currentUser = null;
+        let currentLanguage = 'en';
         let currentCategory = 'all';
-        let selectedPaymentMethod = 'mada';
-        let currentOrder = null;
-        let searchQuery = '';
-        let categories = [
-            { id: 1, name: 'Pens & Pencils', nameAr: 'أقلام وأقلام رصاص' },
-            { id: 2, name: 'Notebooks', nameAr: 'دفاتر' },
-            { id: 3, name: 'Office Supplies', nameAr: 'مستلزمات مكتبية' },
-            { id: 4, name: 'Art Supplies', nameAr: 'مستلزمات فنية' },
-            { id: 5, name: 'School Supplies', nameAr: 'مستلزمات مدرسية' },
-            { id: 6, name: 'Games', nameAr: 'ألعاب' }
-        ];
-
-        // Language translations
-        const translations = {
-            en: {
-                storeName: 'Knowledge Development Stationery',
-                heroTitle: 'Knowledge Development Stationery',
-                heroDescription: 'Your trusted stationery partner in Jeddah. We provide quality products and convenient pickup service.',
-                productsTitle: 'Our Products',
-                productsDescription: 'Discover our wide range of high-quality stationery products',
-                footerTitle: 'Knowledge Development Stationery',
-                footerDescription: 'Your trusted stationery partner in Jeddah. We provide quality products and convenient pickup service.',
-                copyright: '© 2024 Knowledge Development Stationery. All rights reserved.'
-            },
-            ar: {
-                storeName: 'قرطاسية تنمية المعرفة',
-                heroTitle: 'قرطاسية تنمية المعرفة',
-                heroDescription: 'شريكك الموثوق في القرطاسية بجدة. نحن نقدم منتجات عالية الجودة وخدمة استلام مريحة.',
-                productsTitle: 'منتجاتنا',
-                productsDescription: 'اكتشف مجموعتنا الواسعة من منتجات القرطاسية عالية الجودة',
-                footerTitle: 'قرطاسية تنمية المعرفة',
-                footerDescription: 'شريكك الموثوق في القرطاسية بجدة. نحن نقدم منتجات عالية الجودة وخدمة استلام مريحة.',
-                copyright: '© 2024 قرطاسية تنمية المعرفة. جميع الحقوق محفوظة.'
-            }
-        };
-
-        function clearAdminSession() {
-            // Clear admin session when accessing from main website
-            console.log('Clearing admin session');
-            localStorage.removeItem('adminLoggedIn');
-            localStorage.removeItem('adminLoginTime');
-            // Force redirect to login page
-            window.location.href = 'admin-login.html';
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Initializing dynamic stationery website...');
+            
+            // Set up authentication listener
+            AuthService.onAuthChange((user) => {
+                currentUser = user;
+                updateUserInterface();
+            });
+            
+            // Load initial data
+            await loadCategories();
+            await loadProducts();
+            
+            // Set up real-time listeners
+            setupRealTimeListeners();
+            
+            // Hide loading overlay
+            document.getElementById('loadingOverlay').style.display = 'none';
+            
+            console.log('Website initialized successfully!');
+        });
+        
+        // Set up real-time listeners
+        function setupRealTimeListeners() {
+            // Listen for product changes
+            ProductService.onProductsChange((updatedProducts) => {
+                products = updatedProducts;
+                displayProducts();
+                console.log('Products updated in real-time:', products.length);
+            });
+            
+            // Listen for category changes
+            CategoryService.onCategoriesChange((updatedCategories) => {
+                categories = updatedCategories;
+                displayCategories();
+                console.log('Categories updated in real-time:', categories.length);
+            });
         }
-
-        // Load categories from localStorage
-        function loadCategoriesFromStorage() {
+        
+        // Load categories from Firebase
+        async function loadCategories() {
             try {
-                const storedCategories = localStorage.getItem('stationeryCategories');
-                if (storedCategories) {
-                    const parsedCategories = JSON.parse(storedCategories);
-                    // Add "All Products" at the beginning
-                    categories = [
-                        { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
-                        ...parsedCategories.map(cat => ({
-                            id: cat.id,
-                            name: cat.name,
-                            nameAr: cat.nameAr
-                        }))
-                    ];
-                } else {
-                    // Default categories if none stored
-                    categories = [
-                        { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
-                        { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة' },
-                        { id: 'notebooks', name: 'Notebooks', nameAr: 'دفاتر' },
-                        { id: 'office', name: 'Office', nameAr: 'مكتب' },
-                        { id: 'art', name: 'Art Supplies', nameAr: 'أدوات رسم' },
-                        { id: 'school', name: 'School', nameAr: 'مدرسة' },
-                        { id: 'printing', name: 'Printing', nameAr: 'طباعة' }
-                    ];
-                }
+                categories = await CategoryService.getAllCategories();
+                displayCategories();
+                console.log('Categories loaded:', categories.length);
             } catch (error) {
                 console.error('Error loading categories:', error);
-                // Fallback to default categories
-                categories = [
-                    { id: 'all', name: 'All Products', nameAr: 'جميع المنتجات' },
-                    { id: 'pens', name: 'Pens & Writing', nameAr: 'أقلام وكتابة' },
-                    { id: 'notebooks', name: 'Notebooks', nameAr: 'دفاتر' },
-                    { id: 'office', name: 'Office', nameAr: 'مكتب' },
-                    { id: 'art', name: 'Art Supplies', nameAr: 'أدوات رسم' },
-                    { id: 'school', name: 'School', nameAr: 'مدرسة' },
-                    { id: 'printing', name: 'Printing', nameAr: 'طباعة' }
-                ];
+                showNotification('Error loading categories', 'error');
             }
-        }
-
-        // Load category buttons
-        function loadCategoryButtons() {
-            try {
-                const categoryButtonsContainer = document.getElementById('category-buttons');
-                if (!categoryButtonsContainer) {
-                    console.error('Category buttons container not found');
-                    return;
-                }
-
-                if (!categories || categories.length === 0) {
-                    console.error('No categories available');
-                    return;
-                }
-
-                categoryButtonsContainer.innerHTML = `
-                    <button onclick="filterProducts('all')" class="category-btn ${currentCategory === 'all' ? 'active' : ''}" data-category="all">
-                        <span class="en-text">All Products</span>
-                        <span class="ar-text hidden">جميع المنتجات</span>
-                    </button>
-                    ${categories.map(category => `
-                        <button onclick="filterProducts('${category.name}')" class="category-btn ${currentCategory === category.name ? 'active' : ''}" data-category="${category.name}">
-                            <span class="en-text">${category.name}</span>
-                            <span class="ar-text hidden">${category.nameAr}</span>
-                        </button>
-                    `).join('')}
-                `;
-            } catch (error) {
-                console.error('Error loading category buttons:', error);
-            }
-        }
-
-        // Initialize the page
-        function init() {
-            console.log('Initializing page...');
-            loadCategoriesFromStorage();
-            loadCategoryButtons();
-            loadProductsFromStorage(); // Load products first
-            loadProducts();
-            updateCartDisplay();
-            
-            // Set up automatic product sync
-            setupProductSync();
-            
-            console.log('Page initialization complete');
         }
         
-        // Set up automatic product synchronization
-        function setupProductSync() {
-            // Check for products every 500ms to ensure fast sync
-            setInterval(function() {
-                const storedProducts = localStorage.getItem('stationeryProducts');
-                if (storedProducts) {
-                    const parsedProducts = JSON.parse(storedProducts);
-                    if (parsedProducts.length !== products.length || 
-                        JSON.stringify(parsedProducts) !== JSON.stringify(products)) {
-                        loadProductsFromStorage();
-                        loadProducts();
-                    }
-                }
-            }, 500);
-        }
-        
-
-        // Load products from localStorage
-        function loadProductsFromStorage() {
+        // Load products from Firebase
+        async function loadProducts() {
             try {
-                const storedProducts = localStorage.getItem('stationeryProducts');
-                
-                if (storedProducts) {
-                    const parsedProducts = JSON.parse(storedProducts);
-                    products = [...parsedProducts]; // Always use stored products
-                } else {
-                    products = []; // Empty array if no stored products
-                }
-            } catch (error) {
-                console.error('Error loading products from storage:', error);
-                products = []; // Empty array on error
-            }
-        }
-
-        // Load products into the grid
-        function loadProducts() {
-            try {
-                const productsGrid = document.getElementById('products-grid');
-                if (!productsGrid) {
-                    console.error('Products grid not found');
-                    return;
-                }
-                
-                productsGrid.innerHTML = '';
-
-                // Filter products based on current category and search query
-                let filteredProducts = currentCategory === 'all' 
-                    ? products 
-                    : products.filter(product => product.category === currentCategory);
-
-                // Apply search filter
-                if (searchQuery.trim()) {
-                    filteredProducts = filteredProducts.filter(product => 
-                        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.nameAr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        product.category.toLowerCase().includes(searchQuery.toLowerCase())
-                    );
-                }
-
-                // No additional filters - just search and sorting
-
-            // Apply sorting
-                const sortFilterElement = document.getElementById('sort-filter');
-                const sortFilter = sortFilterElement ? sortFilterElement.value : 'name-asc';
-            filteredProducts.sort((a, b) => {
-                switch (sortFilter) {
-                    case 'name-asc':
-                        return (isArabic ? a.nameAr : a.name).localeCompare(isArabic ? b.nameAr : b.name);
-                    case 'name-desc':
-                        return (isArabic ? b.nameAr : b.name).localeCompare(isArabic ? a.nameAr : a.name);
-                    case 'price-asc':
-                        return a.price - b.price;
-                    case 'price-desc':
-                        return b.price - a.price;
-                        case 'rating-desc':
-                            return (b.rating || 0) - (a.rating || 0);
-                    default:
-                        return 0;
-                }
-            });
-
-            filteredProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'card-product group';
-                productCard.innerHTML = `
-                    <div class="aspect-w-1 aspect-h-1 overflow-hidden">
-                        <img src="${product.image}" alt="${isArabic ? product.nameAr : product.name}" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">
-                            ${isArabic ? product.nameAr : product.name}
-                        </h3>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex flex-col">
-                                <span class="text-xl font-semibold text-gray-900 flex items-center">
-                                    <span class="riyal-symbol">﷼</span>
-                                    ${product.price.toFixed(2)}
-                                </span>
-                                <span class="text-xs text-green-600 font-medium">
-                                    <span class="en-text">VAT Included</span>
-                                    <span class="ar-text hidden">شامل الضريبة</span>
-                                </span>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-sm text-gray-600">
-                                    <span class="en-text">Stock:</span>
-                                    <span class="ar-text hidden">المخزون:</span>
-                                    <span class="font-medium ${product.stock > 20 ? 'text-green-600' : product.stock > 0 ? 'text-yellow-600' : 'text-red-600'}">
-                                        ${product.stock}
-                                    </span>
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    ${product.stock > 20 ? (isArabic ? 'متوفر' : 'In Stock') : 
-                                      product.stock > 0 ? (isArabic ? 'مخزون منخفض' : 'Low Stock') : 
-                                      (isArabic ? 'نفد المخزون' : 'Out of Stock')}
-                                </div>
-                            </div>
-                        </div>
-                        <button onclick="addToCart(${product.id})" class="w-full btn-primary">
-                            <span class="en-text">Add to Cart</span>
-                            <span class="ar-text hidden">أضف للسلة</span>
-                        </button>
-                    </div>
-                `;
-                productsGrid.appendChild(productCard);
-            });
-            
-            // Show message if no products
-            if (filteredProducts.length === 0) {
-                productsGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-gray-600 mb-2">
-                            <span class="en-text">No Products Available</span>
-                            <span class="ar-text hidden">لا توجد منتجات متاحة</span>
-                        </h3>
-                        <p class="text-gray-500">
-                            <span class="en-text">Products will appear here when added by admin</span>
-                            <span class="ar-text hidden">ستظهر المنتجات هنا عند إضافتها من قبل الإدارة</span>
-                        </p>
-                    </div>
-                `;
-            }
+                document.getElementById('productsLoading').style.display = 'block';
+                products = await ProductService.getAllProducts();
+                displayProducts();
+                document.getElementById('productsLoading').style.display = 'none';
+                console.log('Products loaded:', products.length);
             } catch (error) {
                 console.error('Error loading products:', error);
-                const productsGrid = document.getElementById('products-grid');
-                if (productsGrid) {
-                    productsGrid.innerHTML = '<p class="text-center text-gray-500 py-8">Error loading products. Please refresh the page.</p>';
-                }
+                document.getElementById('productsLoading').style.display = 'none';
+                showNotification('Error loading products', 'error');
             }
         }
-
-        // Search products
-        function searchProducts() {
-            try {
-            const searchInput = document.getElementById('product-search');
-                if (searchInput) {
-            searchQuery = searchInput.value;
-            loadProducts();
-                }
-            } catch (error) {
-                console.error('Error in search products:', error);
-            }
-        }
-
-        // Clear all filters
-        function clearFilters() {
-            try {
-                const searchInput = document.getElementById('product-search');
-                const sortFilter = document.getElementById('sort-filter');
+        
+        // Display categories
+        function displayCategories() {
+            const categoryButtons = document.getElementById('categoryButtons');
+            
+            // Clear existing buttons except "All Products"
+            const allButton = categoryButtons.querySelector('button[onclick="filterProducts(\'all\')"]');
+            categoryButtons.innerHTML = '';
+            categoryButtons.appendChild(allButton);
+            
+            // Add category buttons
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-yellow-500 hover:text-white transition-colors';
+                button.onclick = () => filterProducts(category.name);
                 
-                if (searchInput) searchInput.value = '';
-                if (sortFilter) sortFilter.value = 'name-asc';
-            
-            searchQuery = '';
-            currentCategory = 'all';
-            
-            // Reset category buttons
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
+                const enSpan = document.createElement('span');
+                enSpan.className = 'en-text';
+                enSpan.textContent = category.name;
+                
+                const arSpan = document.createElement('span');
+                arSpan.className = 'ar-text';
+                arSpan.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+                arSpan.textContent = category.nameAr || category.name;
+                
+                button.appendChild(enSpan);
+                button.appendChild(arSpan);
+                categoryButtons.appendChild(button);
             });
-                const allButton = document.querySelector('[data-category="all"]');
-                if (allButton) allButton.classList.add('active');
-            
-            loadProducts();
-            } catch (error) {
-                console.error('Error clearing filters:', error);
-            }
         }
-
-        // Filter products by category
-        function filterProducts(category) {
-            try {
-                currentCategory = category;
-                
-                // Update active button
-                document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                const activeButton = document.querySelector(`[data-category="${category}"]`);
-                if (activeButton) activeButton.classList.add('active');
-                
-                // Reload products
-                loadProducts();
-            } catch (error) {
-                console.error('Error filtering products:', error);
-            }
-        }
-
-        // Add product to cart
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.product.id === productId);
+        
+        // Display products
+        function displayProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const noProducts = document.getElementById('noProducts');
             
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ product, quantity: 1 });
+            // Filter products by current category
+            let filteredProducts = products;
+            if (currentCategory !== 'all') {
+                filteredProducts = products.filter(product => product.category === currentCategory);
             }
             
-            updateCartDisplay();
-            showCartFeedback(product);
-            showNotification(`${product.name} added to cart!`, 'success');
-        }
-
-        // Professional notification system
-        function showNotification(message, type = 'info', duration = 3000) {
-            const container = document.getElementById('notification-container');
-            const notification = document.createElement('div');
-            
-            const colors = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                warning: 'bg-yellow-500',
-                info: 'bg-blue-500'
-            };
-            
-            const icons = {
-                success: 'fa-check-circle',
-                error: 'fa-exclamation-circle',
-                warning: 'fa-exclamation-triangle',
-                info: 'fa-info-circle'
-            };
-            
-            notification.className = `${colors[type]} text-white px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 transform translate-x-full transition-transform duration-300`;
-            notification.innerHTML = `
-                <i class="fas ${icons[type]}"></i>
-                <span>${message}</span>
-                <button onclick="this.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            container.appendChild(notification);
-            
-            // Animate in
-            setTimeout(() => {
-                notification.classList.remove('translate-x-full');
-            }, 100);
-            
-            // Auto remove
-            setTimeout(() => {
-                notification.classList.add('translate-x-full');
-                setTimeout(() => {
-                    if (notification.parentElement) {
-                        notification.remove();
-                    }
-                }, 300);
-            }, duration);
-        }
-
-        // Show cart feedback
-        function showCartFeedback(product) {
-            // Create feedback element
-            const feedback = document.createElement('div');
-            feedback.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transform transition-all duration-300';
-            feedback.innerHTML = `
-                <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <i class="fas fa-check-circle"></i>
-                    <span>
-                        <span class="en-text">Added to cart:</span>
-                        <span class="ar-text hidden">تم إضافة للسلة:</span>
-                        ${isArabic ? product.nameAr : product.name}
-                    </span>
-                </div>
-            `;
-            
-            document.body.appendChild(feedback);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                feedback.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    document.body.removeChild(feedback);
-                }, 300);
-            }, 3000);
-        }
-
-        // Scroll to section
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = '';
+                noProducts.style.display = 'block';
+                return;
             }
-        }
-
-        // Show payment success message
-        function showPaymentSuccess() {
-            const successMessage = document.createElement('div');
-            successMessage.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 transform transition-all duration-300';
-            successMessage.innerHTML = `
-                <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <i class="fas fa-check-circle text-2xl"></i>
-                    <div>
-                        <h3 class="font-semibold">
-                            <span class="en-text">Payment Successful!</span>
-                            <span class="ar-text hidden">تم الدفع بنجاح!</span>
-                        </h3>
-                        <p class="text-sm opacity-90">
-                            <span class="en-text">Receipt sent to your email</span>
-                            <span class="ar-text hidden">تم إرسال الإيصال إلى بريدك الإلكتروني</span>
+            
+            noProducts.style.display = 'none';
+            
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="aspect-w-1 aspect-h-1">
+                        <img src="${product.image}" alt="${product.name}" 
+                             class="w-full h-48 object-cover" 
+                             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold text-gray-800 mb-2 en-text">${product.name}</h4>
+                        <h4 class="font-semibold text-gray-800 mb-2 ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">${product.nameAr || product.name}</h4>
+                        
+                        <p class="text-sm text-gray-600 mb-2">
+                            <span class="en-text">Category: ${product.category}</span>
+                            <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">الفئة: ${getCategoryArabicName(product.category)}</span>
                         </p>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(successMessage);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                successMessage.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    if (document.body.contains(successMessage)) {
-                        document.body.removeChild(successMessage);
-                    }
-                }, 300);
-            }, 5000);
-        }
-
-        // Generate QR code for order
-        function generateQRCode(orderId) {
-            const qrContainer = document.getElementById('receipt-qr');
-            // Use the order tracker page
-            const qrData = `${window.location.origin}/order-tracker.html?id=${orderId}`;
-            
-            // Create a simple QR code using a QR code API
-            const qrSize = 120;
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(qrData)}`;
-            
-            qrContainer.innerHTML = `
-                <img src="${qrUrl}" alt="QR Code for Order ${orderId}" class="mx-auto" style="width: ${qrSize}px; height: ${qrSize}px;" onerror="this.style.display='none'">
-            `;
-        }
-
-        // Update cart display
-        function updateCartDisplay() {
-            const cartCount = document.getElementById('cart-count');
-            const cartItems = document.getElementById('cart-items');
-            const cartFooter = document.getElementById('cart-footer');
-            const cartTotal = document.getElementById('cart-total');
-            
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-            
-            cartCount.textContent = totalItems;
-            cartCount.classList.toggle('hidden', totalItems === 0);
-            
-            if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <p class="text-gray-500 text-center py-8">
-                        <span class="en-text">Your cart is empty</span>
-                        <span class="ar-text hidden">سلة التسوق فارغة</span>
-                    </p>
-                `;
-                cartFooter.classList.add('hidden');
-            } else {
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="flex items-center space-x-4 mb-4">
-                        <img src="${item.product.image}" alt="${isArabic ? item.product.nameAr : item.product.name}" class="h-16 w-16 object-cover rounded">
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-medium text-gray-900 truncate">
-                                ${isArabic ? item.product.nameAr : item.product.name}
-                            </h3>
-                            <p class="text-sm text-gray-500 flex items-center">
-                                <span class="riyal-symbol">﷼</span>
-                                ${item.product.price.toFixed(2)} × ${item.quantity}
-                            </p>
+                        
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <span class="text-lg font-bold text-yellow-600">${product.price.toFixed(2)} SAR</span>
+                                <p class="text-xs text-gray-500 en-text">VAT Included</p>
+                                <p class="text-xs text-gray-500 ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">شامل الضريبة</p>
+                            </div>
+                            <span class="text-sm text-gray-500">
+                                <span class="en-text">Stock: ${product.stock}</span>
+                                <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">المخزون: ${product.stock}</span>
+                            </span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="updateQuantity(${item.product.id}, ${item.quantity - 1})" class="text-gray-400 hover:text-gray-600">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <span class="text-sm font-medium">${item.quantity}</span>
-                            <button onclick="updateQuantity(${item.product.id}, ${item.quantity + 1})" class="text-gray-400 hover:text-gray-600">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
+                        
+                        <button onclick="addToCart('${product.id}')" 
+                                class="w-full btn-primary py-2 rounded-lg font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                ${product.stock === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-cart-plus mr-2"></i>
+                            <span class="en-text">${product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+                            <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">${product.stock === 0 ? 'نفد المخزون' : 'أضف للسلة'}</span>
+                        </button>
                     </div>
-                `).join('');
-                cartFooter.classList.remove('hidden');
-                cartTotal.textContent = totalPrice.toFixed(2);
-            }
-        }
-
-        // Update item quantity
-        function updateQuantity(productId, quantity) {
-            if (quantity <= 0) {
-                cart = cart.filter(item => item.product.id !== productId);
-            } else {
-                const item = cart.find(item => item.product.id === productId);
-                if (item) {
-                    item.quantity = quantity;
-                }
-            }
-            updateCartDisplay();
-        }
-
-        // Toggle cart sidebar
-        function toggleCart() {
-            const cartSidebar = document.getElementById('cart-sidebar');
-            cartSidebar.classList.toggle('open');
-        }
-
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            mobileMenu.classList.toggle('hidden');
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-times');
-        }
-
-        // Toggle language
-        function toggleLanguage() {
-            isArabic = !isArabic;
-            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
-            
-            // Toggle text visibility
-            document.querySelectorAll('.en-text').forEach(el => {
-                el.classList.toggle('hidden', isArabic);
-            });
-            document.querySelectorAll('.ar-text').forEach(el => {
-                el.classList.toggle('hidden', !isArabic);
-            });
-            
-            // Update content
-            const t = translations[isArabic ? 'ar' : 'en'];
-            document.getElementById('store-name').textContent = t.storeName;
-            document.getElementById('hero-title').textContent = t.heroTitle;
-            document.getElementById('hero-description').textContent = t.heroDescription;
-            document.getElementById('products-title').textContent = t.productsTitle;
-            document.getElementById('products-description').textContent = t.productsDescription;
-            document.getElementById('footer-title').textContent = t.footerTitle;
-            document.getElementById('footer-description').textContent = t.footerDescription;
-            document.getElementById('copyright').textContent = t.copyright;
-            
-            // Reload products with new language
-            loadProducts();
-            updateCartDisplay();
-        }
-
-        // Payment System Functions
-        function openPaymentModal() {
-            if (cart.length === 0) return;
-            
-            // Update payment summary
-            updatePaymentSummary();
-            
-            // Show payment modal
-            document.getElementById('payment-modal').classList.remove('hidden');
-        }
-
-        function closePaymentModal() {
-            document.getElementById('payment-modal').classList.add('hidden');
-        }
-
-        function selectPaymentMethod(method) {
-            selectedPaymentMethod = method;
-            
-            // Update button states
-            document.querySelectorAll('.payment-method-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[data-method="${method}"]`).classList.add('active');
-            
-            // Card form is always visible for all payment methods
-        }
-
-        function updatePaymentSummary() {
-            // Calculate subtotal (original prices without VAT)
-            const subtotal = cart.reduce((sum, item) => {
-                const originalPrice = item.product.originalPrice || item.product.price / 1.15; // Calculate original price if not stored
-                return sum + (originalPrice * item.quantity);
-            }, 0);
-            
-            // Calculate VAT (15% of subtotal)
-            const vat = subtotal * 0.15;
-            
-            // Calculate total (subtotal + VAT)
-            const total = subtotal + vat;
-
-            // Update payment summary display
-            document.getElementById('payment-subtotal').textContent = `${subtotal.toFixed(2)} ﷼`;
-            document.getElementById('payment-vat').textContent = `${vat.toFixed(2)} ﷼`;
-            document.getElementById('payment-total').textContent = `${total.toFixed(2)} ﷼`;
-
-            // Update order items in payment summary (show VAT-included prices)
-            const paymentSummary = document.getElementById('payment-summary');
-            paymentSummary.innerHTML = cart.map(item => `
-                <div class="flex justify-between text-sm mb-2">
-                    <span>${isArabic ? item.product.nameAr : item.product.name} × ${item.quantity}</span>
-                    <span>${(item.product.price * item.quantity).toFixed(2)} ﷼</span>
                 </div>
             `).join('');
         }
-
-        function processPayment() {
-            // Show loading state
-            const submitBtn = document.querySelector('#payment-modal button[onclick="processPayment()"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = isArabic ? 'جاري المعالجة...' : 'Processing...';
-            submitBtn.disabled = true;
-
-            // Get form data
-            const customerEmail = document.getElementById('customer-email').value.trim();
-            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
-            const cardName = document.getElementById('card-name').value.trim();
-            const expiryDate = document.getElementById('expiry-date').value.trim();
-            const cvv = document.getElementById('cvv').value.trim();
-
-            // Basic validation
-            if (!customerEmail) {
-                showError(isArabic ? 'يرجى إدخال البريد الإلكتروني' : 'Please enter your email address');
-                resetButton();
-                return;
-            }
-
-            if (!isValidEmail(customerEmail)) {
-                showError(isArabic ? 'البريد الإلكتروني غير صحيح' : 'Invalid email address');
-                resetButton();
-                return;
-            }
-
-            if (!cardNumber || !cardName || !expiryDate || !cvv) {
-                showError(isArabic ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill in all required fields');
-                resetButton();
-                return;
-            }
-
-            // Validate card number based on payment method
-            if (!validateCardNumber(cardNumber, selectedPaymentMethod)) {
-                const errorMsg = isArabic ? 
-                    `رقم البطاقة غير صحيح لـ ${getPaymentMethodName(selectedPaymentMethod)}` : 
-                    `Invalid card number for ${getPaymentMethodName(selectedPaymentMethod)}`;
-                showError(errorMsg);
-                resetButton();
-                return;
-            }
-
-            // Validate expiry date
-            if (!validateExpiryDate(expiryDate)) {
-                showError(isArabic ? 'تاريخ انتهاء الصلاحية غير صحيح' : 'Invalid expiry date');
-                resetButton();
-                return;
-            }
-
-            // Validate CVV
-            if (!validateCVV(cvv, selectedPaymentMethod)) {
-                showError(isArabic ? 'رمز الأمان غير صحيح' : 'Invalid security code');
-                resetButton();
-                return;
-            }
-
-            // Process payment with simulation
-            processPaymentWithAPI(cardNumber, cardName, expiryDate, cvv, customerEmail);
+        
+        // Get category Arabic name
+        function getCategoryArabicName(categoryName) {
+            const category = categories.find(cat => cat.name === categoryName);
+            return category ? (category.nameAr || categoryName) : categoryName;
         }
-
-        function resetButton() {
-            const submitBtn = document.querySelector('#payment-modal button[onclick="processPayment()"]');
-            submitBtn.textContent = isArabic ? 'تأكيد الدفع' : 'Confirm Payment';
-            submitBtn.disabled = false;
-        }
-
-        function showError(message) {
-            // Remove existing error messages
-            const existingError = document.querySelector('.payment-error');
-            if (existingError) {
-                existingError.remove();
-            }
-
-            // Create error message
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'payment-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
-            errorDiv.textContent = message;
-
-            // Insert before the submit button
-            const submitBtn = document.querySelector('#payment-modal button[onclick="processPayment()"]');
-            submitBtn.parentNode.insertBefore(errorDiv, submitBtn);
-
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                if (errorDiv.parentNode) {
-                    errorDiv.remove();
-                }
-            }, 5000);
-        }
-
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        async function processPaymentWithAPI(cardNumber, cardName, expiryDate, cvv, customerEmail) {
-            try {
-                // Simulate API call delay
-                await new Promise(resolve => setTimeout(resolve, 2000));
-
-                // Simulate payment processing
-                const paymentResult = await simulatePaymentAPI(cardNumber, selectedPaymentMethod);
-                
-                if (paymentResult.success) {
-                    // Payment successful
-                    completeOrder(customerEmail);
+        
+        // Filter products by category
+        window.filterProducts = function(category) {
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-yellow-500', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            event.target.classList.add('active', 'bg-yellow-500', 'text-white');
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            
+            displayProducts();
+        };
+        
+        // Add product to cart
+        window.addToCart = function(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock === 0) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                if (existingItem.quantity < product.stock) {
+                    existingItem.quantity++;
                 } else {
-                    // Payment failed
-                    showError(paymentResult.message || (isArabic ? 'فشل في معالجة الدفع' : 'Payment processing failed'));
-                    resetButton();
+                    showNotification('Maximum stock reached', 'error');
+                    return;
+                }
+            } else {
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    nameAr: product.nameAr,
+                    price: product.price,
+                    originalPrice: product.originalPrice,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            updateCartDisplay();
+            showNotification('Product added to cart', 'success');
+        };
+        
+        // Update cart display
+        function updateCartDisplay() {
+            const cartBadge = document.getElementById('cartBadge');
+            const cartItems = document.getElementById('cartItems');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartVAT = document.getElementById('cartVAT');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            // Update badge
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (totalItems > 0) {
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = 'flex';
+            } else {
+                cartBadge.style.display = 'none';
+            }
+            
+            // Update cart items
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500 en-text">Your cart is empty</p>
+                        <p class="text-gray-500 ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">سلة التسوق فارغة</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center space-x-4 py-3 border-b">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                        <div class="flex-1">
+                            <h5 class="font-medium en-text">${item.name}</h5>
+                            <h5 class="font-medium ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">${item.nameAr || item.name}</h5>
+                            <p class="text-sm text-gray-600">${item.price.toFixed(2)} SAR</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})" 
+                                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <span class="w-8 text-center">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})" 
+                                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" 
+                                class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash text-sm"></i>
+                        </button>
+                    </div>
+                `).join('');
+                checkoutBtn.disabled = false;
+            }
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0);
+            const vat = subtotal * 0.15;
+            const total = subtotal + vat;
+            
+            cartSubtotal.textContent = `${subtotal.toFixed(2)} SAR`;
+            cartVAT.textContent = `${vat.toFixed(2)} SAR`;
+            cartTotal.textContent = `${total.toFixed(2)} SAR`;
+        }
+        
+        // Update cart quantity
+        window.updateCartQuantity = function(productId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const product = products.find(p => p.id === productId);
+            if (newQuantity > product.stock) {
+                showNotification('Maximum stock reached', 'error');
+                return;
+            }
+            
+            const cartItem = cart.find(item => item.id === productId);
+            if (cartItem) {
+                cartItem.quantity = newQuantity;
+                updateCartDisplay();
+            }
+        };
+        
+        // Remove from cart
+        window.removeFromCart = function(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+            showNotification('Product removed from cart', 'info');
+        };
+        
+        // Toggle cart sidebar
+        window.toggleCart = function() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
+            if (cartSidebar.classList.contains('translate-x-full')) {
+                cartSidebar.classList.remove('translate-x-full');
+                cartOverlay.style.display = 'block';
+            } else {
+                cartSidebar.classList.add('translate-x-full');
+                cartOverlay.style.display = 'none';
+            }
+        };
+        
+        // Proceed to checkout
+        window.proceedToCheckout = function() {
+            if (cart.length === 0) return;
+            
+            // Update checkout modal with cart items
+            updateCheckoutModal();
+            showModal('checkoutModal');
+            toggleCart(); // Close cart sidebar
+        };
+        
+        // Update checkout modal
+        function updateCheckoutModal() {
+            const checkoutItems = document.getElementById('checkoutItems');
+            const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+            const checkoutVAT = document.getElementById('checkoutVAT');
+            const checkoutTotal = document.getElementById('checkoutTotal');
+            
+            // Display items
+            checkoutItems.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="font-medium en-text">${item.name}</span>
+                        <span class="font-medium ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">${item.nameAr || item.name}</span>
+                        <span class="text-sm text-gray-600"> x${item.quantity}</span>
+                    </div>
+                    <span>${(item.price * item.quantity).toFixed(2)} SAR</span>
+                </div>
+            `).join('');
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0);
+            const vat = subtotal * 0.15;
+            const total = subtotal + vat;
+            
+            checkoutSubtotal.textContent = `${subtotal.toFixed(2)} SAR`;
+            checkoutVAT.textContent = `${vat.toFixed(2)} SAR`;
+            checkoutTotal.textContent = `${total.toFixed(2)} SAR`;
+            
+            // Pre-fill customer info if logged in
+            if (currentUser) {
+                document.getElementById('customerEmail').value = currentUser.email || '';
+            }
+        }
+        
+        // Handle checkout
+        window.handleCheckout = async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const orderData = {
+                customerId: currentUser?.uid || null,
+                customerName: formData.get('customerName') || document.getElementById('customerName').value,
+                customerEmail: formData.get('customerEmail') || document.getElementById('customerEmail').value,
+                customerPhone: formData.get('customerPhone') || document.getElementById('customerPhone').value,
+                paymentMethod: formData.get('paymentMethod'),
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    originalPrice: item.originalPrice,
+                    quantity: item.quantity
+                })),
+                subtotal: cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0),
+                vat: cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0) * 0.15,
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+            
+            try {
+                // Show loading state
+                event.target.querySelector('button[type="submit"]').innerHTML = '<div class="spinner mx-auto"></div>';
+                
+                // Create order in Firebase
+                const result = await OrderService.createOrder(orderData);
+                
+                if (result.success) {
+                    // Clear cart
+                    cart = [];
+                    updateCartDisplay();
+                    
+                    // Close modal
+                    closeModal('checkoutModal');
+                    
+                    // Show success message
+                    showNotification('Order placed successfully!', 'success');
+                    
+                    // Send email receipt (simulated)
+                    sendEmailReceipt(orderData, result.id);
+                } else {
+                    throw new Error(result.error);
                 }
             } catch (error) {
-                console.error('Payment error:', error);
-                showError(isArabic ? 'حدث خطأ في معالجة الدفع' : 'Payment processing error');
-                resetButton();
-            }
-        }
-
-        async function simulatePaymentAPI(cardNumber, paymentMethod) {
-            // Simulate different payment method processing
-            const processingTime = Math.random() * 2000 + 1000; // 1-3 seconds
-            await new Promise(resolve => setTimeout(resolve, processingTime));
-
-            // Simulate success/failure based on card number patterns
-            const lastDigit = cardNumber.slice(-1);
-            const success = parseInt(lastDigit) % 3 !== 0; // 66% success rate
-
-            if (success) {
-                return {
-                    success: true,
-                    transactionId: 'TXN-' + Date.now(),
-                    message: isArabic ? 'تم الدفع بنجاح' : 'Payment successful'
-                };
-            } else {
-                return {
-                    success: false,
-                    message: isArabic ? 'تم رفض البطاقة' : 'Card declined'
-                };
-            }
-        }
-
-        function completeOrder(customerEmail) {
-            // Calculate prices with proper VAT breakdown
-            const subtotal = cart.reduce((sum, item) => {
-                const originalPrice = item.product.originalPrice || item.product.price / 1.15;
-                return sum + (originalPrice * item.quantity);
-            }, 0);
-            
-            const vat = subtotal * 0.15;
-            const totalPrice = subtotal + vat;
-
-            // Create order
-            currentOrder = {
-                id: 'ORD-' + Date.now(),
-                items: [...cart],
-                subtotal: subtotal,
-                vat: vat,
-                total: totalPrice,
-                paymentMethod: selectedPaymentMethod,
-                customerEmail: customerEmail,
-                timestamp: new Date().toISOString(),
-                status: 'paid'
-            };
-
-            // Save order to localStorage
-            const orders = JSON.parse(localStorage.getItem('stationeryOrders') || '[]');
-            orders.push(currentOrder);
-            localStorage.setItem('stationeryOrders', JSON.stringify(orders));
-
-            // Clear cart
-            cart = [];
-            updateCartDisplay();
-
-            // Close payment modal
-            closePaymentModal();
-
-            // Send email receipt
-            sendEmailReceipt();
-
-            // Show success message
-            showPaymentSuccess();
-        }
-
-        function sendEmailReceipt() {
-            if (!currentOrder) return;
-
-            // Show loading state
-            showEmailSendingStatus('sending');
-            
-            // Simulate automatic email sending
-            setTimeout(() => {
-                // Simulate successful email sending
-                const emailSent = simulateEmailSending();
-                
-                if (emailSent) {
-                    showEmailSendingStatus('success');
-                    // Copy receipt to clipboard as backup
-                    copyReceiptToClipboard();
-                } else {
-                    showEmailSendingStatus('failed');
-                }
-            }, 2000);
-        }
-
-        function simulateEmailSending() {
-            // Simulate email sending - in real implementation, this would use EmailJS or similar service
-            // For now, we'll simulate success
-            return Math.random() > 0.1; // 90% success rate
-        }
-
-        function showEmailSendingStatus(status) {
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            
-            let content = '';
-            
-            if (status === 'sending') {
-                content = `
-                    <div class="bg-white rounded-lg p-8 max-w-md mx-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-spinner fa-spin text-blue-600 text-2xl"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Sending Receipt...</h3>
-                            <p class="text-gray-600">Please wait while we send your receipt to ${currentOrder.customerEmail}</p>
-                        </div>
-                    </div>
-                `;
-            } else if (status === 'success') {
-                content = `
-                    <div class="bg-white rounded-lg p-8 max-w-md mx-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-check text-green-600 text-2xl"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Receipt Sent Successfully!</h3>
-                            <p class="text-gray-600 mb-4">Your order receipt has been automatically sent to ${currentOrder.customerEmail}</p>
-                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                                <p class="text-sm text-green-800">
-                                    <strong>What's Next:</strong><br>
-                                    • Check your email for the receipt<br>
-                                    • Bring the receipt for pickup<br>
-                                    • Contact us if you have any questions
-                                </p>
-                            </div>
-                            <button onclick="this.closest('.fixed').remove()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
-                                Continue Shopping
-                            </button>
-                        </div>
-                    </div>
-                `;
-            } else if (status === 'failed') {
-                content = `
-                    <div class="bg-white rounded-lg p-8 max-w-md mx-4">
-                        <div class="text-center">
-                            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Email Sending Failed</h3>
-                            <p class="text-gray-600 mb-4">We couldn't send the email automatically, but your receipt has been copied to your clipboard.</p>
-                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                                <p class="text-sm text-yellow-800">
-                                    <strong>Alternative:</strong><br>
-                                    • Receipt copied to clipboard<br>
-                                    • You can paste it anywhere<br>
-                                    • Contact us for assistance
-                                </p>
-                            </div>
-                            <button onclick="this.closest('.fixed').remove()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                                Got it!
-                            </button>
-                        </div>
-                    </div>
+                console.error('Error placing order:', error);
+                showNotification('Error placing order. Please try again.', 'error');
+            } finally {
+                // Reset button
+                event.target.querySelector('button[type="submit"]').innerHTML = `
+                    <span class="en-text">Complete Order</span>
+                    <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">إتمام الطلب</span>
                 `;
             }
-            
-            modal.innerHTML = content;
-            document.body.appendChild(modal);
-        }
-
-        function generateEmailReceipt() {
-            const order = currentOrder;
-            const storeInfo = {
-                name: 'Knowledge Development Stationery',
-                nameAr: 'قرطاسية تنمية المعرفة',
-                address: '8480 Hamad Al Jaser, AR Rawdah District, Jeddah 23435, Saudi Arabia',
-                phone: '+966 12 236 7510',
-                email: 'info@kdstationery.com'
-            };
-
-            let emailContent = `
-ORDER RECEIPT / إيصال الطلب
-===============================
-
-Order ID: ${order.id}
-Date: ${new Date(order.timestamp).toLocaleString()}
-Payment Method: ${getPaymentMethodName(order.paymentMethod)}
+        };
+        
+        // Send email receipt
+        function sendEmailReceipt(orderData, orderId) {
+            const receiptContent = `
+Order Confirmation - Knowledge Development Stationery
+Order ID: ${orderId}
+Date: ${new Date().toLocaleDateString()}
 
 Customer Information:
-Email: ${order.customerEmail}
+Name: ${orderData.customerName}
+Email: ${orderData.customerEmail}
+Phone: ${orderData.customerPhone}
 
 Order Items:
-`;
+${orderData.items.map(item => `${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)} SAR`).join('\n')}
 
-            order.items.forEach(item => {
-                emailContent += `- ${item.product.name} (${item.product.nameAr})
-  Quantity: ${item.quantity}
-  Price: ${item.product.price.toFixed(2)} SAR
-  Subtotal: ${(item.product.price * item.quantity).toFixed(2)} SAR
-
-`;
-            });
-
-            emailContent += `
 Order Summary:
-Subtotal: ${order.subtotal.toFixed(2)} SAR
-VAT: ${order.vat.toFixed(2)} SAR
-Total: ${order.total.toFixed(2)} SAR
+Subtotal: ${orderData.subtotal.toFixed(2)} SAR
+VAT (15%): ${orderData.vat.toFixed(2)} SAR
+Total: ${orderData.total.toFixed(2)} SAR
 
-Store Information:
-${storeInfo.name} / ${storeInfo.nameAr}
-${storeInfo.address}
-Phone: ${storeInfo.phone}
-Email: ${storeInfo.email}
+Payment Method: ${orderData.paymentMethod}
 
-Please bring this receipt for order pickup.
-يرجى إحضار هذا الإيصال لاستلام الطلب.
-
-Thank you for your business!
-شكراً لاختياركم لنا!
-`;
-
-            return emailContent;
-        }
-
-        function copyReceiptToClipboard() {
-            const receiptText = generateEmailReceipt();
-            navigator.clipboard.writeText(receiptText).then(() => {
-                showNotification(isArabic ? 'تم نسخ الإيصال إلى الحافظة' : 'Receipt copied to clipboard');
-            }).catch(() => {
-                console.log('Could not copy to clipboard');
-            });
-        }
-
-        function showReceipt() {
-            if (!currentOrder) return;
-
-            const receiptContent = document.getElementById('receipt-content');
-            const orderDate = new Date(currentOrder.timestamp);
-            const formattedDate = orderDate.toLocaleDateString('en-SA', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            receiptContent.innerHTML = `
-                <div class="text-center mb-6">
-                    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-lg mb-4">
-                        <h3 class="font-bold text-xl">Knowledge Development Stationery</h3>
-                        <p class="text-sm opacity-90">قرطاسية تنمية المعرفة</p>
-                        <p class="text-xs opacity-75 mt-1">Your Trusted Stationery Partner</p>
-                    </div>
-                    
-                    <div class="text-xs text-gray-600 space-y-1">
-                        <p class="font-semibold">📍 Store Location</p>
-                        <p>8480 Hamad Al Jaser, AR Rawdah District</p>
-                        <p>Jeddah 23435, Saudi Arabia</p>
-                        <p>📞 +966 12 236 7510 | ✉️ info@kdstationery.com</p>
-                    </div>
-                    
-                    <div class="mt-3 text-xs text-gray-500 bg-gray-50 p-2 rounded">
-                        <p><strong>Commercial Registration:</strong> 1010123456</p>
-                        <p><strong>VAT Number:</strong> 300012345600003</p>
-                        <p><strong>Business License:</strong> Valid until 2025</p>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-semibold text-blue-800">Order #${currentOrder.id}</p>
-                            <p class="text-sm text-blue-600">${formattedDate}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs text-blue-600">Status: <span class="font-semibold text-green-600">PAID</span></p>
-                            <p class="text-xs text-blue-600">Payment: ${getPaymentMethodName(selectedPaymentMethod)}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-2">
-                        <span class="en-text">Customer Information</span>
-                        <span class="ar-text hidden">معلومات العميل</span>
-                    </h4>
-                    <div class="bg-gray-50 p-3 rounded text-sm">
-                        <p><strong>Email:</strong> ${currentOrder.customerEmail}</p>
-                        <p><strong>Order Date:</strong> ${formattedDate}</p>
-                        <p><strong>Pickup Method:</strong> Store Pickup</p>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-2">
-                        <span class="en-text">Order Items</span>
-                        <span class="ar-text hidden">عناصر الطلب</span>
-                    </h4>
-                    <div class="space-y-2">
-                        ${currentOrder.items.map(item => `
-                            <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
-                                <div class="flex-1">
-                                    <p class="font-medium text-sm">${isArabic ? item.product.nameAr : item.product.name}</p>
-                                    <p class="text-xs text-gray-600">Qty: ${item.quantity} × ${item.product.price.toFixed(2)} ﷼</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-semibold">${(item.product.price * item.quantity).toFixed(2)} ﷼</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="bg-gray-100 p-4 rounded-lg space-y-2">
-                    <div class="flex justify-between text-sm">
-                        <span class="en-text">Subtotal:</span>
-                        <span class="ar-text hidden">المجموع الفرعي:</span>
-                        <span>${currentOrder.subtotal.toFixed(2)} ﷼</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="en-text">VAT (15%):</span>
-                        <span class="ar-text hidden">ضريبة القيمة المضافة (15%):</span>
-                        <span>${currentOrder.vat.toFixed(2)} ﷼</span>
-                    </div>
-                    <div class="flex justify-between font-bold text-lg border-t border-gray-400 pt-2">
-                        <span class="en-text">Total Amount:</span>
-                        <span class="ar-text hidden">المبلغ الإجمالي:</span>
-                        <span class="text-blue-600">${currentOrder.total.toFixed(2)} ﷼</span>
-                    </div>
-                </div>
-
-                <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-center">
-                    <p class="text-green-800 font-semibold text-sm">✅ PAYMENT SUCCESSFUL</p>
-                    <p class="text-xs text-green-600 mt-1">
-                        <span class="en-text">Your order is confirmed and ready for pickup</span>
-                        <span class="ar-text hidden">تم تأكيد طلبك وهو جاهز للاستلام</span>
-                    </p>
-                </div>
-
-                <div class="mt-4 text-center text-xs text-gray-500">
-                    <p>
-                        <span class="en-text">Thank you for choosing Knowledge Development Stationery!</span>
-                        <span class="ar-text hidden">شكراً لاختياركم قرطاسية تنمية المعرفة!</span>
-                    </p>
-                    <p class="mt-1">
-                        <span class="en-text">Please bring this receipt for order pickup</span>
-                        <span class="ar-text hidden">يرجى إحضار هذا الإيصال لاستلام الطلب</span>
-                    </p>
-                </div>
+Thank you for your order!
+Knowledge Development Stationery
             `;
-
-            // Generate QR code
-            generateQRCode(currentOrder.id);
-
-            document.getElementById('receipt-modal').classList.remove('hidden');
-        }
-
-        function closeReceiptModal() {
-            document.getElementById('receipt-modal').classList.add('hidden');
-            currentOrder = null;
-        }
-
-        function printReceipt() {
-            const receiptContent = document.getElementById('receipt-content').innerHTML;
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Order Receipt - ${currentOrder.id}</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; font-size: 12px; margin: 20px; }
-                            .text-center { text-align: center; }
-                            .font-bold { font-weight: bold; }
-                            .text-lg { font-size: 16px; }
-                            .text-sm { font-size: 11px; }
-                            .text-xs { font-size: 10px; }
-                            .text-gray-600 { color: #6b7280; }
-                            .text-gray-500 { color: #9ca3af; }
-                            .text-green-600 { color: #059669; }
-                            .border-t { border-top: 1px solid #d1d5db; }
-                            .pt-2 { padding-top: 8px; }
-                            .pt-1 { padding-top: 4px; }
-                            .mb-4 { margin-bottom: 16px; }
-                            .mb-2 { margin-bottom: 8px; }
-                            .mt-4 { margin-top: 16px; }
-                            .mt-1 { margin-top: 4px; }
-                            .space-y-2 > * + * { margin-top: 8px; }
-                            .space-y-1 > * + * { margin-top: 4px; }
-                            .flex { display: flex; }
-                            .justify-between { justify-content: space-between; }
-                        </style>
-                    </head>
-                    <body>
-                        ${receiptContent}
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
-
-        // Language switching function
-        function toggleLanguage() {
-            isArabic = !isArabic;
             
-            // Update HTML direction and language
-            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
-            document.documentElement.lang = isArabic ? 'ar' : 'en';
-            document.body.dir = isArabic ? 'rtl' : 'ltr';
+            // Create mailto link
+            const subject = encodeURIComponent(`Order Confirmation - ${orderId}`);
+            const body = encodeURIComponent(receiptContent);
+            const mailtoLink = `mailto:${orderData.customerEmail}?subject=${subject}&body=${body}`;
             
-            // Force update all text elements
-            const enTexts = document.querySelectorAll('.en-text');
-            const arTexts = document.querySelectorAll('.ar-text');
-            
-            enTexts.forEach(el => {
-                el.style.display = isArabic ? 'none' : 'inline';
+            // Copy to clipboard
+            navigator.clipboard.writeText(receiptContent).then(() => {
+                console.log('Receipt copied to clipboard');
             });
             
-            arTexts.forEach(el => {
-                el.style.display = isArabic ? 'inline' : 'none';
-            });
-        
-            // Update dynamic content
-            updateLanguageContent();
-        
-            // Reload categories and products to update language
-            loadCategoryButtons();
-            loadProducts();
-        
-            // Update cart display
-            updateCartDisplay();
+            // Open email client
+            window.open(mailtoLink);
+            
+            showNotification('Receipt sent! Check your email.', 'success');
         }
-
-        function updateLanguageContent() {
+        
+        // Authentication functions
+        window.showLoginModal = function() {
+            showModal('loginModal');
+        };
+        
+        window.showRegisterModal = function() {
+            showModal('registerModal');
+        };
+        
+        window.handleLogin = async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
             try {
-                const currentLang = isArabic ? translations.ar : translations.en;
-            
-            // Update store name
-            const storeName = document.getElementById('store-name');
-            if (storeName) {
-                storeName.textContent = currentLang.storeName;
-            }
-            
-            // Update hero section
-            const heroTitle = document.getElementById('hero-title');
-            if (heroTitle) {
-                heroTitle.textContent = currentLang.heroTitle;
-            }
-            
-            const heroDescription = document.getElementById('hero-description');
-            if (heroDescription) {
-                heroDescription.textContent = currentLang.heroDescription;
-            }
-            
-            // Update products section
-            const productsTitle = document.getElementById('products-title');
-            if (productsTitle) {
-                productsTitle.textContent = currentLang.productsTitle;
-            }
-            
-            const productsDescription = document.getElementById('products-description');
-            if (productsDescription) {
-                productsDescription.textContent = currentLang.productsDescription;
-            }
-            
-            // Update search placeholder
-            const searchInput = document.getElementById('product-search');
-            if (searchInput) {
-                searchInput.placeholder = isArabic ? 'البحث في المنتجات...' : 'Search products...';
-            }
-            
-            // Update footer
-            const footerTitle = document.getElementById('footer-title');
-            if (footerTitle) {
-                footerTitle.textContent = currentLang.footerTitle;
-            }
-            
-            const footerDescription = document.getElementById('footer-description');
-            if (footerDescription) {
-                footerDescription.textContent = currentLang.footerDescription;
-            }
-            
-            const copyright = document.getElementById('copyright');
-            if (copyright) {
-                copyright.textContent = currentLang.copyright;
-                }
+                const result = await AuthService.loginAdmin(email, password);
                 
-                console.log('Language content updated successfully');
+                if (result.success) {
+                    closeModal('loginModal');
+                    showNotification('Login successful!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
             } catch (error) {
-                console.error('Error updating language content:', error);
+                console.error('Login error:', error);
+                showNotification('Login failed. Please try again.', 'error');
             }
-        }
-
-        // Payment validation functions
-        function validateCardNumber(cardNumber, paymentMethod) {
-            const cleanNumber = cardNumber.replace(/\s/g, '');
+        };
+        
+        window.handleRegister = async function(event) {
+            event.preventDefault();
             
-            switch (paymentMethod) {
-                case 'visa':
-                    return /^4[0-9]{12}(?:[0-9]{3})?$/.test(cleanNumber);
-                case 'mastercard':
-                    return /^5[1-5][0-9]{14}$/.test(cleanNumber);
-                case 'amex':
-                    return /^3[47][0-9]{13}$/.test(cleanNumber);
-                case 'mada':
-                    return /^4[0-9]{15}$/.test(cleanNumber) || /^5[0-9]{15}$/.test(cleanNumber);
-                default:
-                    return /^[0-9]{13,19}$/.test(cleanNumber);
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const firstName = document.getElementById('registerFirstName').value;
+            const lastName = document.getElementById('registerLastName').value;
+            const phone = document.getElementById('registerPhone').value;
+            
+            try {
+                const result = await AuthService.registerUser(email, password, {
+                    firstName,
+                    lastName,
+                    phone,
+                    fullName: `${firstName} ${lastName}`
+                });
+                
+                if (result.success) {
+                    closeModal('registerModal');
+                    showNotification('Account created successfully!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showNotification('Registration failed. Please try again.', 'error');
             }
-        }
-
-        function validateExpiryDate(expiryDate) {
-            const [month, year] = expiryDate.split('/');
-            const currentDate = new Date();
-            const currentYear = currentDate.getFullYear() % 100;
-            const currentMonth = currentDate.getMonth() + 1;
+        };
+        
+        window.logout = async function() {
+            try {
+                await AuthService.logout();
+                showNotification('Logged out successfully', 'info');
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        };
+        
+        // Update user interface based on auth state
+        function updateUserInterface() {
+            const userDisplayName = document.getElementById('userDisplayName');
+            const userDisplayNameAr = document.getElementById('userDisplayNameAr');
+            const guestMenu = document.getElementById('guestMenu');
+            const userMenu = document.getElementById('userMenu');
             
-            const expMonth = parseInt(month);
-            const expYear = parseInt(year);
-            
-            if (expMonth < 1 || expMonth > 12) return false;
-            if (expYear < currentYear) return false;
-            if (expYear === currentYear && expMonth < currentMonth) return false;
-            
-            return true;
-        }
-
-        function validateCVV(cvv, paymentMethod) {
-            const cleanCVV = cvv.replace(/\s/g, '');
-            
-            if (paymentMethod === 'amex') {
-                return /^[0-9]{4}$/.test(cleanCVV);
+            if (currentUser) {
+                userDisplayName.textContent = currentUser.displayName || 'Account';
+                userDisplayNameAr.textContent = currentUser.displayName || 'الحساب';
+                guestMenu.style.display = 'none';
+                userMenu.style.display = 'block';
             } else {
-                return /^[0-9]{3}$/.test(cleanCVV);
+                userDisplayName.textContent = 'Account';
+                userDisplayNameAr.textContent = 'الحساب';
+                guestMenu.style.display = 'block';
+                userMenu.style.display = 'none';
             }
         }
-
-        function getPaymentMethodName(method) {
-            const names = {
-                'visa': isArabic ? 'فيزا' : 'Visa',
-                'mastercard': isArabic ? 'ماستركارد' : 'Mastercard',
-                'amex': isArabic ? 'أمريكان إكسبريس' : 'American Express',
-                'mada': isArabic ? 'مدى' : 'Mada'
-            };
-            return names[method] || method;
-        }
-
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
+        
+        // User menu toggle
+        document.getElementById('userMenuBtn').addEventListener('click', function() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
             
-            mobileMenu.classList.toggle('hidden');
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-times');
-        }
-
-        // Checkout function (legacy - now redirects to payment modal)
-        function checkout() {
-            openPaymentModal();
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', init);
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        // Language toggle
+        window.toggleLanguage = function() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            
+            const enElements = document.querySelectorAll('.en-text');
+            const arElements = document.querySelectorAll('.ar-text');
+            
+            if (currentLanguage === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                enElements.forEach(el => el.style.display = 'none');
+                arElements.forEach(el => el.style.display = 'block');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                enElements.forEach(el => el.style.display = 'block');
+                arElements.forEach(el => el.style.display = 'none');
+            }
+            
+            // Refresh products display to update language
+            displayProducts();
+        };
+        
+        // Modal functions
+        window.showModal = function(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        };
+        
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        };
+        
+        // Show notification
+        window.showNotification = function(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} show`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        };
+        
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
