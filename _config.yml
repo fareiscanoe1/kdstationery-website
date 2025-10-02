@@ -1,0 +1,35 @@
+# GitHub Pages Configuration
+title: Knowledge Development Stationery
+description: Premium Stationery Store in Saudi Arabia
+url: "https://tanmiahdevstationery.com"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - COMPLETE_SETUP_GUIDE.md
+  - FIREBASE_SETUP.md
+  - DEPLOY_NOW.md
+  - EASY_DEPLOY_STEPS.md
+  - FINAL_DEPLOYMENT_FILES.md
+  - SIMPLE_DEPLOY.md
+  - CONNECT_DOMAIN.md
+  - .firebaserc
+  - firebase.json
+  - deploy.sh
+  - add-sample-products.js
+
+# Include files
+include:
+  - _pages
+  - assets
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
