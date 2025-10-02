@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Knowledge Development Stationery - Premium Stationery Store in Jeddah | Pens, Notebooks, Office Supplies</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Knowledge Development Stationery - Your trusted stationery partner in Jeddah. Premium pens, notebooks, office supplies, art materials, and printing services. Online ordering with pickup service.">
+    <meta name="keywords" content="stationery Jeddah, office supplies Saudi Arabia, pens notebooks, art supplies, printing services, stationery store, قرطاسية جدة">
+    <meta name="author" content="Knowledge Development Stationery">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Knowledge Development Stationery - Premium Stationery Store in Jeddah">
+    <meta property="og:description" content="Your trusted stationery partner in Jeddah. Premium pens, notebooks, office supplies, art materials, and printing services.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tanmiahdevstationery.com">
+    <meta property="og:image" content="https://tanmiahdevstationery.com/og-image.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ar_SA">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Knowledge Development Stationery - Premium Stationery Store in Jeddah">
+    <meta name="twitter:description" content="Your trusted stationery partner in Jeddah. Premium pens, notebooks, office supplies, art materials, and printing services.">
+    <meta name="twitter:image" content="https://tanmiahdevstationery.com/og-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tanmiahdevstationery.com">
+    
+    <!-- Language Alternates -->
+    <link rel="alternate" hreflang="en" href="https://tanmiahdevstationery.com">
+    <link rel="alternate" hreflang="ar" href="https://tanmiahdevstationery.com">
+    <link rel="alternate" hreflang="x-default" href="https://tanmiahdevstationery.com">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Your Firebase config will be added here
+        const firebaseConfig = {
+            // Add your Firebase config here
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.auth = getAuth(app);
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --store-yellow: #FFD700;
+            --store-bright-yellow: #FFED4E;
+            --store-light-yellow: #FFF9C4;
+            --store-dark: #1a1a1a;
+            --store-gray: #6b7280;
+        }
+        
+        .container-custom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Mobile improvements */
+        @media (max-width: 640px) {
+            .container-custom {
+                padding: 0 0.75rem;
+            }
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, var(--store-bright-yellow) 0%, var(--store-light-yellow) 50%, var(--store-yellow) 100%);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--store-yellow);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--store-yellow) 0%, var(--store-bright-yellow) 100%);
+            color: var(--store-dark);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .cart-badge {
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: #10b981;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+        }
+        
+        /* Arabic RTL Support */
+        [dir="rtl"] {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .flex {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .space-x-4 > * + * {
+            margin-right: 1rem;
+            margin-left: 0;
+        }
+        
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--store-yellow);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        /* Payment Icons */
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+        }
+        
+        /* User Account Styles */
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .user-dropdown.show {
+            display: block;
+        }
+        
+        .user-dropdown a {
+            display: block;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .user-dropdown a:hover {
+            background: #f9fafb;
+        }
+        
+        .user-dropdown a:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="brand-gradient min-h-screen">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <p class="text-gray-600">Loading store...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-40">
+        <div class="container-custom">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-pen-fancy text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800 en-text">Knowledge Development</h1>
+                        <h1 class="text-xl font-bold text-gray-800 ar-text" style="display: none;">تنمية المعرفة</h1>
+                        <p class="text-sm text-gray-600 en-text">Stationery</p>
+                        <p class="text-sm text-gray-600 ar-text" style="display: none;">القرطاسية</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">الرئيسية</a>
+                    
+                    <a href="#products" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">Products</a>
+                    <a href="#products" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">المنتجات</a>
+                    
+                    <a href="#about" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">About</a>
+                    <a href="#about" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">من نحن</a>
+                    
+                    <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors en-text">Contact</a>
+                    <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors ar-text" style="display: none;">اتصل بنا</a>
+                </div>
+
+                <!-- User Account & Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Toggle -->
+                    <button onclick="toggleLanguage()" class="p-2 text-gray-600 hover:text-yellow-600 transition-colors">
+                        <i class="fas fa-language text-lg"></i>
+                    </button>
+
+                    <!-- User Account -->
+                    <div class="user-menu">
+                        <button id="userMenuBtn" class="flex items-center space-x-2 p-2 text-gray-600 hover:text-yellow-600 transition-colors">
+                            <i class="fas fa-user text-lg"></i>
+                            <span id="userDisplayName" class="hidden md:block en-text">Account</span>
+                            <span id="userDisplayNameAr" class="hidden md:block ar-text" style="display: none;">الحساب</span>
+                        </button>
+                        <div id="userDropdown" class="user-dropdown">
+                            <div id="guestMenu">
+                                <a href="#" onclick="showLoginModal()" class="en-text">Login</a>
+                                <a href="#" onclick="showLoginModal()" class="ar-text" style="display: none;">تسجيل الدخول</a>
+                                <a href="#" onclick="showRegisterModal()" class="en-text">Register</a>
+                                <a href="#" onclick="showRegisterModal()" class="ar-text" style="display: none;">إنشاء حساب</a>
+                            </div>
+                            <div id="userMenu" style="display: none;">
+                                <a href="#" onclick="showOrderHistory()" class="en-text">Order History</a>
+                                <a href="#" onclick="showOrderHistory()" class="ar-text" style="display: none;">تاريخ الطلبات</a>
+                                <a href="#" onclick="showProfile()" class="en-text">Profile</a>
+                                <a href="#" onclick="showProfile()" class="ar-text" style="display: none;">الملف الشخصي</a>
+                                <a href="#" onclick="logout()" class="en-text">Logout</a>
+                                <a href="#" onclick="logout()" class="ar-text" style="display: none;">تسجيل الخروج</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart -->
+                    <button onclick="toggleCart()" class="relative p-2 text-gray-600 hover:text-yellow-600 transition-colors">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                        <span id="cartBadge" class="cart-badge" style="display: none;">0</span>
+                    </button>
+
+                    <!-- Admin Link -->
+                    <a href="admin-login.html" class="hidden md:block text-sm text-gray-500 hover:text-yellow-600 transition-colors">
+                        <i class="fas fa-cog mr-1"></i>
+                        <span class="en-text">Admin</span>
+                        <span class="ar-text" style="display: none;">الإدارة</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-16 text-center">
+        <div class="container-custom">
+            <h2 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 en-text">
+                Premium Stationery Store
+            </h2>
+            <h2 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 ar-text" style="display: none;">
+                متجر القرطاسية المميز
+            </h2>
+            
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto en-text">
+                Discover high-quality pens, notebooks, office supplies, and art materials. 
+                Your trusted stationery partner in Jeddah with online ordering and pickup service.
+            </p>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto ar-text" style="display: none;">
+                اكتشف الأقلام عالية الجودة والدفاتر ومستلزمات المكتب والمواد الفنية.
+                شريكك الموثوق في القرطاسية في جدة مع خدمة الطلب عبر الإنترنت والاستلام.
+            </p>
+            
+            <button onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})" 
+                    class="btn-primary px-8 py-3 rounded-lg text-lg">
+                <span class="en-text">Shop Now</span>
+                <span class="ar-text" style="display: none;">تسوق الآن</span>
+                <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-white">
+        <div class="container-custom">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">
+                <span class="en-text">Our Products</span>
+                <span class="ar-text" style="display: none;">منتجاتنا</span>
+            </h3>
+
+            <!-- Category Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8" id="categoryButtons">
+                <button onclick="filterProducts('all')" 
+                        class="category-btn active px-6 py-2 rounded-full bg-yellow-500 text-white font-medium hover:bg-yellow-600 transition-colors">
+                    <span class="en-text">All Products</span>
+                    <span class="ar-text" style="display: none;">جميع المنتجات</span>
+                </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+
+            <!-- Loading State -->
+            <div id="productsLoading" class="text-center py-12">
+                <div class="spinner mx-auto mb-4"></div>
+                <p class="text-gray-600 en-text">Loading products...</p>
+                <p class="text-gray-600 ar-text" style="display: none;">جاري تحميل المنتجات...</p>
+            </div>
+
+            <!-- No Products State -->
+            <div id="noProducts" class="text-center py-12" style="display: none;">
+                <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+                <p class="text-xl text-gray-500 en-text">No products found</p>
+                <p class="text-xl text-gray-500 ar-text" style="display: none;">لم يتم العثور على منتجات</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold en-text">Shopping Cart</h3>
+                <h3 class="text-xl font-bold ar-text" style="display: none;">سلة التسوق</h3>
+                <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="cartItems" class="flex-1 overflow-y-auto p-6">
+            <!-- Cart items will be displayed here -->
+        </div>
+        
+        <div class="border-t p-6">
+            <div class="space-y-2 mb-4">
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span class="en-text">Subtotal:</span>
+                    <span class="ar-text" style="display: none;">المجموع الفرعي:</span>
+                    <span id="cartSubtotal">0.00 SAR</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span class="en-text">VAT (15%):</span>
+                    <span class="ar-text" style="display: none;">ضريبة القيمة المضافة (15%):</span>
+                    <span id="cartVAT">0.00 SAR</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold">
+                    <span class="en-text">Total:</span>
+                    <span class="ar-text" style="display: none;">المجموع:</span>
+                    <span id="cartTotal">0.00 SAR</span>
+                </div>
+            </div>
+            <button onclick="proceedToCheckout()" 
+                    class="w-full btn-primary py-3 rounded-lg text-lg font-semibold" 
+                    id="checkoutBtn" disabled>
+                <span class="en-text">Proceed to Checkout</span>
+                <span class="ar-text" style="display: none;">المتابعة للدفع</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40" style="display: none;" onclick="toggleCart()"></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold en-text">Login</h3>
+                <h3 class="text-2xl font-bold ar-text" style="display: none;">تسجيل الدخول</h3>
+                <button onclick="closeModal('loginModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">البريد الإلكتروني</label>
+                        <input type="email" id="loginEmail" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Password</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">كلمة المرور</label>
+                        <input type="password" id="loginPassword" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary py-3 rounded-lg mt-6">
+                    <span class="en-text">Login</span>
+                    <span class="ar-text" style="display: none;">تسجيل الدخول</span>
+                </button>
+            </form>
+            
+            <p class="text-center mt-4 text-gray-600">
+                <span class="en-text">Don't have an account? </span>
+                <span class="ar-text" style="display: none;">ليس لديك حساب؟ </span>
+                <button onclick="closeModal('loginModal'); showRegisterModal()" class="text-yellow-600 hover:underline">
+                    <span class="en-text">Register here</span>
+                    <span class="ar-text" style="display: none;">سجل هنا</span>
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold en-text">Create Account</h3>
+                <h3 class="text-2xl font-bold ar-text" style="display: none;">إنشاء حساب</h3>
+                <button onclick="closeModal('registerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 en-text">First Name</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">الاسم الأول</label>
+                            <input type="text" id="registerFirstName" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Last Name</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">اسم العائلة</label>
+                            <input type="text" id="registerLastName" required 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Email</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">البريد الإلكتروني</label>
+                        <input type="email" id="registerEmail" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Phone</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">رقم الهاتف</label>
+                        <input type="tel" id="registerPhone" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Password</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">كلمة المرور</label>
+                        <input type="password" id="registerPassword" required minlength="6"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary py-3 rounded-lg mt-6">
+                    <span class="en-text">Create Account</span>
+                    <span class="ar-text" style="display: none;">إنشاء حساب</span>
+                </button>
+            </form>
+            
+            <p class="text-center mt-4 text-gray-600">
+                <span class="en-text">Already have an account? </span>
+                <span class="ar-text" style="display: none;">لديك حساب بالفعل؟ </span>
+                <button onclick="closeModal('registerModal'); showLoginModal()" class="text-yellow-600 hover:underline">
+                    <span class="en-text">Login here</span>
+                    <span class="ar-text" style="display: none;">سجل الدخول هنا</span>
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold en-text">Checkout</h3>
+                <h3 class="text-2xl font-bold ar-text" style="display: none;">الدفع</h3>
+                <button onclick="closeModal('checkoutModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Order Summary -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 en-text">Order Summary</h4>
+                    <h4 class="text-lg font-semibold mb-4 ar-text" style="display: none;">ملخص الطلب</h4>
+                    <div id="checkoutItems" class="space-y-3 mb-4">
+                        <!-- Checkout items will be displayed here -->
+                    </div>
+                    <div class="border-t pt-4 space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="en-text">Subtotal:</span>
+                            <span class="ar-text" style="display: none;">المجموع الفرعي:</span>
+                            <span id="checkoutSubtotal">0.00 SAR</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="en-text">VAT (15%):</span>
+                            <span class="ar-text" style="display: none;">ضريبة القيمة المضافة (15%):</span>
+                            <span id="checkoutVAT">0.00 SAR</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold">
+                            <span class="en-text">Total:</span>
+                            <span class="ar-text" style="display: none;">المجموع:</span>
+                            <span id="checkoutTotal">0.00 SAR</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Form -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 en-text">Payment Information</h4>
+                    <h4 class="text-lg font-semibold mb-4 ar-text" style="display: none;">معلومات الدفع</h4>
+                    
+                    <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                        <!-- Customer Information -->
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Full Name</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">الاسم الكامل</label>
+                                <input type="text" id="customerName" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Email</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">البريد الإلكتروني</label>
+                                <input type="email" id="customerEmail" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 en-text">Phone</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 ar-text" style="display: none;">رقم الهاتف</label>
+                                <input type="tel" id="customerPhone" required 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Method -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3 en-text">Payment Method</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-3 ar-text" style="display: none;">طريقة الدفع</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="moyasar" class="mr-3" checked>
+                                    <img src="https://moyasar.com/img/moyasar-logo.svg" alt="Moyasar" class="payment-icon mr-3">
+                                    <span class="en-text">Moyasar (Credit/Debit Cards)</span>
+                                    <span class="ar-text" style="display: none;">ميسر (بطاقات ائتمانية/مدينة)</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="tamara" class="mr-3">
+                                    <img src="https://tamara.co/static/images/tamara-logo.svg" alt="Tamara" class="payment-icon mr-3">
+                                    <span class="en-text">Tamara (Buy Now, Pay Later)</span>
+                                    <span class="ar-text" style="display: none;">تمارا (اشتري الآن، ادفع لاحقاً)</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="paymentMethod" value="mada" class="mr-3">
+                                    <div class="payment-icon mr-3 bg-green-600 text-white rounded flex items-center justify-center text-xs font-bold">MADA</div>
+                                    <span class="en-text">Mada Card</span>
+                                    <span class="ar-text" style="display: none;">بطاقة مدى</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full btn-primary py-3 rounded-lg text-lg font-semibold">
+                            <span class="en-text">Complete Order</span>
+                            <span class="ar-text" style="display: none;">إتمام الطلب</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container-custom">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 en-text">Knowledge Development Stationery</h4>
+                    <h4 class="text-lg font-semibold mb-4 ar-text" style="display: none;">قرطاسية تنمية المعرفة</h4>
+                    <p class="text-gray-300 en-text">Your trusted partner for premium stationery and office supplies in Jeddah.</p>
+                    <p class="text-gray-300 ar-text" style="display: none;">شريكك الموثوق للقرطاسية المميزة ومستلزمات المكتب في جدة.</p>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4 en-text">Quick Links</h5>
+                    <h5 class="font-semibold mb-4 ar-text" style="display: none;">روابط سريعة</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Home</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">الرئيسية</a></li>
+                        <li><a href="#products" class="hover:text-yellow-400 en-text">Products</a></li>
+                        <li><a href="#products" class="hover:text-yellow-400 ar-text" style="display: none;">المنتجات</a></li>
+                        <li><a href="#about" class="hover:text-yellow-400 en-text">About Us</a></li>
+                        <li><a href="#about" class="hover:text-yellow-400 ar-text" style="display: none;">من نحن</a></li>
+                        <li><a href="#contact" class="hover:text-yellow-400 en-text">Contact</a></li>
+                        <li><a href="#contact" class="hover:text-yellow-400 ar-text" style="display: none;">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4 en-text">Categories</h5>
+                    <h5 class="font-semibold mb-4 ar-text" style="display: none;">الفئات</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Pens & Pencils</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">أقلام وأقلام رصاص</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Notebooks</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">دفاتر</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Office Supplies</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">مستلزمات مكتبية</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 en-text">Art Supplies</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 ar-text" style="display: none;">مستلزمات فنية</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4 en-text">Contact Info</h5>
+                    <h5 class="font-semibold mb-4 ar-text" style="display: none;">معلومات الاتصال</h5>
+                    <div class="space-y-2 text-gray-300">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Jeddah, Saudi Arabia</p>
+                        <p><i class="fas fa-phone mr-2"></i>+966 XX XXX XXXX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>info@kdstationery.sa</p>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400"><i class="fab fa-whatsapp text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 Knowledge Development Stationery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Services Script -->
+    <script type="module" src="firebase-service.js"></script>
+    
+    <!-- Main Application Script -->
+    <script type="module">
+        import { ProductService, CategoryService, OrderService, AuthService } from './firebase-service.js';
+        
+        // Global variables
+        let products = [];
+        let categories = [];
+        let cart = [];
+        let currentUser = null;
+        let currentLanguage = 'en';
+        let currentCategory = 'all';
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Initializing dynamic stationery website...');
+            
+            // Set up authentication listener
+            AuthService.onAuthChange((user) => {
+                currentUser = user;
+                updateUserInterface();
+            });
+            
+            // Load initial data
+            await loadCategories();
+            await loadProducts();
+            
+            // Set up real-time listeners
+            setupRealTimeListeners();
+            
+            // Hide loading overlay
+            document.getElementById('loadingOverlay').style.display = 'none';
+            
+            console.log('Website initialized successfully!');
+        });
+        
+        // Set up real-time listeners
+        function setupRealTimeListeners() {
+            // Listen for product changes
+            ProductService.onProductsChange((updatedProducts) => {
+                products = updatedProducts;
+                displayProducts();
+                console.log('Products updated in real-time:', products.length);
+            });
+            
+            // Listen for category changes
+            CategoryService.onCategoriesChange((updatedCategories) => {
+                categories = updatedCategories;
+                displayCategories();
+                console.log('Categories updated in real-time:', categories.length);
+            });
+        }
+        
+        // Load categories from Firebase
+        async function loadCategories() {
+            try {
+                categories = await CategoryService.getAllCategories();
+                displayCategories();
+                console.log('Categories loaded:', categories.length);
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                showNotification('Error loading categories', 'error');
+            }
+        }
+        
+        // Load products from Firebase
+        async function loadProducts() {
+            try {
+                document.getElementById('productsLoading').style.display = 'block';
+                products = await ProductService.getAllProducts();
+                displayProducts();
+                document.getElementById('productsLoading').style.display = 'none';
+                console.log('Products loaded:', products.length);
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsLoading').style.display = 'none';
+                showNotification('Error loading products', 'error');
+            }
+        }
+        
+        // Display categories
+        function displayCategories() {
+            const categoryButtons = document.getElementById('categoryButtons');
+            
+            // Clear existing buttons except "All Products"
+            const allButton = categoryButtons.querySelector('button[onclick="filterProducts(\'all\')"]');
+            categoryButtons.innerHTML = '';
+            categoryButtons.appendChild(allButton);
+            
+            // Add category buttons
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-yellow-500 hover:text-white transition-colors';
+                button.onclick = () => filterProducts(category.name);
+                
+                const enSpan = document.createElement('span');
+                enSpan.className = 'en-text';
+                enSpan.textContent = category.name;
+                
+                const arSpan = document.createElement('span');
+                arSpan.className = 'ar-text';
+                arSpan.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+                arSpan.textContent = category.nameAr || category.name;
+                
+                button.appendChild(enSpan);
+                button.appendChild(arSpan);
+                categoryButtons.appendChild(button);
+            });
+        }
+        
+        // Display products
+        function displayProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const noProducts = document.getElementById('noProducts');
+            
+            // Filter products by current category
+            let filteredProducts = products;
+            if (currentCategory !== 'all') {
+                filteredProducts = products.filter(product => product.category === currentCategory);
+            }
+            
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = '';
+                noProducts.style.display = 'block';
+                return;
+            }
+            
+            noProducts.style.display = 'none';
+            
+            productsGrid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="aspect-w-1 aspect-h-1">
+                        <img src="${product.image}" alt="${product.name}" 
+                             class="w-full h-48 object-cover" 
+                             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-semibold text-gray-800 mb-2 en-text">${product.name}</h4>
+                        <h4 class="font-semibold text-gray-800 mb-2 ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">${product.nameAr || product.name}</h4>
+                        
+                        <p class="text-sm text-gray-600 mb-2">
+                            <span class="en-text">Category: ${product.category}</span>
+                            <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">الفئة: ${getCategoryArabicName(product.category)}</span>
+                        </p>
+                        
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <span class="text-lg font-bold text-yellow-600">${product.price.toFixed(2)} SAR</span>
+                                <p class="text-xs text-gray-500 en-text">VAT Included</p>
+                                <p class="text-xs text-gray-500 ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">شامل الضريبة</p>
+                            </div>
+                            <span class="text-sm text-gray-500">
+                                <span class="en-text">Stock: ${product.stock}</span>
+                                <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">المخزون: ${product.stock}</span>
+                            </span>
+                        </div>
+                        
+                        <button onclick="addToCart('${product.id}')" 
+                                class="w-full btn-primary py-2 rounded-lg font-medium ${product.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}"
+                                ${product.stock === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-cart-plus mr-2"></i>
+                            <span class="en-text">${product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+                            <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">${product.stock === 0 ? 'نفد المخزون' : 'أضف للسلة'}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Get category Arabic name
+        function getCategoryArabicName(categoryName) {
+            const category = categories.find(cat => cat.name === categoryName);
+            return category ? (category.nameAr || categoryName) : categoryName;
+        }
+        
+        // Filter products by category
+        window.filterProducts = function(category) {
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-yellow-500', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            event.target.classList.add('active', 'bg-yellow-500', 'text-white');
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            
+            displayProducts();
+        };
+        
+        // Add product to cart
+        window.addToCart = function(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock === 0) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                if (existingItem.quantity < product.stock) {
+                    existingItem.quantity++;
+                } else {
+                    showNotification('Maximum stock reached', 'error');
+                    return;
+                }
+            } else {
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    nameAr: product.nameAr,
+                    price: product.price,
+                    originalPrice: product.originalPrice,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            updateCartDisplay();
+            showNotification('Product added to cart', 'success');
+        };
+        
+        // Update cart display
+        function updateCartDisplay() {
+            const cartBadge = document.getElementById('cartBadge');
+            const cartItems = document.getElementById('cartItems');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartVAT = document.getElementById('cartVAT');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            // Update badge
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (totalItems > 0) {
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = 'flex';
+            } else {
+                cartBadge.style.display = 'none';
+            }
+            
+            // Update cart items
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500 en-text">Your cart is empty</p>
+                        <p class="text-gray-500 ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">سلة التسوق فارغة</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center space-x-4 py-3 border-b">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                        <div class="flex-1">
+                            <h5 class="font-medium en-text">${item.name}</h5>
+                            <h5 class="font-medium ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">${item.nameAr || item.name}</h5>
+                            <p class="text-sm text-gray-600">${item.price.toFixed(2)} SAR</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})" 
+                                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <span class="w-8 text-center">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})" 
+                                    class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" 
+                                class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash text-sm"></i>
+                        </button>
+                    </div>
+                `).join('');
+                checkoutBtn.disabled = false;
+            }
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0);
+            const vat = subtotal * 0.15;
+            const total = subtotal + vat;
+            
+            cartSubtotal.textContent = `${subtotal.toFixed(2)} SAR`;
+            cartVAT.textContent = `${vat.toFixed(2)} SAR`;
+            cartTotal.textContent = `${total.toFixed(2)} SAR`;
+        }
+        
+        // Update cart quantity
+        window.updateCartQuantity = function(productId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            const product = products.find(p => p.id === productId);
+            if (newQuantity > product.stock) {
+                showNotification('Maximum stock reached', 'error');
+                return;
+            }
+            
+            const cartItem = cart.find(item => item.id === productId);
+            if (cartItem) {
+                cartItem.quantity = newQuantity;
+                updateCartDisplay();
+            }
+        };
+        
+        // Remove from cart
+        window.removeFromCart = function(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+            showNotification('Product removed from cart', 'info');
+        };
+        
+        // Toggle cart sidebar
+        window.toggleCart = function() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
+            if (cartSidebar.classList.contains('translate-x-full')) {
+                cartSidebar.classList.remove('translate-x-full');
+                cartOverlay.style.display = 'block';
+            } else {
+                cartSidebar.classList.add('translate-x-full');
+                cartOverlay.style.display = 'none';
+            }
+        };
+        
+        // Proceed to checkout
+        window.proceedToCheckout = function() {
+            if (cart.length === 0) return;
+            
+            // Update checkout modal with cart items
+            updateCheckoutModal();
+            showModal('checkoutModal');
+            toggleCart(); // Close cart sidebar
+        };
+        
+        // Update checkout modal
+        function updateCheckoutModal() {
+            const checkoutItems = document.getElementById('checkoutItems');
+            const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+            const checkoutVAT = document.getElementById('checkoutVAT');
+            const checkoutTotal = document.getElementById('checkoutTotal');
+            
+            // Display items
+            checkoutItems.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="font-medium en-text">${item.name}</span>
+                        <span class="font-medium ar-text" style="display: ${currentLanguage === 'ar' ? 'block' : 'none'}">${item.nameAr || item.name}</span>
+                        <span class="text-sm text-gray-600"> x${item.quantity}</span>
+                    </div>
+                    <span>${(item.price * item.quantity).toFixed(2)} SAR</span>
+                </div>
+            `).join('');
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0);
+            const vat = subtotal * 0.15;
+            const total = subtotal + vat;
+            
+            checkoutSubtotal.textContent = `${subtotal.toFixed(2)} SAR`;
+            checkoutVAT.textContent = `${vat.toFixed(2)} SAR`;
+            checkoutTotal.textContent = `${total.toFixed(2)} SAR`;
+            
+            // Pre-fill customer info if logged in
+            if (currentUser) {
+                document.getElementById('customerEmail').value = currentUser.email || '';
+            }
+        }
+        
+        // Handle checkout
+        window.handleCheckout = async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const orderData = {
+                customerId: currentUser?.uid || null,
+                customerName: formData.get('customerName') || document.getElementById('customerName').value,
+                customerEmail: formData.get('customerEmail') || document.getElementById('customerEmail').value,
+                customerPhone: formData.get('customerPhone') || document.getElementById('customerPhone').value,
+                paymentMethod: formData.get('paymentMethod'),
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    originalPrice: item.originalPrice,
+                    quantity: item.quantity
+                })),
+                subtotal: cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0),
+                vat: cart.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0) * 0.15,
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+            
+            try {
+                // Show loading state
+                event.target.querySelector('button[type="submit"]').innerHTML = '<div class="spinner mx-auto"></div>';
+                
+                // Create order in Firebase
+                const result = await OrderService.createOrder(orderData);
+                
+                if (result.success) {
+                    // Clear cart
+                    cart = [];
+                    updateCartDisplay();
+                    
+                    // Close modal
+                    closeModal('checkoutModal');
+                    
+                    // Show success message
+                    showNotification('Order placed successfully!', 'success');
+                    
+                    // Send email receipt (simulated)
+                    sendEmailReceipt(orderData, result.id);
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showNotification('Error placing order. Please try again.', 'error');
+            } finally {
+                // Reset button
+                event.target.querySelector('button[type="submit"]').innerHTML = `
+                    <span class="en-text">Complete Order</span>
+                    <span class="ar-text" style="display: ${currentLanguage === 'ar' ? 'inline' : 'none'}">إتمام الطلب</span>
+                `;
+            }
+        };
+        
+        // Send email receipt
+        function sendEmailReceipt(orderData, orderId) {
+            const receiptContent = `
+Order Confirmation - Knowledge Development Stationery
+Order ID: ${orderId}
+Date: ${new Date().toLocaleDateString()}
+
+Customer Information:
+Name: ${orderData.customerName}
+Email: ${orderData.customerEmail}
+Phone: ${orderData.customerPhone}
+
+Order Items:
+${orderData.items.map(item => `${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)} SAR`).join('\n')}
+
+Order Summary:
+Subtotal: ${orderData.subtotal.toFixed(2)} SAR
+VAT (15%): ${orderData.vat.toFixed(2)} SAR
+Total: ${orderData.total.toFixed(2)} SAR
+
+Payment Method: ${orderData.paymentMethod}
+
+Thank you for your order!
+Knowledge Development Stationery
+            `;
+            
+            // Create mailto link
+            const subject = encodeURIComponent(`Order Confirmation - ${orderId}`);
+            const body = encodeURIComponent(receiptContent);
+            const mailtoLink = `mailto:${orderData.customerEmail}?subject=${subject}&body=${body}`;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(receiptContent).then(() => {
+                console.log('Receipt copied to clipboard');
+            });
+            
+            // Open email client
+            window.open(mailtoLink);
+            
+            showNotification('Receipt sent! Check your email.', 'success');
+        }
+        
+        // Authentication functions
+        window.showLoginModal = function() {
+            showModal('loginModal');
+        };
+        
+        window.showRegisterModal = function() {
+            showModal('registerModal');
+        };
+        
+        window.handleLogin = async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const result = await AuthService.loginAdmin(email, password);
+                
+                if (result.success) {
+                    closeModal('loginModal');
+                    showNotification('Login successful!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification('Login failed. Please try again.', 'error');
+            }
+        };
+        
+        window.handleRegister = async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const firstName = document.getElementById('registerFirstName').value;
+            const lastName = document.getElementById('registerLastName').value;
+            const phone = document.getElementById('registerPhone').value;
+            
+            try {
+                const result = await AuthService.registerUser(email, password, {
+                    firstName,
+                    lastName,
+                    phone,
+                    fullName: `${firstName} ${lastName}`
+                });
+                
+                if (result.success) {
+                    closeModal('registerModal');
+                    showNotification('Account created successfully!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showNotification('Registration failed. Please try again.', 'error');
+            }
+        };
+        
+        window.logout = async function() {
+            try {
+                await AuthService.logout();
+                showNotification('Logged out successfully', 'info');
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        };
+        
+        // Update user interface based on auth state
+        function updateUserInterface() {
+            const userDisplayName = document.getElementById('userDisplayName');
+            const userDisplayNameAr = document.getElementById('userDisplayNameAr');
+            const guestMenu = document.getElementById('guestMenu');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (currentUser) {
+                userDisplayName.textContent = currentUser.displayName || 'Account';
+                userDisplayNameAr.textContent = currentUser.displayName || 'الحساب';
+                guestMenu.style.display = 'none';
+                userMenu.style.display = 'block';
+            } else {
+                userDisplayName.textContent = 'Account';
+                userDisplayNameAr.textContent = 'الحساب';
+                guestMenu.style.display = 'block';
+                userMenu.style.display = 'none';
+            }
+        }
+        
+        // User menu toggle
+        document.getElementById('userMenuBtn').addEventListener('click', function() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        // Language toggle
+        window.toggleLanguage = function() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            
+            const enElements = document.querySelectorAll('.en-text');
+            const arElements = document.querySelectorAll('.ar-text');
+            
+            if (currentLanguage === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                enElements.forEach(el => el.style.display = 'none');
+                arElements.forEach(el => el.style.display = 'block');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                enElements.forEach(el => el.style.display = 'block');
+                arElements.forEach(el => el.style.display = 'none');
+            }
+            
+            // Refresh products display to update language
+            displayProducts();
+        };
+        
+        // Modal functions
+        window.showModal = function(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        };
+        
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        };
+        
+        // Show notification
+        window.showNotification = function(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} show`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        };
+        
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

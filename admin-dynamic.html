@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Knowledge Development Stationery</title>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getStorage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+        
+        // Your Firebase config
+        const firebaseConfig = {
+            // Add your Firebase config here
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.auth = getAuth(app);
+        window.storage = getStorage(app);
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --admin-primary: #1f2937;
+            --admin-secondary: #374151;
+            --admin-accent: #fbbf24;
+            --admin-success: #10b981;
+            --admin-danger: #ef4444;
+            --admin-warning: #f59e0b;
+        }
+        
+        .sidebar {
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        @media (min-width: 768px) {
+            .sidebar.collapsed {
+                transform: translateX(0);
+                width: 4rem;
+            }
+            
+            .sidebar.collapsed .sidebar-text {
+                display: none;
+            }
+            
+            .sidebar.collapsed .sidebar-icon {
+                margin: 0 auto;
+            }
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-secondary) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+        
+        .btn-primary {
+            background: var(--admin-accent);
+            color: var(--admin-primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #f59e0b;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--admin-success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--admin-danger);
+            color: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: var(--admin-success);
+        }
+        
+        .notification.error {
+            background: var(--admin-danger);
+        }
+        
+        .notification.info {
+            background: #3b82f6;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--admin-accent);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <p class="text-gray-600">Loading admin panel...</p>
+        </div>
+    </div>
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar bg-gray-800 text-white w-64 flex-shrink-0">
+            <div class="p-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-cog text-white"></i>
+                    </div>
+                    <div class="sidebar-text">
+                        <h1 class="text-xl font-bold">Admin Panel</h1>
+                        <p class="text-sm text-gray-300">KD Stationery</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="mt-8">
+                <a href="#" onclick="showTab('dashboard')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-tachometer-alt sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                <a href="#" onclick="showTab('products')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-box sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Products</span>
+                </a>
+                <a href="#" onclick="showTab('categories')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-tags sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Categories</span>
+                </a>
+                <a href="#" onclick="showTab('orders')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-shopping-cart sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Orders</span>
+                </a>
+                <a href="#" onclick="showTab('customers')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-users sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Customers</span>
+                </a>
+                <a href="#" onclick="showTab('analytics')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-chart-bar sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Analytics</span>
+                </a>
+                <a href="#" onclick="showTab('notifications')" class="nav-link flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                    <i class="fas fa-bell sidebar-icon mr-3"></i>
+                    <span class="sidebar-text">Notifications</span>
+                    <span id="notificationBadge" class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1" style="display: none;">0</span>
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-0 w-full p-6">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                    <div class="sidebar-text">
+                        <p class="text-sm font-medium" id="adminName">Admin User</p>
+                        <p class="text-xs text-gray-400" id="adminEmail">admin@kdstationery.com</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="w-full btn-danger py-2 rounded-lg text-sm">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span class="sidebar-text">Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b border-gray-200">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="toggleSidebar()" class="text-gray-500 hover:text-gray-700 md:hidden">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h2 id="pageTitle" class="text-2xl font-bold text-gray-800">Dashboard</h2>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button onclick="toggleNotifications()" class="relative p-2 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-bell text-xl"></i>
+                                <span id="headerNotificationBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <a href="index-dynamic.html" class="text-sm text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-external-link-alt mr-1"></i>
+                            View Store
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm opacity-80">Total Products</p>
+                                    <p id="totalProducts" class="text-3xl font-bold">0</p>
+                                </div>
+                                <i class="fas fa-box text-3xl opacity-50"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm opacity-80">Total Orders</p>
+                                    <p id="totalOrders" class="text-3xl font-bold">0</p>
+                                </div>
+                                <i class="fas fa-shopping-cart text-3xl opacity-50"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm opacity-80">Total Revenue</p>
+                                    <p id="totalRevenue" class="text-3xl font-bold">0 SAR</p>
+                                </div>
+                                <i class="fas fa-dollar-sign text-3xl opacity-50"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm opacity-80">Total Customers</p>
+                                    <p id="totalCustomers" class="text-3xl font-bold">0</p>
+                                </div>
+                                <i class="fas fa-users text-3xl opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Recent Orders</h3>
+                            <div id="recentOrders" class="space-y-3">
+                                <!-- Recent orders will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Low Stock Alert</h3>
+                            <div id="lowStockProducts" class="space-y-3">
+                                <!-- Low stock products will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="products" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold">Products Management</h3>
+                        <button onclick="showAddProductModal()" class="btn-primary px-4 py-2 rounded-lg">
+                            <i class="fas fa-plus mr-2"></i>Add Product
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTable" class="bg-white divide-y divide-gray-200">
+                                    <!-- Products will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Tab -->
+                <div id="categories" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold">Categories Management</h3>
+                        <button onclick="showAddCategoryModal()" class="btn-primary px-4 py-2 rounded-lg">
+                            <i class="fas fa-plus mr-2"></i>Add Category
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="categoriesGrid">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Orders Tab -->
+                <div id="orders" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold">Orders Management</h3>
+                        <div class="flex space-x-2">
+                            <select id="orderStatusFilter" onchange="filterOrders()" class="px-3 py-2 border border-gray-300 rounded-lg">
+                                <option value="all">All Orders</option>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable" class="bg-white divide-y divide-gray-200">
+                                    <!-- Orders will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customers Tab -->
+                <div id="customers" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold">Customers Management</h3>
+                        <button onclick="exportCustomers()" class="btn-primary px-4 py-2 rounded-lg">
+                            <i class="fas fa-download mr-2"></i>Export CSV
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Orders</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Spent</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customersTable" class="bg-white divide-y divide-gray-200">
+                                    <!-- Customers will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <h3 class="text-xl font-semibold mb-6">Sales Analytics</h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h4 class="text-lg font-semibold mb-4">Sales Overview</h4>
+                            <div class="chart-container" id="salesChart">
+                                <!-- Chart will be rendered here -->
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h4 class="text-lg font-semibold mb-4">Top Products</h4>
+                            <div id="topProducts" class="space-y-3">
+                                <!-- Top products will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h4 class="text-lg font-semibold mb-4">Daily Sales</h4>
+                            <div id="dailyStats" class="space-y-2">
+                                <!-- Daily stats will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h4 class="text-lg font-semibold mb-4">Weekly Sales</h4>
+                            <div id="weeklyStats" class="space-y-2">
+                                <!-- Weekly stats will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h4 class="text-lg font-semibold mb-4">Monthly Sales</h4>
+                            <div id="monthlyStats" class="space-y-2">
+                                <!-- Monthly stats will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Tab -->
+                <div id="notifications" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold">Notifications</h3>
+                        <button onclick="markAllNotificationsRead()" class="btn-primary px-4 py-2 rounded-lg">
+                            <i class="fas fa-check-double mr-2"></i>Mark All Read
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4" id="notificationsList">
+                        <!-- Notifications will be loaded here -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Add New Product</h3>
+                <button onclick="closeModal('addProductModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="addProductForm" onsubmit="handleAddProduct(event)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Name (English)</label>
+                        <input type="text" id="productName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Name (Arabic)</label>
+                        <input type="text" id="productNameAr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="productCategory" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (SAR) - Without VAT</label>
+                        <input type="number" id="productPrice" step="0.01" min="0" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Stock Quantity</label>
+                        <input type="number" id="productStock" min="0" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                        <input type="url" id="productImage" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('addProductModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary px-6 py-2 rounded-lg">
+                        Add Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="addCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Add New Category</h3>
+                <button onclick="closeModal('addCategoryModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="addCategoryForm" onsubmit="handleAddCategory(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category Name (English)</label>
+                        <input type="text" id="categoryName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category Name (Arabic)</label>
+                        <input type="text" id="categoryNameAr" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('addCategoryModal')" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary px-6 py-2 rounded-lg">
+                        Add Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Services Script -->
+    <script type="module" src="firebase-service.js"></script>
+    
+    <!-- Main Admin Script -->
+    <script type="module">
+        import { 
+            ProductService, 
+            CategoryService, 
+            OrderService, 
+            CustomerService, 
+            AnalyticsService, 
+            NotificationService,
+            AuthService 
+        } from './firebase-service.js';
+        
+        // Global variables
+        let products = [];
+        let categories = [];
+        let orders = [];
+        let customers = [];
+        let notifications = [];
+        let currentUser = null;
+        
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Initializing admin panel...');
+            
+            // Check authentication
+            AuthService.onAuthChange(async (user) => {
+                if (user) {
+                    currentUser = user;
+                    document.getElementById('adminEmail').textContent = user.email;
+                    await initializeAdminPanel();
+                } else {
+                    // Redirect to login
+                    window.location.href = 'admin-login.html';
+                }
+            });
+        });
+        
+        // Initialize admin panel data
+        async function initializeAdminPanel() {
+            try {
+                // Load all data
+                await Promise.all([
+                    loadProducts(),
+                    loadCategories(),
+                    loadOrders(),
+                    loadCustomers(),
+                    loadNotifications()
+                ]);
+                
+                // Set up real-time listeners
+                setupRealTimeListeners();
+                
+                // Update dashboard
+                updateDashboard();
+                
+                // Hide loading overlay
+                document.getElementById('loadingOverlay').style.display = 'none';
+                
+                console.log('Admin panel initialized successfully!');
+            } catch (error) {
+                console.error('Error initializing admin panel:', error);
+                showNotification('Error loading admin panel', 'error');
+            }
+        }
+        
+        // Set up real-time listeners
+        function setupRealTimeListeners() {
+            // Listen for product changes
+            ProductService.onProductsChange((updatedProducts) => {
+                products = updatedProducts;
+                displayProducts();
+                updateDashboard();
+                console.log('Products updated in real-time:', products.length);
+            });
+            
+            // Listen for category changes
+            CategoryService.onCategoriesChange((updatedCategories) => {
+                categories = updatedCategories;
+                displayCategories();
+                updateProductCategoryOptions();
+                console.log('Categories updated in real-time:', categories.length);
+            });
+            
+            // Listen for order changes
+            OrderService.onOrdersChange((updatedOrders) => {
+                orders = updatedOrders;
+                displayOrders();
+                updateDashboard();
+                
+                // Check for new orders
+                checkForNewOrders(updatedOrders);
+                console.log('Orders updated in real-time:', orders.length);
+            });
+            
+            // Listen for notification changes
+            NotificationService.onNotificationsChange((updatedNotifications) => {
+                notifications = updatedNotifications;
+                displayNotifications();
+                updateNotificationBadges();
+                console.log('Notifications updated in real-time:', notifications.length);
+            });
+        }
+        
+        // Load functions
+        async function loadProducts() {
+            products = await ProductService.getAllProducts();
+            displayProducts();
+        }
+        
+        async function loadCategories() {
+            categories = await CategoryService.getAllCategories();
+            displayCategories();
+            updateProductCategoryOptions();
+        }
+        
+        async function loadOrders() {
+            orders = await OrderService.getAllOrders();
+            displayOrders();
+        }
+        
+        async function loadCustomers() {
+            customers = await CustomerService.getAllCustomers();
+            displayCustomers();
+        }
+        
+        async function loadNotifications() {
+            notifications = await NotificationService.getAllNotifications();
+            displayNotifications();
+            updateNotificationBadges();
+        }
+        
+        // Display functions
+        function displayProducts() {
+            const productsTable = document.getElementById('productsTable');
+            
+            if (products.length === 0) {
+                productsTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">No products found</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            productsTable.innerHTML = products.map(product => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <img src="${product.image || 'https://via.placeholder.com/50'}" alt="${product.name}" class="w-12 h-12 object-cover rounded-lg mr-4">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">${product.name}</div>
+                                <div class="text-sm text-gray-500">${product.nameAr || ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${product.category}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${product.price.toFixed(2)} SAR</div>
+                        <div class="text-xs text-gray-500">Original: ${product.originalPrice.toFixed(2)} SAR</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.stock > 10 ? 'bg-green-100 text-green-800' : product.stock > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">
+                            ${product.stock} units
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="editProduct('${product.id}')" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteProduct('${product.id}')" class="text-red-600 hover:text-red-900">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function displayCategories() {
+            const categoriesGrid = document.getElementById('categoriesGrid');
+            
+            if (categories.length === 0) {
+                categoriesGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        No categories found
+                    </div>
+                `;
+                return;
+            }
+            
+            categoriesGrid.innerHTML = categories.map(category => `
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-lg font-semibold">${category.name}</h4>
+                        <div class="flex space-x-2">
+                            <button onclick="editCategory('${category.id}')" class="text-indigo-600 hover:text-indigo-900">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteCategory('${category.id}')" class="text-red-600 hover:text-red-900">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-2">${category.nameAr || 'No Arabic name'}</p>
+                    <p class="text-sm text-gray-500">${products.filter(p => p.category === category.name).length} products</p>
+                </div>
+            `).join('');
+        }
+        
+        function displayOrders() {
+            const ordersTable = document.getElementById('ordersTable');
+            
+            if (orders.length === 0) {
+                ordersTable.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No orders found</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            ordersTable.innerHTML = orders.map(order => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#${order.id.substring(0, 8)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${order.customerName}</div>
+                        <div class="text-sm text-gray-500">${order.customerEmail}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${order.total.toFixed(2)} SAR</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}">
+                            ${order.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${order.createdAt?.toDate?.()?.toLocaleDateString() || 'Unknown'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="viewOrder('${order.id}')" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="text-sm border border-gray-300 rounded px-2 py-1">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                            <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
+                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function displayCustomers() {
+            const customersTable = document.getElementById('customersTable');
+            
+            if (customers.length === 0) {
+                customersTable.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No customers found</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            customersTable.innerHTML = customers.map(customer => {
+                const customerOrders = orders.filter(order => order.customerId === customer.uid);
+                const totalSpent = customerOrders.reduce((sum, order) => sum + order.total, 0);
+                
+                return `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${customer.fullName || customer.firstName + ' ' + customer.lastName}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customer.phone || 'N/A'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${customerOrders.length}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${totalSpent.toFixed(2)} SAR</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button onclick="viewCustomer('${customer.id}')" class="text-indigo-600 hover:text-indigo-900">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function displayNotifications() {
+            const notificationsList = document.getElementById('notificationsList');
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        No notifications
+                    </div>
+                `;
+                return;
+            }
+            
+            notificationsList.innerHTML = notifications.map(notification => `
+                <div class="bg-white rounded-lg shadow p-4 ${notification.read ? 'opacity-75' : ''}">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-gray-900">${notification.title}</h4>
+                            <p class="text-sm text-gray-600 mt-1">${notification.message}</p>
+                            <p class="text-xs text-gray-400 mt-2">${notification.createdAt?.toDate?.()?.toLocaleString() || 'Unknown'}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${!notification.read ? `
+                                <button onclick="markNotificationRead('${notification.id}')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            ` : ''}
+                            <span class="w-2 h-2 rounded-full ${notification.read ? 'bg-gray-300' : 'bg-blue-500'}"></span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update dashboard statistics
+        function updateDashboard() {
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('totalCustomers').textContent = customers.length;
+            
+            const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+            document.getElementById('totalRevenue').textContent = `${totalRevenue.toFixed(2)} SAR`;
+            
+            // Update recent orders
+            const recentOrders = orders.slice(0, 5);
+            document.getElementById('recentOrders').innerHTML = recentOrders.map(order => `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="text-sm font-medium">#${order.id.substring(0, 8)}</p>
+                        <p class="text-xs text-gray-500">${order.customerName}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-medium">${order.total.toFixed(2)} SAR</p>
+                        <p class="text-xs text-gray-500">${order.createdAt?.toDate?.()?.toLocaleDateString() || 'Unknown'}</p>
+                    </div>
+                </div>
+            `).join('') || '<p class="text-gray-500 text-center py-4">No recent orders</p>';
+            
+            // Update low stock products
+            const lowStockProducts = products.filter(product => product.stock <= 5);
+            document.getElementById('lowStockProducts').innerHTML = lowStockProducts.map(product => `
+                <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                    <div>
+                        <p class="text-sm font-medium">${product.name}</p>
+                        <p class="text-xs text-gray-500">${product.category}</p>
+                    </div>
+                    <span class="text-sm font-medium text-red-600">${product.stock} left</span>
+                </div>
+            `).join('') || '<p class="text-gray-500 text-center py-4">All products in stock</p>';
+        }
+        
+        // Update notification badges
+        function updateNotificationBadges() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badges = [
+                document.getElementById('notificationBadge'),
+                document.getElementById('headerNotificationBadge')
+            ];
+            
+            badges.forEach(badge => {
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+        }
+        
+        // Helper functions
+        function getStatusColor(status) {
+            switch (status) {
+                case 'pending': return 'bg-yellow-100 text-yellow-800';
+                case 'processing': return 'bg-blue-100 text-blue-800';
+                case 'completed': return 'bg-green-100 text-green-800';
+                case 'cancelled': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+        
+        function updateProductCategoryOptions() {
+            const categorySelect = document.getElementById('productCategory');
+            categorySelect.innerHTML = '<option value="">Select Category</option>' +
+                categories.map(category => `<option value="${category.name}">${category.name}</option>`).join('');
+        }
+        
+        // Event handlers
+        window.showTab = function(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update page title
+            const titles = {
+                dashboard: 'Dashboard',
+                products: 'Products',
+                categories: 'Categories',
+                orders: 'Orders',
+                customers: 'Customers',
+                analytics: 'Analytics',
+                notifications: 'Notifications'
+            };
+            document.getElementById('pageTitle').textContent = titles[tabName] || 'Admin Panel';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-gray-700', 'text-white');
+                link.classList.add('text-gray-300');
+            });
+            event.target.classList.add('bg-gray-700', 'text-white');
+            event.target.classList.remove('text-gray-300');
+        };
+        
+        window.toggleSidebar = function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        };
+        
+        window.showAddProductModal = function() {
+            showModal('addProductModal');
+        };
+        
+        window.showAddCategoryModal = function() {
+            showModal('addCategoryModal');
+        };
+        
+        window.handleAddProduct = async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const originalPrice = parseFloat(document.getElementById('productPrice').value);
+            const priceWithVAT = originalPrice * 1.15;
+            
+            const productData = {
+                name: document.getElementById('productName').value,
+                nameAr: document.getElementById('productNameAr').value,
+                category: document.getElementById('productCategory').value,
+                originalPrice: originalPrice,
+                price: priceWithVAT,
+                stock: parseInt(document.getElementById('productStock').value),
+                image: document.getElementById('productImage').value || 'https://via.placeholder.com/300x300?text=No+Image'
+            };
+            
+            try {
+                const result = await ProductService.addProduct(productData);
+                
+                if (result.success) {
+                    closeModal('addProductModal');
+                    event.target.reset();
+                    showNotification('Product added successfully!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error adding product:', error);
+                showNotification('Error adding product', 'error');
+            }
+        };
+        
+        window.handleAddCategory = async function(event) {
+            event.preventDefault();
+            
+            const categoryData = {
+                name: document.getElementById('categoryName').value,
+                nameAr: document.getElementById('categoryNameAr').value
+            };
+            
+            try {
+                const result = await CategoryService.addCategory(categoryData);
+                
+                if (result.success) {
+                    closeModal('addCategoryModal');
+                    event.target.reset();
+                    showNotification('Category added successfully!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error adding category:', error);
+                showNotification('Error adding category', 'error');
+            }
+        };
+        
+        window.deleteProduct = async function(productId) {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+            
+            try {
+                const result = await ProductService.deleteProduct(productId);
+                
+                if (result.success) {
+                    showNotification('Product deleted successfully!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                showNotification('Error deleting product', 'error');
+            }
+        };
+        
+        window.deleteCategory = async function(categoryId) {
+            if (!confirm('Are you sure you want to delete this category?')) return;
+            
+            try {
+                const result = await CategoryService.deleteCategory(categoryId);
+                
+                if (result.success) {
+                    showNotification('Category deleted successfully!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting category:', error);
+                showNotification('Error deleting category', 'error');
+            }
+        };
+        
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            try {
+                const result = await OrderService.updateOrderStatus(orderId, newStatus);
+                
+                if (result.success) {
+                    showNotification('Order status updated!', 'success');
+                } else {
+                    showNotification(result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                showNotification('Error updating order status', 'error');
+            }
+        };
+        
+        window.markNotificationRead = async function(notificationId) {
+            try {
+                const result = await NotificationService.markAsRead(notificationId);
+                
+                if (result.success) {
+                    console.log('Notification marked as read');
+                } else {
+                    console.error('Error marking notification as read:', result.error);
+                }
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        };
+        
+        window.markAllNotificationsRead = async function() {
+            try {
+                const unreadNotifications = notifications.filter(n => !n.read);
+                
+                for (const notification of unreadNotifications) {
+                    await NotificationService.markAsRead(notification.id);
+                }
+                
+                showNotification('All notifications marked as read', 'success');
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+                showNotification('Error marking notifications as read', 'error');
+            }
+        };
+        
+        window.logout = async function() {
+            try {
+                await AuthService.logout();
+                window.location.href = 'admin-login.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+                showNotification('Error logging out', 'error');
+            }
+        };
+        
+        // Check for new orders
+        function checkForNewOrders(newOrders) {
+            const previousOrderCount = orders.length;
+            if (newOrders.length > previousOrderCount) {
+                const newOrdersCount = newOrders.length - previousOrderCount;
+                NotificationService.addNotification({
+                    title: 'New Order Received',
+                    message: `${newOrdersCount} new order(s) received`,
+                    type: 'order'
+                });
+            }
+        }
+        
+        // Modal functions
+        window.showModal = function(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        };
+        
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        };
+        
+        // Show notification
+        window.showNotification = function(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} show`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} mr-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        };
+        
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
